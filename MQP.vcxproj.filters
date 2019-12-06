@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Behaviours">
+      <UniqueIdentifier>{96934dbd-f12d-4927-a889-190ec813531a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actions">
+      <UniqueIdentifier>{5dd3c7ef-71f4-4b78-979a-786626d39d32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Behaviours">
+      <UniqueIdentifier>{ea9849ce-99c0-4c9f-8e4c-9938d71f7d6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actions">
+      <UniqueIdentifier>{5331bf0e-b2cc-4b6b-bbe7-f48f1eb3cfb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BehaviourTreeObjects">
+      <UniqueIdentifier>{d43e458b-64f7-416a-8fc1-5b7371f9fe67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BehaviourTreeObjects">
+      <UniqueIdentifier>{827011c4-877f-4d18-af13-1b727b97342f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BehaviourTreeObjects\DecoratorNodes">
+      <UniqueIdentifier>{76952f04-e46d-4f75-a539-f2eebb5de0d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\KinematicObjects">
+      <UniqueIdentifier>{dbc3b7f1-ec6f-4ba7-b50a-8f3bbb27b092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\KinematicObjects">
+      <UniqueIdentifier>{0f49b4ae-7ddc-4093-9419-1a8559648535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BehaviourTreeObjects\CompositeNodes">
+      <UniqueIdentifier>{248ab304-a76b-4226-ac7b-2f8edb2dea73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BehaviourTreeObjects\CompositeNodes">
+      <UniqueIdentifier>{f974a143-31c1-436f-b894-778b8e0f7fa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BehaviourTreeObjects\DecoratorNodes">
+      <UniqueIdentifier>{4be5008b-f6ba-483c-84b2-e95c7244ea3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Processing">
+      <UniqueIdentifier>{08fe9850-0d31-41bb-8d73-9c20e773a16a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Processing">
+      <UniqueIdentifier>{0b121f34-3b52-44c5-a340-a15ee9b2afa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SensorData">
+      <UniqueIdentifier>{4f2b0443-ff84-4aa0-b506-2b6a079689c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SensorData">
+      <UniqueIdentifier>{46518857-cec9-460f-b9f6-72dd812dcee2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Behaviour.cpp">
+      <Filter>Source Files\BehaviourTreeObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Source Files\BehaviourTreeObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Source Files\KinematicObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Movement.cpp">
+      <Filter>Source Files\KinematicObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>Source Files\KinematicObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Decorator.cpp">
+      <Filter>Source Files\BehaviourTreeObjects\DecoratorNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Composite.cpp">
+      <Filter>Source Files\BehaviourTreeObjects\CompositeNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Sequence.cpp">
+      <Filter>Source Files\BehaviourTreeObjects\CompositeNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Parallel.h">
+      <Filter>Header Files\BehaviourTreeObjects\CompositeNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Parallel.cpp">
+      <Filter>Source Files\BehaviourTreeObjects\CompositeNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilityDec.cpp">
+      <Filter>Source Files\BehaviourTreeObjects\DecoratorNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cpp">
+      <Filter>Source Files\BehaviourTreeObjects\CompositeNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveUpRight.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveFrontLeft.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveBackDown.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionUpRight.cpp">
+      <Filter>Source Files\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculator.cpp">
+      <Filter>Source Files\Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="SensorData.cpp">
+      <Filter>Source Files\SensorData</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Source Files\Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="MasterControlLoop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour.h">
+      <Filter>Header Files\BehaviourTreeObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\BehaviourTreeObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Header Files\KinematicObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Movement.h">
+      <Filter>Header Files\KinematicObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Header Files\KinematicObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Composite.h">
+      <Filter>Header Files\BehaviourTreeObjects\CompositeNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Sequence.h">
+      <Filter>Header Files\BehaviourTreeObjects\CompositeNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Decorator.h">
+      <Filter>Header Files\BehaviourTreeObjects\DecoratorNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityDec.h">
+      <Filter>Header Files\BehaviourTreeObjects\DecoratorNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>Header Files\BehaviourTreeObjects\CompositeNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveUpRight.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveFrontLeft.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveBackDown.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionUpRight.h">
+      <Filter>Header Files\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator.h">
+      <Filter>Header Files\Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="SensorData.h">
+      <Filter>Header Files\SensorData</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Header Files\Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="MasterControlLoop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
