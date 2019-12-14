@@ -33,14 +33,12 @@ int Utility::executeC() {
 	}
 	
 	// Get Highest Priority
-	double max = priorities[0];
 	std::vector<double>::iterator pro_itr;
 	std::vector<double>::iterator max_itr = priorities.begin();
 	std::vector<UtilityDec*>::iterator fail_itr = children.begin();
 	itr = children.begin();
 	for (pro_itr = priorities.begin(); pro_itr < priorities.end(); pro_itr++) {
-		if (max < *max_itr && std::find(failures.begin(), failures.end(), *fail_itr) == failures.end()) {
-			max = *max_itr;
+		if (*pro_itr > *max_itr && std::find(failures.begin(), failures.end(), *fail_itr) == failures.end()) {
 			while (max_itr != pro_itr) {
 				max_itr++;
 				itr++;
@@ -51,6 +49,7 @@ int Utility::executeC() {
 
 	// All prioirties are 0.0
 	if (*max_itr == 0.0) {
+		failures.clear();
 		status = status::fresh;
 		verbose("Call Utility Parent");
 		return parent->executeP(status::failure);
@@ -85,6 +84,7 @@ int Utility::executeP(int stat, UtilityDec* dec) {
 		}
 		return executeC();
 	}
+	failures.clear();
 	status = status::fresh;
 	verbose("Call Utility Parent");
 	return parent->executeP(stat);

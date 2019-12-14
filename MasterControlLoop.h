@@ -4,6 +4,6 @@
 #include <vector>
 #include "Behaviour.h"
 
-void executeBehaviours();
+void executeBehaviours(std::string input);
 //std::vector<Behaviour*> currentBehaviours;
 #endif

@@ -114,10 +114,12 @@
     <ClCompile Include="Parallel.cpp" />
     <ClCompile Include="Parallel.h" />
     <ClCompile Include="Position.cpp" />
+    <ClCompile Include="PUtilityDec.cpp" />
     <ClCompile Include="SensorData.cpp" />
     <ClCompile Include="Sequence.cpp" />
     <ClCompile Include="MasterControlLoop.cpp" />
     <ClCompile Include="BehaviourTree.cpp" />
+    <ClCompile Include="SUtilityDec.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="UtilityDec.cpp" />
   </ItemGroup>
@@ -138,8 +140,10 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="BehaviourTree.h" />
+    <ClInclude Include="PUtilityDec.h" />
     <ClInclude Include="SensorData.h" />
     <ClInclude Include="Sequence.h" />
+    <ClInclude Include="SUtilityDec.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="UtilityDec.h" />
   </ItemGroup>

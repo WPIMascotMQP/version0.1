@@ -23,7 +23,7 @@ public:
 	UtilityDec() : UtilityDec(&Node()) {};
 	~UtilityDec();
 
-	double getPriority();
+	virtual double getPriority();
 	int executeP(int stat);
 	void setParent(Utility* par);
 

@@ -10,6 +10,8 @@
 #include "Parallel.h"
 #include "Utility.h"
 #include "UtilityDec.h"
+#include "SUtilityDec.h"
+#include "PUtilityDec.h"
 
 extern std::vector<Behaviour*> currentBehaviours;
 
@@ -19,8 +21,8 @@ int main(int argc, char* argv[]) {
 	Parallel pl;
 	Utility ut;
 
-	UtilityDec murd;
-	UtilityDec mfld;
+	SUtilityDec sud;
+	PUtilityDec pud;
 
 	MoveUpRight mur;
 	MoveFrontLeft mfl;
@@ -31,35 +33,38 @@ int main(int argc, char* argv[]) {
 	pl.addChild(&mbd);
 	pl.reset();
 
-	murd.setChild(&mur);
-	mfld.setChild(&mfl);
-	ut.addChild(&murd);
-	ut.addChild(&mfld);
-
 	sq.addChild(&mur);
 	sq.addChild(&mfl);
 	sq.addChild(&mbd);
-	sq.addChild(&pl);
-	//sq.addChild(&ut);
 	sq.reset();
 
-	bt.setRoot(&sq);
+	sud.setChild(&sq);
+	pud.setChild(&pl);
+	ut.addChild(&sud);
+	ut.addChild(&pud);
 
-	bt.execute();
-	Controller *controller = &Node::controller;
+	bt.setRoot(&ut);
 
-	char key;
-	while (std::cin.get() == '\n') {
-		executeBehaviours();
+	currentBehaviours.push_back(&bt);
+	Controller* controller = &Node::controller;
+	SensorData* data = &Node::data;
+
+	std::string input;
+	std::getline(std::cin, input);
+	data->setInput(input);
+	while (input != "x") {
+		executeBehaviours(input);
 		controller->execute();
+		std::getline(std::cin, input);
+		data->setInput(input);
 	}
 }
 
-void executeBehaviours() {
+void executeBehaviours(std::string input) {
 	std::vector<Behaviour*>::iterator itr;
 	for (itr = currentBehaviours.begin(); itr < currentBehaviours.end(); itr++) {
 		Behaviour* behaviour = *itr;
-		behaviour->executeP(status::success);
+		int result = input.find("f") == std::string::npos ? behaviour->executeP(status::success) : behaviour->executeP(status::failure);
 		currentBehaviours.erase(itr);
 	}
 }

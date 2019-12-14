@@ -61,6 +61,12 @@
     <Filter Include="Source Files\SensorData">
       <UniqueIdentifier>{46518857-cec9-460f-b9f6-72dd812dcee2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Decorators">
+      <UniqueIdentifier>{941776ef-5f16-42a7-9745-ba81b6b05efd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Decorators">
+      <UniqueIdentifier>{dd14f5ba-abec-436f-9d81-934595398289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp">
@@ -129,6 +135,12 @@
     <ClCompile Include="MasterControlLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SUtilityDec.cpp">
+      <Filter>Source Files\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="PUtilityDec.cpp">
+      <Filter>Source Files\Decorators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h">
@@ -190,6 +202,12 @@
     </ClInclude>
     <ClInclude Include="MasterControlLoop.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SUtilityDec.h">
+      <Filter>Header Files\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="PUtilityDec.h">
+      <Filter>Header Files\Decorators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

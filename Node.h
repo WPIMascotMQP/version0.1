@@ -37,12 +37,13 @@ public:
 	SensorData getSensorData();
 
 	static Controller controller;
+	static Calculator calculator;
+	static SensorData data;
 
 protected:
 	int status;
 	Node *parent;
-	static Calculator calculator;
-	static SensorData data;
+	
 };
 
 #endif

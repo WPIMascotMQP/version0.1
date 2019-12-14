@@ -13,9 +13,9 @@
 #define BEHAVIOURTREE_H
 #include <vector>
 
-#include "Node.h"
+#include "Behaviour.h"
 
-class BehaviourTree : public Node{
+class BehaviourTree : public Behaviour{
 
 public:
 	BehaviourTree(Node *nod);
