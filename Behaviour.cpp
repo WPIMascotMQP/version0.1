@@ -10,7 +10,7 @@
  CONSTUCTOR
 */
 Behaviour::Behaviour() {
-	status = status::fresh;
+	state = fresh;
 }
 
 /**
@@ -25,8 +25,8 @@ Behaviour::~Behaviour() {
  Puts behaviour into controller
  @return The status
 */
-int Behaviour::executeC() {
-	return status::running;
+status Behaviour::executeC() {
+	return running;
 }
 
 /**
@@ -34,10 +34,11 @@ int Behaviour::executeC() {
  @param stat The status of the child executing this parent
  @return the status
 */
-int Behaviour::executeP(int stat) {
-	if (status != status::running) {
-		return status::failure;
+status Behaviour::executeP(status stat) {
+	if (state != running) {
+		return failure;
 	}
+	state = stat;
 	return parent->executeP(stat);
 }
 

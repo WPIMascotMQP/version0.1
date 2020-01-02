@@ -1,5 +1,5 @@
 /**
- @file Behaviour.h 
+ @file Behaviour.h
  @class Behaviour
  @brief The encompassing Behaviour object that generates outputed movements
  @details This Behaviour object defines one part of the behaviour that the robot can execute.
@@ -28,13 +28,13 @@ public:
 	Behaviour();
     ~Behaviour();
 
-	int executeC();
-	int executeP(int stat);
+	status executeC();
+	status executeP(status stat);
 	void end();
 	std::vector<Movement*> generateMovements();
 
 protected:
 	std::vector<Action*> actions;
-	
+
 };
 #endif

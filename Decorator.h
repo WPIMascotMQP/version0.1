@@ -3,7 +3,7 @@
  @class Decorator
  @brief The interface for Decorator nodes
  @details This interface node holds the basic functionality of decorator nodes
- which includes setting and executing its children 
+ which includes setting and executing its children
 
  @author Jonathan Chang
  @version 0.0.1
@@ -18,11 +18,11 @@
 class Decorator : public Node {
 public:
 	Decorator(Node *chi);
-	Decorator() : Decorator(&Node()) {};
+	Decorator() : Decorator(NULL) {};
 	~Decorator();
 
-	int executeC();
-	int executeP(int stat);
+	status executeC();
+	status executeP(status stat);
 	void setChild(Node *chi);
 
 protected:

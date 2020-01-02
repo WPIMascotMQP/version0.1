@@ -13,18 +13,17 @@
 #ifndef SUTILITYDEC_H
 #define SUTILITYDEC_H
 
-#include "Node.h"
 #include "UtilityDec.h"
 
 class SUtilityDec : public UtilityDec {
 public:
 	SUtilityDec(Node* chi);
-	SUtilityDec() : SUtilityDec(&Node()) {};
+	SUtilityDec() : SUtilityDec(NULL) {};
 	~SUtilityDec();
 
 	double getPriority();
 
 protected:
-	
+
 };
 #endif

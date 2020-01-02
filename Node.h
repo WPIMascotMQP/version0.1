@@ -21,14 +21,14 @@
 class Calculator;
 class Controller;
 class SensorData;
-enum status {fresh = 1, success = 2, running = 3, failure = 4};
+enum status {fresh = 1, success = 2, running = 3, failure = 4, not_running = 5};
 class Node {
 public:
 	Node();
 	~Node();
 
-	virtual int executeC();
-	virtual int executeP(int stat);
+	virtual status executeC();
+	virtual status executeP(status stat);
 	void setParent(Node *par);
 	void verbose(std::string log);
 
@@ -41,9 +41,9 @@ public:
 	static SensorData data;
 
 protected:
-	int status;
+	status state;
 	Node *parent;
-	
+
 };
 
 #endif

@@ -10,7 +10,7 @@
  @return The MoveFrontLeft Object
 */
 MoveFrontLeft::MoveFrontLeft() {
-	status = status::fresh;
+	state = fresh;
 	Action *mf = new Action(0, 3, 0);
 	Action *ml = new Action(-3, 0, 0);
 	actions.push_back(mf);
@@ -30,12 +30,12 @@ MoveFrontLeft::~MoveFrontLeft() {
  putting them into the controller
  @return The status enum
 */
-int MoveFrontLeft::executeC() {
-	status = status::running;
+status MoveFrontLeft::executeC() {
+	state = running;
 	verbose("Execute MoveFrontLeft");
 	std::vector<Movement*>* movements = calculator.generateMovements(actions, this);
 	controller.addMovements(movements);
-	return status::running;
+	return state;
 }
 
 /**
@@ -44,11 +44,11 @@ int MoveFrontLeft::executeC() {
  putting them into the controller
  @return The status enum
 */
-int MoveFrontLeft::executeP(int stat) {
-	if (status != status::running) {
-		return status::failure;
+status MoveFrontLeft::executeP(status stat) {
+	if (state != running) {
+		return failure;
 	}
-	status = status::success;
+	state = stat;
 	verbose("Call MoveFrontLeft Parent");
 	return parent->executeP(stat);
 }

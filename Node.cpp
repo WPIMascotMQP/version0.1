@@ -15,7 +15,7 @@ Controller Node::controller = con_node;
  CONSTRUCTOR
 */
 Node::Node() {
-	status = status::running;
+	state = running;
 }
 
 /**
@@ -29,8 +29,8 @@ Node::~Node() {
   Node execute as child function
   @return the status
 */
-int Node::executeC() {
-	return status::success;
+status Node::executeC() {
+	return success;
 }
 
 /**
@@ -38,7 +38,7 @@ int Node::executeC() {
   @param The status of the child executing this parent
   @return the status
 */
-int Node::executeP(int stat) {
+status Node::executeP(status stat) {
 	return stat;
 }
 

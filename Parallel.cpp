@@ -21,19 +21,19 @@ Parallel::~Parallel() {
  until all children return
  @return The status
 */
-int Parallel::executeC() {
+status Parallel::executeC() {
 	// Iterator through children all call execute on them
-	status = status::running;
+	state = running;
 	std::vector<Node*>::iterator itr;
-	int returnedStatus = status::running;
+	status returnedStatus = running;
 	// Call all children
 	for (itr = children.begin(); itr < children.end(); itr++) {
 		Node *node = *itr;
 		node->setParent(this);
 		verbose("Call Parallel Child");
-		returnedStatus = (node->executeC() == status::failure) ? status::failure : status::running;
+		returnedStatus = (node->executeC() == failure) ? failure : running;
 	}
-	returnedStatuses = status::success;
+	returnedStatuses = success;
 	return returnedStatus;
 }
 
@@ -43,26 +43,26 @@ int Parallel::executeC() {
  @param stat The status of the child executing this parent
  @return the status
 */
-int Parallel::executeP(int stat) {
+status Parallel::executeP(status stat) {
 	// If children still need to return count number of returns
-	if (status != status::running) {
-		return status::failure;
+	if (state != running) {
+		return failure;
 	}
 	returedExecutes++;
-	returnedStatuses = (stat == status::failure) ? status::failure : returnedStatuses;
+	returnedStatuses = (stat == failure) ? failure : returnedStatuses;
 	// If all children have returned call parent
 	if (returedExecutes >= children.size()) {
 		reset();
+		state = returnedStatuses;
 		verbose("Call Parallel Parent");
 		return parent->executeP(returnedStatuses);
 	}
-	return status::running;
+	return running;
 }
 
 /**
  Resets the status and returned number of executes
 */
 void Parallel::reset() {
-	status = status::fresh;
 	returedExecutes = 0;
 }

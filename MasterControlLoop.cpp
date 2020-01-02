@@ -64,7 +64,7 @@ void executeBehaviours(std::string input) {
 	std::vector<Behaviour*>::iterator itr;
 	for (itr = currentBehaviours.begin(); itr < currentBehaviours.end(); itr++) {
 		Behaviour* behaviour = *itr;
-		int result = input.find("f") == std::string::npos ? behaviour->executeP(status::success) : behaviour->executeP(status::failure);
+		int result = input.find("f") == std::string::npos ? behaviour->executeP(success) : behaviour->executeP(failure);
 		currentBehaviours.erase(itr);
 	}
 }

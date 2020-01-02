@@ -10,7 +10,7 @@
  @return The MoveUpRight Object
 */
 MoveUpRight::MoveUpRight() {
-	status = status::fresh;
+	state = fresh;
 	Action *mur = new Action(3.0, 0.0, 3.0);
 	actions.push_back(mur);
 }
@@ -28,12 +28,12 @@ MoveUpRight::~MoveUpRight() {
  putting them into the controller
  @return The status enum
 */
-int MoveUpRight::executeC() {
-	status = status::running;
+status MoveUpRight::executeC() {
+	state = running;
 	verbose("Execute MoveUpRight");
 	std::vector<Movement*>* movements = calculator.generateMovements(actions, this);
 	controller.addMovements(movements);
-	return status::running;
+	return state;
 }
 
 /**
@@ -42,11 +42,11 @@ int MoveUpRight::executeC() {
  putting them into the controller
  @return The status enum
 */
-int MoveUpRight::executeP(int stat) {
-	if (status != status::running) {
-		return status::failure;
+status MoveUpRight::executeP(status stat) {
+	if (state != running) {
+		return failure;
 	}
-	status = status::success;
+	state = stat;
 	verbose("Call MoveUpRight Parent");
 	return parent->executeP(stat);
 }

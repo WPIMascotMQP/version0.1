@@ -6,11 +6,11 @@
 
 /**
  CONSTRUCTOR
- Creates all of the actions and 
+ Creates all of the actions and
  @return The MoveBackDown Object
 */
 MoveBackDown::MoveBackDown() {
-	status = status::fresh;
+	state = fresh;
 	Action *md = new Action(0, 0, -1);
 	Action *mb = new Action(0, -1, 0);
 	actions.push_back(md);
@@ -25,21 +25,20 @@ MoveBackDown::MoveBackDown() {
  DECONSTRUCTOR
 */
 MoveBackDown::~MoveBackDown() {
-	
+
 }
 
 /**
  Node Execute as child fucntion
- Executes the function by generating the movements and 
+ Executes the function by generating the movements and
  putting them into the controller
  @return The status enum
-*/
-int MoveBackDown::executeC() {
-	status = status::running;
+*/status MoveBackDown::executeC() {
+	state = running;
 	verbose("Execute MoveBackDown");
 	std::vector<Movement*>* movements = calculator.generateMovements(actions, this);
 	controller.addMovements(movements);
-	return status::running;
+	return state;
 }
 
 /**
@@ -48,11 +47,11 @@ int MoveBackDown::executeC() {
  putting them into the controller
  @return The status enum
 */
-int MoveBackDown::executeP(int stat) {
-	if (status != status::running) {
-		return status::failure;
+status MoveBackDown::executeP(status stat) {
+	if (state != running) {
+		return not_running;
 	}
-	status = status::success;
+	state = stat;
 	verbose("Call MoveBackDown Parent");
 	return parent->executeP(stat);
 }

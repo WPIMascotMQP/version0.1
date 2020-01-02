@@ -36,7 +36,7 @@ void Controller::addMovements(std::vector<Movement*> *movements) {
  Splits up the movements and executes of them
  @return The status
 */
-int Controller::execute() {
+status Controller::execute() {
 	std::vector<std::vector<Movement*>*>::iterator list_itr;
 	for (list_itr = movementsList.begin(); list_itr < movementsList.end(); list_itr++) {
 		std::vector<Movement*> *movements = *list_itr;
@@ -73,7 +73,7 @@ int Controller::execute() {
 		act_pos->setXPosition(act_pos->getXPosition() + moveX);
 		act_pos->setYPosition(act_pos->getYPosition() + moveY);
 		act_pos->setZPosition(act_pos->getZPosition() + moveZ);
-		
+
 
 		std::cout << "SP:" << *set_pos << " | VP:" << *cur_pos << " | AP:" << *act_pos;
 		if (list_itr + 1 < movementsList.end()) {
@@ -84,7 +84,7 @@ int Controller::execute() {
 			delete(set_pos);
 			delete(cur_pos);
 			movements->erase(move_itr);
-			
+
 			if (movement->getBehaviour()) {
 				// Remove list of movements
 				currentBehaviours.push_back(movement->getBehaviour());
@@ -92,7 +92,7 @@ int Controller::execute() {
 				delete(movements);
 			}
 			delete(movement);
-		} 
+		}
 	}
-	return status::success;
+	return success;
 }

@@ -15,6 +15,7 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <algorithm>
 #include <iterator>
 #include <vector>
 
@@ -27,8 +28,8 @@ public:
 	Utility() : Utility(std::vector<UtilityDec*>()) {};
 	~Utility();
 
-	int executeC();
-	int executeP(int stat, UtilityDec* dec);
+	status executeC();
+	status executeP(status stat, UtilityDec* dec);
 
 	void addChild(UtilityDec* chi);
 	void removeChild(UtilityDec* chi);

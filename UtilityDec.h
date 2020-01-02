@@ -13,18 +13,17 @@
 #ifndef UTILITYDEC_H
 #define UTILITYDEC_H
 
-#include "Node.h"
 #include "Decorator.h"
 
 class Utility;
 class UtilityDec : public Decorator {
 public:
 	UtilityDec(Node *chi);
-	UtilityDec() : UtilityDec(&Node()) {};
+	UtilityDec() : UtilityDec(NULL) {};
 	~UtilityDec();
 
 	virtual double getPriority();
-	int executeP(int stat);
+	status executeP(status stat);
 	void setParent(Utility* par);
 
 protected:

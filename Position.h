@@ -7,7 +7,7 @@
 
  @author Jonathan Chang
  @version 0.0.1
- @date 16/11/2019 16:18:30 
+ @date 16/11/2019 16:18:30
 */
 
 #ifndef POSITION_H
@@ -41,7 +41,7 @@ public:
 
 	friend std::ostream& operator<< (std::ostream& out, Position& pos) {
 		char output[50];
-		sprintf_s(output, "( %5.2f, %5.2f, %5.2f)", pos.getXPosition(), pos.getYPosition(), pos.getZPosition());
+		sprintf(output, "( %5.2f, %5.2f, %5.2f)", pos.getXPosition(), pos.getYPosition(), pos.getZPosition());
 		out << output;
 		return out;
 	}

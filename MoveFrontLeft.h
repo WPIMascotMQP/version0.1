@@ -20,8 +20,8 @@ public:
 	MoveFrontLeft();
 	~MoveFrontLeft();
 
-	int executeC();
-	int executeP(int stat);
+	status executeC();
+  status executeP(status stat);
 	std::vector<Movement*> generateMovements();
 
 protected:

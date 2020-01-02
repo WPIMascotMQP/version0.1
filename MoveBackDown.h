@@ -3,7 +3,7 @@
  @class MoveBackDown
  @brief The Behaviour node for moving back down
  @details This Behaviour node holds the actions and generates the movements
- in order for the point to move back down 
+ in order for the point to move back down
 
  @author Jonathan Chang
  @version 0.0.1
@@ -20,8 +20,8 @@ public:
 	MoveBackDown();
 	~MoveBackDown();
 
-	int executeC();
-	int executeP(int stat);
+	status executeC();
+	status executeP(status stat);
 	std::vector<Movement*> generateMovements();
 
 protected:

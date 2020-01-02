@@ -13,13 +13,12 @@
 #ifndef PUTILITYDEC_H
 #define PUTILITYDEC_H
 
-#include "Node.h"
 #include "UtilityDec.h"
 
 class PUtilityDec : public UtilityDec {
 public:
 	PUtilityDec(Node* chi);
-	PUtilityDec() : PUtilityDec(&Node()) {};
+	PUtilityDec() : PUtilityDec(NULL) {};
 	~PUtilityDec();
 
 	double getPriority();

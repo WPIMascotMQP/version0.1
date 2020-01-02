@@ -6,7 +6,7 @@
 */
 Utility::Utility(std::vector<UtilityDec*> childr) {
 	children = childr;
-	status = status::fresh;
+	state = fresh;
 }
 
 /**
@@ -21,8 +21,8 @@ Utility::~Utility() {
  Calls the highest scoring child
  @return The status
 */
-int Utility::executeC() {
-	status = status::running;
+status Utility::executeC() {
+	state = running;
 
 	// Get Priorities
 	std::vector<double> priorities;
@@ -31,7 +31,7 @@ int Utility::executeC() {
 		UtilityDec* node = *itr;
 		priorities.push_back(node->getPriority());
 	}
-	
+
 	// Get Highest Priority
 	std::vector<double>::iterator pro_itr;
 	std::vector<double>::iterator max_itr = priorities.begin();
@@ -50,9 +50,9 @@ int Utility::executeC() {
 	// All prioirties are 0.0
 	if (*max_itr == 0.0) {
 		failures.clear();
-		status = status::fresh;
+		state = failure;
 		verbose("Call Utility Parent");
-		return parent->executeP(status::failure);
+		return parent->executeP(state);
 	}
 
 	// Call Highest Child
@@ -60,7 +60,7 @@ int Utility::executeC() {
 	node->setParent(this);
 	verbose("Call Utility Child");
 	node->executeC();
-	return status::running;
+	return state;
 }
 
 /**
@@ -70,22 +70,22 @@ int Utility::executeC() {
  @param dec The decorator which returned failure
  @return the status
 */
-int Utility::executeP(int stat, UtilityDec* dec) {
-	if (status != status::running) {
-		return status::failure;
+status Utility::executeP(status stat, UtilityDec* dec) {
+	if (state != running) {
+		return not_running;
 	}
-	if (stat == status::failure) {
+	if (stat == failure) {
 		failures.push_back(dec);
 		if (children.size() == failures.size()) {
 			failures.clear();
-			status = status::fresh;
+			state = failure;
 			verbose("Call Utility Parent");
 			return parent->executeP(stat);
 		}
 		return executeC();
 	}
 	failures.clear();
-	status = status::fresh;
+	state = stat;
 	verbose("Call Utility Parent");
 	return parent->executeP(stat);
 }

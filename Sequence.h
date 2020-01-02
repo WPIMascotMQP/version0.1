@@ -27,8 +27,8 @@ public:
 	Sequence() : Sequence(std::vector<Node*>()) {};
 	~Sequence();
 
-	int executeC();
-	int executeP(int stat);
+	status executeC();
+	status executeP(status stat);
 	void reset();
 
 protected:
