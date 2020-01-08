@@ -1,12 +1,16 @@
 CFLAGS = -c -g -Wall --std=c++0x
+OPENCVFLAGS = -lopencv_core -lopencv_objdetect -lopencv_imgproc -lopencv_highgui -lopencv_videoio
+OPENCV = `pkg-config opencv --cflags --libs`
+LIBS = $(OPENCV)
 
 all: MasterControlLoop
 
 MasterControlLoop: BehaviourTree.o Composite.o Controller.o \
 	Decorator.o Sequence.o MoveBackDown.o MoveFrontLeft.o \
 	MoveUpRight.o Node.o Parallel.o SensorData.o Utility.o \
-	UtilityDec.o PUtilityDec.o SUtilityDec.o MasterControlLoop.h
-	g++ -g -Wall --std=c++0x -o MCL MasterControlLoop.cpp *.o -lm
+	UtilityDec.o PUtilityDec.o SUtilityDec.o VisualProcessor.o \
+	MasterControlLoop.h
+	g++ -g -Wall --std=c++0x -o MCL MasterControlLoop.cpp *.o -lm $(LIBS)
 
 ##### BEHAVIOUR CLASSES #####
 MoveBackDown.o: MoveBackDown.cpp Behaviour.o MoveBackDown.h
@@ -61,6 +65,9 @@ Calculator.o: Calculator.cpp Movement.o SensorData.o Action.o Calculator.h
 	g++ $(CFLAGS) Calculator.cpp
 #Behaviour.o
 
+VisualProcessor.o: VisualProcessor.cpp VisualProcessor.h
+	g++ $(CFLAGS) VisualProcessor.cpp $(LIBS)
+
 ##### DATA CLASSES #####
 Movement.o: Movement.cpp Position.o Movement.h
 	g++ $(CFLAGS) Movement.cpp
@@ -76,7 +83,7 @@ Position.o: Position.cpp Position.h
 	g++ $(CFLAGS) Position.cpp
 
 clean:
-	rm -f *.o
+	rm -f *.o MCL
 
 docs:
 	doxygen
