@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
 
 		vp.processSnapshot();
 
-		std::getline(std::cin, input);
+		//std::getline(std::cin, input);
 		data->setInput(input);
 	}
 }

@@ -2,6 +2,7 @@
 
 VisualProcessor::VisualProcessor(int camera_device) {
 	// Load the cascades
+	//std::string face_cascade_name = cv::samples::findFile("haarcascades/haarcascade_fullbody.xml");
     std::string face_cascade_name = cv::samples::findFile("haarcascades/haarcascade_frontalface_default.xml");
     std::string eyes_cascade_name = cv::samples::findFile("haarcascades/haarcascade_eye.xml");
     
@@ -61,5 +62,5 @@ void VisualProcessor::processSnapshot() {
     //-- Show what you got
     cv::namedWindow("Capture - Face Detection", cv::WINDOW_AUTOSIZE);
     cv::imshow("Capture - Face Detection", frame);
-    cv::waitKey(0);
+    cv::waitKey(100);
 }
