@@ -22,9 +22,9 @@ public:
 	BehaviourTree() : BehaviourTree(NULL) {};
 	~BehaviourTree();
 
-	status execute();
-	status executeC();
-	status executeP(status stat);
+	Status* execute();
+	Status* executeC();
+	Status* executeP(Status* stat);
 
 	void setRoot(Node *nod);
 private:

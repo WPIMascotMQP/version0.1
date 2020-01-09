@@ -27,10 +27,11 @@ public:
 	~Controller();
 
 	void addMovements(std::vector<Movement*> *movements);
-	status execute();
+	Status* execute();
 protected:
 	std::vector<std::vector<Movement*>*> movementsList;
 	static SensorData data;
+	Status status;
 
 };
 #endif

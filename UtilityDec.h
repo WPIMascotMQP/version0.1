@@ -23,7 +23,7 @@ public:
 	~UtilityDec();
 
 	virtual double getPriority();
-	status executeP(status stat);
+	Status* executeP(Status* stat);
 	void setParent(Utility* par);
 
 protected:

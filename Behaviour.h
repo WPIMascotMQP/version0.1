@@ -28,8 +28,8 @@ public:
 	Behaviour();
     ~Behaviour();
 
-	status executeC();
-	status executeP(status stat);
+	Status* executeC();
+	Status* executeP(Status* stat);
 	void end();
 	std::vector<Movement*> generateMovements();
 

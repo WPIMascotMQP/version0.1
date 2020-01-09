@@ -36,7 +36,7 @@ void Controller::addMovements(std::vector<Movement*> *movements) {
  Splits up the movements and executes of them
  @return The status
 */
-status Controller::execute() {
+Status* Controller::execute() {
 	std::vector<std::vector<Movement*>*>::iterator list_itr;
 	for (list_itr = movementsList.begin(); list_itr < movementsList.end(); list_itr++) {
 		std::vector<Movement*> *movements = *list_itr;
@@ -94,5 +94,5 @@ status Controller::execute() {
 			delete(movement);
 		}
 	}
-	return success;
+	return status.setSuccess();
 }

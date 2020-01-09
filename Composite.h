@@ -24,8 +24,8 @@ public:
 	Composite() : Composite(std::vector<Node*>()) {};
 	~Composite();
 
-	virtual status executeC();
-	virtual status executeP(status stat);
+	virtual Status* executeC();
+	virtual Status* executeP(Status* stat);
 	void addChild(Node *chi);
 	void removeChild(Node *chi);
 	void clearChildren();

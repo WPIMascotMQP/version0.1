@@ -28,8 +28,8 @@ public:
 	Utility() : Utility(std::vector<UtilityDec*>()) {};
 	~Utility();
 
-	status executeC();
-	status executeP(status stat, UtilityDec* dec);
+	Status* executeC();
+	Status* executeP(Status* stat, UtilityDec* dec);
 
 	void addChild(UtilityDec* chi);
 	void removeChild(UtilityDec* chi);

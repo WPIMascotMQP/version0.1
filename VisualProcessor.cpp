@@ -62,5 +62,5 @@ void VisualProcessor::processSnapshot() {
     //-- Show what you got
     cv::namedWindow("Capture - Face Detection", cv::WINDOW_AUTOSIZE);
     cv::imshow("Capture - Face Detection", frame);
-    cv::waitKey(100);
+    cv::waitKey(10);
 }

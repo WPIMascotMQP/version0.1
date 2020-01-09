@@ -6,7 +6,6 @@
 */
 Utility::Utility(std::vector<UtilityDec*> childr) {
 	children = childr;
-	state = fresh;
 }
 
 /**
@@ -21,8 +20,12 @@ Utility::~Utility() {
  Calls the highest scoring child
  @return The status
 */
-status Utility::executeC() {
-	state = running;
+Status* Utility::executeC() {
+	if(status.getState() == running) {
+		verbose("WARNING: Utility is Already Running.");
+		return &status;
+	}
+	status.setRunning();
 
 	// Get Priorities
 	std::vector<double> priorities;
@@ -32,7 +35,7 @@ status Utility::executeC() {
 		priorities.push_back(node->getPriority());
 	}
 
-	// Get Highest Priority
+	// Get Highest Priority (Skipping Failures)
 	std::vector<double>::iterator pro_itr;
 	std::vector<double>::iterator max_itr = priorities.begin();
 	std::vector<UtilityDec*>::iterator fail_itr = children.begin();
@@ -50,9 +53,11 @@ status Utility::executeC() {
 	// All prioirties are 0.0
 	if (*max_itr == 0.0) {
 		failures.clear();
-		state = failure;
+		status.setFailure();
+		status.setErrorCode(-3101);
+		status.setDescription("All Children Returned Priority 0.0");
 		verbose("Call Utility Parent");
-		return parent->executeP(state);
+		return parent->executeP(&status);
 	}
 
 	// Call Highest Child
@@ -60,7 +65,7 @@ status Utility::executeC() {
 	node->setParent(this);
 	verbose("Call Utility Child");
 	node->executeC();
-	return state;
+	return &status;
 }
 
 /**
@@ -70,22 +75,25 @@ status Utility::executeC() {
  @param dec The decorator which returned failure
  @return the status
 */
-status Utility::executeP(status stat, UtilityDec* dec) {
-	if (state != running) {
-		return not_running;
+Status* Utility::executeP(Status* stat, UtilityDec* dec) {
+	if (status.getState() != running) {
+		verbose("WARNING: Utility is not Running.");
+		return &status;
 	}
-	if (stat == failure) {
+	if (stat->getState() == failure) {
 		failures.push_back(dec);
 		if (children.size() == failures.size()) {
 			failures.clear();
-			state = failure;
+			status.setFailure();
+			status.setErrorCode(-3102);
+			status.setDescription("All Children Failed in Execution");
 			verbose("Call Utility Parent");
-			return parent->executeP(stat);
+			return parent->executeP(&status);
 		}
 		return executeC();
 	}
 	failures.clear();
-	state = stat;
+	status = *stat;
 	verbose("Call Utility Parent");
 	return parent->executeP(stat);
 }

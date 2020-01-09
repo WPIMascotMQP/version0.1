@@ -21,8 +21,8 @@ public:
 	Decorator() : Decorator(NULL) {};
 	~Decorator();
 
-	status executeC();
-	status executeP(status stat);
+	Status* executeC();
+	Status* executeP(Status* stat);
 	void setChild(Node *chi);
 
 protected:

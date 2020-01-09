@@ -18,17 +18,19 @@
 #include <string>
 #include <vector>
 
+#include "Status.h"
+
 class Calculator;
 class Controller;
 class SensorData;
-enum status {fresh = 1, success = 2, running = 3, failure = 4, not_running = 5};
+
 class Node {
 public:
 	Node();
 	~Node();
 
-	virtual status executeC();
-	virtual status executeP(status stat);
+	virtual Status* executeC();
+	virtual Status* executeP(Status* stat);
 	void setParent(Node *par);
 	void verbose(std::string log);
 
@@ -41,7 +43,7 @@ public:
 	static SensorData data;
 
 protected:
-	status state;
+	Status status;
 	Node *parent;
 
 };

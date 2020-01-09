@@ -19,22 +19,23 @@ BehaviourTree::~BehaviourTree() {
  Behaviour Tree Execute
  @return The status
 */
-status BehaviourTree::execute() {
-	return executeP(success);
+Status* BehaviourTree::execute() {
+	return executeP(NULL);
 }
 
 /**
  Behaviour Tree Execute
  @return The status
 */
-status BehaviourTree::executeC() {
-	return executeP(success);
+Status* BehaviourTree::executeC() {
+	return executeP(NULL);
 }
 
 /**
  Behaviour Tree Execute
  @return The status
-*/status BehaviourTree::executeP(status stat) {
+*/
+Status* BehaviourTree::executeP(Status* stat) {
 	std::cout << "Call Beahviour Tree Root" << std::endl;
 	return root->executeC();
 }

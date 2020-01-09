@@ -53,7 +53,7 @@ Decorator.o: Decorator.cpp Node.o Decorator.h
 Behaviour.o: Behaviour.cpp Node.o Action.o Behaviour.h
 	g++ $(CFLAGS) Behaviour.cpp
 
-Node.o: Node.cpp Calculator.o Controller.o SensorData.o Node.h
+Node.o: Node.cpp Calculator.o Controller.o SensorData.o Status.o Node.h
 	g++ $(CFLAGS) Node.cpp
 
 ##### PROCESSING CLASSES #####
@@ -71,6 +71,9 @@ VisualProcessor.o: VisualProcessor.cpp VisualProcessor.h
 Movement.o: Movement.cpp Position.o Movement.h
 	g++ $(CFLAGS) Movement.cpp
 #Behaviour.o
+
+Status.o: Status.cpp Action.o Status.h
+	g++ $(CFLAGS) Status.cpp
 
 Action.o: Action.cpp Position.o Action.h
 	g++ $(CFLAGS) Action.cpp

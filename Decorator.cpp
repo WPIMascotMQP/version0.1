@@ -20,11 +20,12 @@ Decorator::~Decorator() {
  Calls the child
  @return The status
 */
-status Decorator::executeC() {
-	if (state == running) {
-		return running;
+Status* Decorator::executeC() {
+	if (status.getState() == running) {
+		verbose("WARNING: Decorator Already Running.");
+		return &status;
 	}
-	state = running;
+	status.setRunning();
 	child->setParent(this);
 	verbose("Call Decorator Child");
 	return child->executeC();;
@@ -36,11 +37,12 @@ status Decorator::executeC() {
  @param stat The status of the child executing this parent
  @return the status
 */
-status Decorator::executeP(status stat) {
-	if (state != running) {
-		return running;
+Status* Decorator::executeP(Status* stat) {
+	if (status.getState() != running) {
+		verbose("WARNING: Decorator is not Running.");
+		return &status;
 	}
-	state = stat;
+	status = *stat;
 	verbose("Call Decorator Parent");
 	return parent->executeP(stat);
 }

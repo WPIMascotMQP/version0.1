@@ -18,14 +18,17 @@ Composite::~Composite() {
 
 /**
  Empty execute function to be overwritten in child classes
-*/status Composite::executeC() {
-	return success;
+*/
+Status* Composite::executeC() {
+	status.setRunning();
+	return &status;
 }
 
 /**
  Empty execute function to be overwritten in child classes
 */
-status Composite::executeP(status stat) {
+Status* Composite::executeP(Status* stat) {
+	status.setSuccess();
 	return stat;
 }
 

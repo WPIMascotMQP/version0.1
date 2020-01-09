@@ -24,13 +24,15 @@ public:
 	Parallel() : Parallel(std::vector<Node*>()) {};
 	~Parallel();
 
-	status executeC();
-	status executeP(status stat);
+	Status* executeC();
+	Status* executeP(Status* stat);
 	void reset();
 
 protected:
-	status state;
-	status returnedStatuses;
+	Status status;
+	Status* returnedStatus;
+	Status* returnedStatuses;
+	Status successStatus;
 
 private:
 	unsigned int returedExecutes;

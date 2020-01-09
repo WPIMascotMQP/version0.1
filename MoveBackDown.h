@@ -20,8 +20,8 @@ public:
 	MoveBackDown();
 	~MoveBackDown();
 
-	status executeC();
-	status executeP(status stat);
+	Status* executeC();
+	Status* executeP(Status* stat);
 	std::vector<Movement*> generateMovements();
 
 protected:

@@ -20,15 +20,15 @@ Sequence::~Sequence() {
  Calls all children in order
  @return The status
 */
-status Sequence::executeC() {
+Status* Sequence::executeC() {
 	Node* node = *currentChild;
 	node->setParent(this);
 	verbose("Call Sequence Child");
 	node->executeC();
 
 	currentChild++;
-	state = running;
-	return state;
+	status.setRunning();
+	return &status;
 }
 
 /**
@@ -37,19 +37,20 @@ status Sequence::executeC() {
  @param stat The status of the child executing this parent
  @return the status
 */
-status Sequence::executeP(status stat) {
-	if (state != running) {
-		return failure;
+Status* Sequence::executeP(Status* stat) {
+	if (status.getState() != running) {
+		verbose("WARNING: Sequence is not Running.");
+		return &status;
 	}
-	if (stat == failure) {
+	if (stat->getState() == failure) {
 		reset();
 		return parent->executeP(stat);
 	}
 	if (currentChild >= children.end()) {
 		reset();
-		state = success;
+		status.setSuccess();
 		verbose("Call Sequence Parent");
-		return parent->executeP(success);
+		return parent->executeP(&status);
 	}
 	return executeC();
 }

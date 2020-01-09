@@ -7,7 +7,6 @@
 */
 UtilityDec::UtilityDec(Node* chi) {
 	child = chi;
-	state = fresh;
 }
 
 /**
@@ -23,11 +22,12 @@ UtilityDec::~UtilityDec() {
  @param stat The status of the child executing this parent
  @return the status
 */
-status UtilityDec::executeP(status stat) {
-	if (state != running) {
-		return not_running;
+Status* UtilityDec::executeP(Status* stat) {
+	if (status.getState() != running) {
+		verbose("WARNING: UtilityDec is not Running.");
+		return &status;
 	}
-	state = stat;
+	status = *stat;
 	verbose("Call Decorator Parent");
 	return parent->executeP(stat, this);
 }

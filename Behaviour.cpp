@@ -10,7 +10,7 @@
  CONSTUCTOR
 */
 Behaviour::Behaviour() {
-	state = fresh;
+	
 }
 
 /**
@@ -25,8 +25,9 @@ Behaviour::~Behaviour() {
  Puts behaviour into controller
  @return The status
 */
-status Behaviour::executeC() {
-	return running;
+Status* Behaviour::executeC() {
+	status.setRunning();
+	return &status;
 }
 
 /**
@@ -34,11 +35,12 @@ status Behaviour::executeC() {
  @param stat The status of the child executing this parent
  @return the status
 */
-status Behaviour::executeP(status stat) {
-	if (state != running) {
-		return failure;
+Status* Behaviour::executeP(Status* stat) {
+	if (status.getState() != running) {
+		verbose("WARNING: Behaviour Already Running.");
+		return &status;
 	}
-	state = stat;
+	status = *stat;
 	return parent->executeP(stat);
 }
 

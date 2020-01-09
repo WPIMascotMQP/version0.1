@@ -10,7 +10,6 @@
  @return The MoveFrontLeft Object
 */
 MoveFrontLeft::MoveFrontLeft() {
-	state = fresh;
 	Action *mf = new Action(0, 3, 0);
 	Action *ml = new Action(-3, 0, 0);
 	actions.push_back(mf);
@@ -30,12 +29,16 @@ MoveFrontLeft::~MoveFrontLeft() {
  putting them into the controller
  @return The status enum
 */
-status MoveFrontLeft::executeC() {
-	state = running;
+Status* MoveFrontLeft::executeC() {
+	if (status.getState() == running) {
+		verbose("WARNING: MoveFrontLeft is Already Running");
+		return &status;
+	}
+	status.setRunning();
 	verbose("Execute MoveFrontLeft");
 	std::vector<Movement*>* movements = calculator.generateMovements(actions, this);
 	controller.addMovements(movements);
-	return state;
+	return &status;
 }
 
 /**
@@ -44,11 +47,12 @@ status MoveFrontLeft::executeC() {
  putting them into the controller
  @return The status enum
 */
-status MoveFrontLeft::executeP(status stat) {
-	if (state != running) {
-		return failure;
+Status* MoveFrontLeft::executeP(Status* stat) {
+	if (status.getState() != running) {
+		verbose("WARNING: MoveFrontLeft is Already Running");
+		return &status;
 	}
-	state = stat;
+	status = *stat;
 	verbose("Call MoveFrontLeft Parent");
 	return parent->executeP(stat);
 }

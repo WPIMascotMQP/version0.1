@@ -10,7 +10,6 @@
  @return The MoveUpRight Object
 */
 MoveUpRight::MoveUpRight() {
-	state = fresh;
 	Action *mur = new Action(3.0, 0.0, 3.0);
 	actions.push_back(mur);
 }
@@ -28,12 +27,16 @@ MoveUpRight::~MoveUpRight() {
  putting them into the controller
  @return The status enum
 */
-status MoveUpRight::executeC() {
-	state = running;
+Status* MoveUpRight::executeC() {
+	if (status.getState() == running) {
+		verbose("WARNING: MoveUpRight is Already Running.");
+		return &status;
+	}
+	status.setRunning();
 	verbose("Execute MoveUpRight");
 	std::vector<Movement*>* movements = calculator.generateMovements(actions, this);
 	controller.addMovements(movements);
-	return state;
+	return &status;
 }
 
 /**
@@ -42,11 +45,12 @@ status MoveUpRight::executeC() {
  putting them into the controller
  @return The status enum
 */
-status MoveUpRight::executeP(status stat) {
-	if (state != running) {
-		return failure;
+Status* MoveUpRight::executeP(Status* stat) {
+	if (status.getState() != running) {
+		verbose("WARNING: MoveUpRight is not Running.");
+		return &status;
 	}
-	state = stat;
+	status = *stat;
 	verbose("Call MoveUpRight Parent");
 	return parent->executeP(stat);
 }
