@@ -1,5 +1,4 @@
 CFLAGS = -c -g -Wall --std=c++0x
-OPENCVFLAGS = -lopencv_core -lopencv_objdetect -lopencv_imgproc -lopencv_highgui -lopencv_videoio
 OPENCV = `pkg-config opencv --cflags --libs`
 LIBS = $(OPENCV)
 

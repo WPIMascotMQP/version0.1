@@ -12,6 +12,7 @@
 #include "UtilityDec.h"
 #include "SUtilityDec.h"
 #include "PUtilityDec.h"
+#include "VisualProcessor.h"
 
 extern std::vector<Behaviour*> currentBehaviours;
 
@@ -27,6 +28,8 @@ int main(int argc, char* argv[]) {
 	MoveUpRight mur;
 	MoveFrontLeft mfl;
 	MoveBackDown mbd;
+
+	VisualProcessor vp(0);
 
 	pl.addChild(&mur);
 	pl.addChild(&mfl);
@@ -55,6 +58,9 @@ int main(int argc, char* argv[]) {
 	while (input != "x") {
 		executeBehaviours(input);
 		controller->execute();
+
+		vp.processSnapshot();
+
 		std::getline(std::cin, input);
 		data->setInput(input);
 	}

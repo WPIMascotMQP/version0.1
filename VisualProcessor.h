@@ -33,5 +33,7 @@ protected:
 	cv::CascadeClassifier face_cascade;
 	cv::CascadeClassifier eyes_cascade;
 
+	cv::VideoCapture capture;
+	cv::Mat frame;
 };
 #endif
