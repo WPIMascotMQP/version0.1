@@ -1,6 +1,6 @@
 CFLAGS = -c -g -Wall --std=c++0x
 OPENCV = `pkg-config opencv --cflags --libs`
-LIBS = $(OPENCV)
+LIBS = $(OPENCV) -pthread
 
 all: MasterControlLoop
 

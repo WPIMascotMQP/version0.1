@@ -52,6 +52,8 @@ int main(int argc, char* argv[]) {
 	Controller* controller = &Node::controller;
 	SensorData* data = &Node::data;
 
+	vp.startThread();
+
 	std::string input;
 	std::getline(std::cin, input);
 	data->setInput(input);
@@ -59,11 +61,10 @@ int main(int argc, char* argv[]) {
 		executeBehaviours(input);
 		controller->execute();
 
-		vp.processSnapshot();
-
-		//std::getline(std::cin, input);
+		std::getline(std::cin, input);
 		data->setInput(input);
 	}
+	vp.killThread();
 }
 
 void executeBehaviours(std::string input) {

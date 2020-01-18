@@ -19,7 +19,9 @@
 #include "opencv2/videoio/videoio.hpp"
 
 #include <iostream>
+#include <mutex>
 #include <string>
+#include <thread>
 
 class VisualProcessor{
 public:
@@ -27,7 +29,11 @@ public:
 	VisualProcessor() : VisualProcessor(0){};
 	~VisualProcessor();
 
+	void startThread();
+	void killThread();
 	void processSnapshot();
+
+	void deepCopyRect(std::vector<cv::Rect*> global, std::vector<cv::Rect> local);
 
 protected:
 	cv::CascadeClassifier face_cascade;
@@ -35,5 +41,10 @@ protected:
 
 	cv::VideoCapture capture;
 	cv::Mat frame;
+
+	std::mutex kill_lock;
+	bool kill;
+
+	std::thread vpthread;
 };
 #endif
