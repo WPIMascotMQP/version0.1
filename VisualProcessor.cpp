@@ -47,6 +47,7 @@ void VisualProcessor::killThread() {
 	kill_lock.lock();
 	kill = true;
 	kill_lock.unlock();
+	vpthread.join();
 }
 
 void VisualProcessor::processSnapshot() {
