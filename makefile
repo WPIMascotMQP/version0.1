@@ -1,6 +1,9 @@
-CFLAGS = -c -g -Wall --std=c++0x
+CFLAGS = -c -g -Wall --std=c++11
 OPENCV = `pkg-config opencv --cflags --libs`
 LIBS = $(OPENCV) -pthread
+
+PROCESSORS = processors/
+KINEMATICS = kinematics/
 
 all: MasterControlLoop
 
@@ -9,7 +12,7 @@ MasterControlLoop: BehaviourTree.o Composite.o Controller.o \
 	MoveUpRight.o Node.o Parallel.o SensorData.o Utility.o \
 	UtilityDec.o PUtilityDec.o SUtilityDec.o VisualProcessor.o \
 	MasterControlLoop.h
-	g++ -g -Wall --std=c++0x -o MCL MasterControlLoop.cpp *.o -lm $(LIBS)
+	g++ -g -Wall --std=c++11 -o MCL MasterControlLoop.cpp *.o -lm $(LIBS)
 
 ##### BEHAVIOUR CLASSES #####
 MoveBackDown.o: MoveBackDown.cpp Behaviour.o MoveBackDown.h
@@ -60,15 +63,21 @@ Node.o: Node.cpp Calculator.o Controller.o SensorData.o Status.o Node.h
 Controller.o: Controller.cpp Movement.o Position.o SensorData.o Controller.h
 	g++ $(CFLAGS) Controller.cpp
 
-Calculator.o: Calculator.cpp Movement.o SensorData.o Action.o Calculator.h
-	g++ $(CFLAGS) Calculator.cpp
+Calculator.o: $(KINEMATICS)Calculator.cpp Movement.o SensorData.o Action.o $(KINEMATICS)Calculator.h
+	g++ $(CFLAGS) $(KINEMATICS)Calculator.cpp
 #Behaviour.o
 
-VisualProcessor.o: VisualProcessor.cpp SensorProcessor.o VisualProcessor.h
-	g++ $(CFLAGS) VisualProcessor.cpp $(LIBS)
+AudioProcessor.o: $(PROCESSORSc)AudioProcessor.cpp SensorProcessor.o $(PROCESSORS)AudioProcessor.h
+	g++ $(CFLAGS) $(PROCESSORS)AudioProcessor.cpp 
 
-SensorProcessor.o: SensorProcessor.cpp SensorProcessor.h
-	g++ $(CFLAGS) SensorProcessor.cpp
+TouchProcessor.o: $(PROCESSORS)TouchProcessor.cpp SensorProcessor.o $(PROCESSORS)TouchProcessor.h
+	g++ $(CFLAGS) $(PROCESSORS)TouchProcessor.cpp
+
+VisualProcessor.o: $(PROCESSORS)VisualProcessor.cpp SensorProcessor.o $(PROCESSORS)VisualProcessor.h
+	g++ $(CFLAGS) $(PROCESSORS)VisualProcessor.cpp $(LIBS)
+
+SensorProcessor.o: $(PROCESSORS)SensorProcessor.cpp $(PROCESSORS)SensorProcessor.h
+	g++ $(CFLAGS) $(PROCESSORS)SensorProcessor.cpp
 
 ##### DATA CLASSES #####
 Movement.o: Movement.cpp Position.o Movement.h

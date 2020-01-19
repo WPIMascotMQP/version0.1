@@ -13,10 +13,10 @@
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
-#include "Action.h"
-#include "Behaviour.h"
-#include "SensorData.h"
-#include "Movement.h"
+#include "../Action.h"
+#include "../Behaviour.h"
+#include "../SensorData.h"
+#include "../Movement.h"
 
 class Calculator {
 public:

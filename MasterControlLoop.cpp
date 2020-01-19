@@ -12,7 +12,7 @@
 #include "UtilityDec.h"
 #include "SUtilityDec.h"
 #include "PUtilityDec.h"
-#include "VisualProcessor.h"
+#include "processors/VisualProcessor.h"
 
 extern std::vector<Behaviour*> currentBehaviours;
 

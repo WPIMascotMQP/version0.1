@@ -1,6 +1,6 @@
 #include "Node.h"
 
-#include "Calculator.h"
+#include "kinematics/Calculator.h"
 #include "Controller.h"
 #include "SensorData.h"
 
