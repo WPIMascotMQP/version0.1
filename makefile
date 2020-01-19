@@ -64,8 +64,11 @@ Calculator.o: Calculator.cpp Movement.o SensorData.o Action.o Calculator.h
 	g++ $(CFLAGS) Calculator.cpp
 #Behaviour.o
 
-VisualProcessor.o: VisualProcessor.cpp VisualProcessor.h
+VisualProcessor.o: VisualProcessor.cpp SensorProcessor.o VisualProcessor.h
 	g++ $(CFLAGS) VisualProcessor.cpp $(LIBS)
+
+SensorProcessor.o: SensorProcessor.cpp SensorProcessor.h
+	g++ $(CFLAGS) SensorProcessor.cpp
 
 ##### DATA CLASSES #####
 Movement.o: Movement.cpp Position.o Movement.h

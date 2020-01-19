@@ -23,15 +23,16 @@
 #include <string>
 #include <thread>
 
-class VisualProcessor{
+#include "SensorProcessor.h"
+
+class VisualProcessor : public SensorProcessor {
 public:
 	VisualProcessor(int camera_device);
 	VisualProcessor() : VisualProcessor(0){};
 	~VisualProcessor();
 
 	void startThread();
-	void killThread();
-	void processSnapshot();
+	void process();
 
 	void deepCopyRect(std::vector<cv::Rect*> global, std::vector<cv::Rect> local);
 
@@ -41,10 +42,5 @@ protected:
 
 	cv::VideoCapture capture;
 	cv::Mat frame;
-
-	std::mutex kill_lock;
-	bool kill;
-
-	std::thread vpthread;
 };
 #endif
