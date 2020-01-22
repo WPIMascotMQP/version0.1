@@ -1,6 +1,7 @@
 #ifndef SENSORPROCESSOR_H
 #define SENSORPROCESSOR_H
 
+#include <chrono>
 #include <thread>
 #include <mutex>
 

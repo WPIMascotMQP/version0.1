@@ -9,10 +9,10 @@ namespace visualData {
 
 VisualProcessor::VisualProcessor(int camera_device) {
 	// Load the cascades
-	//std::string face_cascade_name = cv::samples::findFile("haarcascades/haarcascade_fullbody.xml");
-	//std::string face_cascade_name = cv::samples::findFile("haarcascades/haarcascade_fist.xml");
     std::string face_cascade_name = cv::samples::findFile("haarcascades/haarcascade_frontalface_default.xml");
     std::string eyes_cascade_name = cv::samples::findFile("haarcascades/haarcascade_eye.xml");
+    std::string palm_cascade_name = cv::samples::findFile("haarcascades/haarcascade_fist.xml");
+    std::string body_cascade_name = cv::samples::findFile("haarcascades/haarcascade_upperbody.xml");
     
     if(!face_cascade.load(face_cascade_name)) {
         std::cout << "ERROR: Unable to Load Face Cascade";
@@ -20,6 +20,14 @@ VisualProcessor::VisualProcessor(int camera_device) {
     };
     if(!eyes_cascade.load(eyes_cascade_name)) {
         std::cout << "ERROR: Unable to Load Eye Cascade";
+        return;
+    };
+    if(!palm_cascade.load(palm_cascade_name)) {
+        std::cout << "ERROR: Unable to Palm Eye Cascade";
+        return;
+    };
+    if(!body_cascade.load(body_cascade_name)) {
+        std::cout << "ERROR: Unable to Body Eye Cascade";
         return;
     };
     
@@ -57,7 +65,7 @@ void VisualProcessor::process() {
     cv::equalizeHist(frame_gray, frame_gray);
 
     // Detect faces
-    std::vector<cv::Rect> faces;
+    /*
     face_cascade.detectMultiScale( frame_gray, faces);
     for(size_t i = 0; i < faces.size(); i++) {
         cv::Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2);
@@ -73,9 +81,21 @@ void VisualProcessor::process() {
             int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25);
             cv::circle( frame, eye_center, radius, cv::Scalar( 255, 0, 0 ), 4);
         }
-    }
+    }*/
 
+    std::vector<cv::Rect> faces;
+    display(faces, face_cascade, cv::Scalar(255, 0, 255), frame, frame_gray);
     deepCopyRect(visualData::global_faces, faces);
+
+    std::vector<cv::Rect> palms;
+    display(palms, palm_cascade, cv::Scalar(255, 0, 0), frame, frame_gray);
+    deepCopyRect(visualData::global_palms, palms);
+
+    std::vector<cv::Rect> bodies;
+    display(bodies, body_cascade, cv::Scalar(0, 0, 255), frame, frame_gray);
+    deepCopyRect(visualData::global_bodies, bodies);
+
+    //cv::resize(frame, frame, cv::Size(800,800));
 
     //-- Show what you got
     cv::namedWindow("Capture - Face Detection", cv::WINDOW_AUTOSIZE);
@@ -83,12 +103,21 @@ void VisualProcessor::process() {
     cv::waitKey(10);
 }
 
+void VisualProcessor::display(std::vector<cv::Rect> objects, cv::CascadeClassifier cascade, cv::Scalar color, cv::Mat frame, cv::Mat frame_gray) {
+    cascade.detectMultiScale(frame_gray, objects);
+    for(size_t i = 0; i < objects.size(); i++) {
+        cv::Point center(objects[i].x + objects[i].width/2, objects[i].y + objects[i].height/2);
+        cv::ellipse(frame, center, cv::Size( objects[i].width/2, objects[i].height/2), 
+            0, 0, 360, color, 4);
+    }
+}
+
 void VisualProcessor::deepCopyRect(std::vector<cv::Rect*> global, std::vector<cv::Rect> local) {
 	visualData::visual_lock.lock();
 	std::vector<cv::Rect*>::iterator itr = global.begin();
 	while(itr < global.end()) {
 		cv::Rect_<int>* rec = *itr;
-		delete(&rec);
+		delete(rec);
 		itr = global.erase(itr); 
 	}
 	std::vector<cv::Rect>::iterator itr_l = local.begin();

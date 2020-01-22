@@ -10,7 +10,8 @@ all: MasterControlLoop
 MasterControlLoop: BehaviourTree.o Composite.o Controller.o \
 	Decorator.o Sequence.o MoveBackDown.o MoveFrontLeft.o \
 	MoveUpRight.o Node.o Parallel.o SensorData.o Utility.o \
-	UtilityDec.o PUtilityDec.o SUtilityDec.o VisualProcessor.o \
+	UtilityDec.o PUtilityDec.o SUtilityDec.o AudioProcessor.o \
+	TouchProcessor.o VisualProcessor.o \
 	MasterControlLoop.h
 	g++ -g -Wall --std=c++11 -o MCL MasterControlLoop.cpp *.o -lm $(LIBS)
 
@@ -67,7 +68,7 @@ Calculator.o: $(KINEMATICS)Calculator.cpp Movement.o SensorData.o Action.o $(KIN
 	g++ $(CFLAGS) $(KINEMATICS)Calculator.cpp
 #Behaviour.o
 
-AudioProcessor.o: $(PROCESSORSc)AudioProcessor.cpp SensorProcessor.o $(PROCESSORS)AudioProcessor.h
+AudioProcessor.o: $(PROCESSORS)AudioProcessor.cpp SensorProcessor.o $(PROCESSORS)AudioProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)AudioProcessor.cpp 
 
 TouchProcessor.o: $(PROCESSORS)TouchProcessor.cpp SensorProcessor.o $(PROCESSORS)TouchProcessor.h

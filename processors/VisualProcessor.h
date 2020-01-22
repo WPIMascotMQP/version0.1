@@ -33,12 +33,15 @@ public:
 
 	void startThread();
 	void process();
+	void display(std::vector<cv::Rect> objects, cv::CascadeClassifier cascade, cv::Scalar color, cv::Mat frame, cv::Mat frame_gray);
 
 	void deepCopyRect(std::vector<cv::Rect*> global, std::vector<cv::Rect> local);
 
 protected:
 	cv::CascadeClassifier face_cascade;
 	cv::CascadeClassifier eyes_cascade;
+	cv::CascadeClassifier palm_cascade;
+	cv::CascadeClassifier body_cascade;
 
 	cv::VideoCapture capture;
 	cv::Mat frame;

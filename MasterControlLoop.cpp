@@ -12,6 +12,8 @@
 #include "UtilityDec.h"
 #include "SUtilityDec.h"
 #include "PUtilityDec.h"
+#include "processors/AudioProcessor.h"
+#include "processors/TouchProcessor.h"
 #include "processors/VisualProcessor.h"
 
 extern std::vector<Behaviour*> currentBehaviours;
@@ -29,6 +31,8 @@ int main(int argc, char* argv[]) {
 	MoveFrontLeft mfl;
 	MoveBackDown mbd;
 
+	AudioProcessor ap;
+	TouchProcessor tp;
 	VisualProcessor vp(0);
 
 	pl.addChild(&mur);
@@ -52,6 +56,8 @@ int main(int argc, char* argv[]) {
 	Controller* controller = &Node::controller;
 	SensorData* data = &Node::data;
 
+	//ap.startThread();
+	//tp.startThread();
 	vp.startThread();
 
 	std::string input;
@@ -64,6 +70,8 @@ int main(int argc, char* argv[]) {
 		std::getline(std::cin, input);
 		data->setInput(input);
 	}
+	//ap.killThread();
+	//tp.killThread();
 	vp.killThread();
 }
 

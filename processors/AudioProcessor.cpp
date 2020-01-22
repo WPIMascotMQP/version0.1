@@ -14,5 +14,5 @@ void AudioProcessor::startThread() {
 }
 
 void AudioProcessor::process() {
-
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
