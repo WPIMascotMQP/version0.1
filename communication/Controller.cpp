@@ -1,8 +1,8 @@
 #include "Controller.h"
 
-#include "MasterControlLoop.h"
-#include "Node.h"
-#include "Position.h"
+#include "../MasterControlLoop.h"
+#include "../behaviourtree/Node.h"
+#include "../kinematics/Position.h"
 
 Node node_controller;
 SensorData Controller::data = node_controller.getSensorData();

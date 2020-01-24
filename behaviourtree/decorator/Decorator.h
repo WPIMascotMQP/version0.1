@@ -13,7 +13,7 @@
 #ifndef DECORATOR_H
 #define DECORATOR_H
 
-#include "Node.h"
+#include "../Node.h"
 
 class Decorator : public Node {
 public:

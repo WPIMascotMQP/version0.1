@@ -16,7 +16,7 @@
 #include <iterator>
 #include <vector>
 
-#include "Node.h"
+#include "../Node.h"
 
 class Composite : public Node {
 public:

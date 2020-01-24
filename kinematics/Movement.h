@@ -16,7 +16,7 @@
 
 #include <stdlib.h>
 
-#include "Behaviour.h"
+#include "../behaviourtree/Behaviour.h"
 #include "Position.h"
 
 class Movement {

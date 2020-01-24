@@ -15,7 +15,7 @@
 
 #include <string>
 
-#include "Position.h"
+#include "kinematics/Position.h"
 
 class SensorData {
 public:

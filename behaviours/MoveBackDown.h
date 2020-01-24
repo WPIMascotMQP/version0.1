@@ -13,7 +13,7 @@
 #ifndef MOVEBACKDOWN_H
 #define MOVEBACKDOWN_H
 
-#include "Behaviour.h"
+#include "../behaviourtree/Behaviour.h"
 
 class MoveBackDown : public Behaviour {
 public:

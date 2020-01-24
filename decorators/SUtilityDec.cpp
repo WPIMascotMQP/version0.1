@@ -1,6 +1,6 @@
 #include "SUtilityDec.h"
 
-#include "SensorData.h"
+#include "../SensorData.h"
 
 SUtilityDec::SUtilityDec(Node* chi) : UtilityDec(chi) {
 

@@ -13,7 +13,7 @@
 #ifndef MOVEUPRIGHT_H
 #define MOVEUPRIGHT_H
 
-#include "Behaviour.h"
+#include "../behaviourtree/Behaviour.h"
 
 class MoveUpRight : public Behaviour {
 public:

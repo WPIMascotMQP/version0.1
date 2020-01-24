@@ -13,7 +13,7 @@
 #ifndef PUTILITYDEC_H
 #define PUTILITYDEC_H
 
-#include "UtilityDec.h"
+#include "../behaviourtree/decorator/UtilityDec.h"
 
 class PUtilityDec : public UtilityDec {
 public:

@@ -20,7 +20,7 @@
 #include <vector>
 
 #include "Composite.h"
-#include "UtilityDec.h"
+#include "../decorator/UtilityDec.h"
 
 class Utility : public Composite {
 public:

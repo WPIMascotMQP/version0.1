@@ -1,29 +1,23 @@
-#include "MoveBackDown.h"
+#include "MoveUpRight.h"
 
-#include "kinematics/Calculator.h"
-#include "Controller.h"
-#include "Node.h"
+#include "../kinematics/Calculator.h"
+#include "../communication/Controller.h"
+#include "../behaviourtree/Node.h"
 
 /**
  CONSTRUCTOR
  Creates all of the actions and
- @return The MoveBackDown Object
+ @return The MoveUpRight Object
 */
-MoveBackDown::MoveBackDown() {
-	Action *md = new Action(0, 0, -1);
-	Action *mb = new Action(0, -1, 0);
-	actions.push_back(md);
-	actions.push_back(mb);
-	actions.push_back(md);
-	actions.push_back(mb);
-	actions.push_back(md);
-	actions.push_back(mb);
+MoveUpRight::MoveUpRight() {
+	Action *mur = new Action(3.0, 0.0, 3.0);
+	actions.push_back(mur);
 }
 
 /**
  DECONSTRUCTOR
 */
-MoveBackDown::~MoveBackDown() {
+MoveUpRight::~MoveUpRight() {
 
 }
 
@@ -33,13 +27,13 @@ MoveBackDown::~MoveBackDown() {
  putting them into the controller
  @return The status enum
 */
-Status* MoveBackDown::executeC() {
+Status* MoveUpRight::executeC() {
 	if (status.getState() == running) {
-		verbose("WARNING: MoveBackDown is Already Running");
+		verbose("WARNING: MoveUpRight is Already Running.");
 		return &status;
 	}
 	status.setRunning();
-	verbose("Execute MoveBackDown");
+	verbose("Execute MoveUpRight");
 	std::vector<Movement*>* movements = calculator.generateMovements(actions, this);
 	controller.addMovements(movements);
 	return &status;
@@ -51,18 +45,17 @@ Status* MoveBackDown::executeC() {
  putting them into the controller
  @return The status enum
 */
-Status* MoveBackDown::executeP(Status* stat) {
+Status* MoveUpRight::executeP(Status* stat) {
 	if (status.getState() != running) {
-		verbose("WARNING: MoveBackDown is not Running.");
+		verbose("WARNING: MoveUpRight is not Running.");
 		return &status;
 	}
 	status = *stat;
-	verbose("Call MoveBackDown Parent");
+	verbose("Call MoveUpRight Parent");
 	return parent->executeP(stat);
 }
 
-
-std::vector<Movement*> MoveBackDown::generateMovements() {
+std::vector<Movement*> MoveUpRight::generateMovements() {
 	std::vector<Movement*> movements;
 	return movements;
 }

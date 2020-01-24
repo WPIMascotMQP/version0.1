@@ -13,7 +13,7 @@
 #ifndef MOVEFRONTLEFT_H
 #define MOVEFRONTLEFT_H
 
-#include "Behaviour.h"
+#include "../behaviourtree/Behaviour.h"
 
 class MoveFrontLeft : public Behaviour {
 public:

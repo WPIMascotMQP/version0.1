@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-#include "Action.h"
+#include "kinematics/Action.h"
 
 enum state {fresh = 1, success = 2, running = 3, failure = 4, not_running = 5};
 

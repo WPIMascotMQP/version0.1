@@ -1,6 +1,6 @@
 #include "Calculator.h"
 
-#include "../Node.h"
+#include "../behaviourtree/Node.h"
 
 Node node_calculator;
 SensorData Calculator::data = node_calculator.getSensorData();

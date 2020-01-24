@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 
-#include "Status.h"
+#include "../Status.h"
 
 class Calculator;
 class Controller;

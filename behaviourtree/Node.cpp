@@ -1,8 +1,8 @@
 #include "Node.h"
 
-#include "kinematics/Calculator.h"
-#include "Controller.h"
-#include "SensorData.h"
+#include "../kinematics/Calculator.h"
+#include "../communication/Controller.h"
+#include "../SensorData.h"
 
 Calculator cal_node;
 Calculator Node::calculator = cal_node;

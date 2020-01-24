@@ -13,7 +13,7 @@
 #ifndef SUTILITYDEC_H
 #define SUTILITYDEC_H
 
-#include "UtilityDec.h"
+#include "../behaviourtree/decorator/UtilityDec.h"
 
 class SUtilityDec : public UtilityDec {
 public:

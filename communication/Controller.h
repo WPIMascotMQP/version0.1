@@ -17,8 +17,8 @@
 #include <string>
 #include <vector>
 
-#include "Movement.h"
-#include "SensorData.h"
+#include "../kinematics/Movement.h"
+#include "../SensorData.h"
 
 class Node;
 class Controller {

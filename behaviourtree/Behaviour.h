@@ -19,7 +19,7 @@
 #include <vector>
 
 #include "Node.h"
-#include "Action.h"
+#include "../kinematics/Action.h"
 
 class Movement;
 

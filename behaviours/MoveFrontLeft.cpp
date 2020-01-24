@@ -1,8 +1,8 @@
 #include "MoveFrontLeft.h"
 
-#include "kinematics/Calculator.h"
-#include "Controller.h"
-#include "Node.h"
+#include "../kinematics/Calculator.h"
+#include "../communication/Controller.h"
+#include "../behaviourtree/Node.h"
 
 /**
  CONSTRUCTOR

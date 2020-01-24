@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "Behaviour.h"
-#include "Movement.h"
+#include "../kinematics/Movement.h"
 
 /**
  CONSTUCTOR
