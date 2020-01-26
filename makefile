@@ -14,11 +14,31 @@ PROCESSORS = processors/
 
 all: MasterControlLoop
 
-MasterControlLoop: BehaviourTree.o Composite.o Controller.o \
-	Decorator.o Sequence.o MoveBackDown.o MoveFrontLeft.o \
-	MoveUpRight.o Node.o Parallel.o SensorData.o Utility.o \
-	UtilityDec.o PUtilityDec.o SUtilityDec.o AudioProcessor.o \
-	TouchProcessor.o VisualProcessor.o \
+MasterControlLoop: BehaviourTree.o \
+	Composite.o \
+	Controller.o \
+	Sequence.o \
+	MoveBackDown.o \
+	MoveFrontLeft.o \
+	MoveUpRight.o \
+	Parallel.o \
+	SensorData.o \
+	Utility.o \
+	PUtilityDec.o \
+	SUtilityDec.o \
+	AudioProcessor.o \
+	TouchProcessor.o \
+	VisualProcessor.o \
+	\
+	PhysicalUtilityDec.o \
+	InteractionUtilityDec.o \
+	InteractionHeadUtilityDec.o \
+	InteractionHandUtilityDec.o \
+	InteractionMotionUtilityDec.o \
+	SeekingUtilityDec.o \
+	SeekingSearchUtilityDec.o \
+	SeekingBodyUtilityDec.o \
+	SeekingMotionUtilityDec.o \
 	MasterControlLoop.h
 	g++ -g -Wall --std=c++11 -o MCL MasterControlLoop.cpp *.o -lm $(LIBS)
 
@@ -33,10 +53,40 @@ MoveUpRight.o: $(BEHAVIOURS)MoveUpRight.cpp Behaviour.o $(BEHAVIOURS)MoveUpRight
 	g++ $(CFLAGS) $(BEHAVIOURS)MoveUpRight.cpp
 
 ##### DECORATOR CLASSES #####
-PUtilityDec.o: $(DECORATORS)PUtilityDec.cpp Decorator.o $(DECORATORS)PUtilityDec.h
+PhysicalUtilityDec.o: $(DECORATORS)PhysicalUtilityDec.cpp UtilityDec.o $(DECORATORS)PhysicalUtilityDec.h
+	g++ $(CFLAGS) $(DECORATORS)PhysicalUtilityDec.cpp
+
+
+InteractionUtilityDec.o: $(DECORATORS)InteractionUtilityDec.cpp UtilityDec.o $(DECORATORS)InteractionUtilityDec.h
+	g++ $(CFLAGS) $(DECORATORS)InteractionUtilityDec.cpp
+
+InteractionHeadUtilityDec.o: $(DECORATORS)InteractionHeadUtilityDec.cpp UtilityDec.o $(DECORATORS)InteractionHeadUtilityDec.h
+	g++ $(CFLAGS) $(DECORATORS)InteractionHeadUtilityDec.cpp
+
+InteractionHandUtilityDec.o: $(DECORATORS)InteractionHandUtilityDec.cpp UtilityDec.o $(DECORATORS)InteractionHandUtilityDec.h
+	g++ $(CFLAGS) $(DECORATORS)InteractionHandUtilityDec.cpp
+
+InteractionMotionUtilityDec.o: $(DECORATORS)InteractionMotionUtilityDec.cpp UtilityDec.o $(DECORATORS)InteractionMotionUtilityDec.h
+	g++ $(CFLAGS) $(DECORATORS)InteractionMotionUtilityDec.cpp
+
+
+SeekingUtilityDec.o: $(DECORATORS)SeekingUtilityDec.cpp UtilityDec.o $(DECORATORS)SeekingUtilityDec.h
+	g++ $(CFLAGS) $(DECORATORS)SeekingUtilityDec.cpp
+
+SeekingSearchUtilityDec.o: $(DECORATORS)SeekingSearchUtilityDec.cpp UtilityDec.o $(DECORATORS)SeekingSearchUtilityDec.h
+	g++ $(CFLAGS) $(DECORATORS)SeekingSearchUtilityDec.cpp
+
+SeekingBodyUtilityDec.o: $(DECORATORS)SeekingBodyUtilityDec.cpp UtilityDec.o $(DECORATORS)SeekingBodyUtilityDec.h
+	g++ $(CFLAGS) $(DECORATORS)SeekingBodyUtilityDec.cpp
+
+SeekingMotionUtilityDec.o: $(DECORATORS)SeekingMotionUtilityDec.cpp UtilityDec.o $(DECORATORS)SeekingMotionUtilityDec.h
+	g++ $(CFLAGS) $(DECORATORS)SeekingMotionUtilityDec.cpp
+
+
+PUtilityDec.o: $(DECORATORS)PUtilityDec.cpp UtilityDec.o $(DECORATORS)PUtilityDec.h
 	g++ $(CFLAGS) $(DECORATORS)PUtilityDec.cpp
 
-SUtilityDec.o: $(DECORATORS)SUtilityDec.cpp Decorator.o $(DECORATORS)SUtilityDec.h
+SUtilityDec.o: $(DECORATORS)SUtilityDec.cpp UtilityDec.o $(DECORATORS)SUtilityDec.h
 	g++ $(CFLAGS) $(DECORATORS)SUtilityDec.cpp
 
 ##### BEHAVIOUR TREE CLASSES #####
@@ -55,7 +105,7 @@ Utility.o: $(COMPOSITE)Utility.cpp Composite.o UtilityDec.o $(COMPOSITE)Utility.
 Composite.o: $(COMPOSITE)Composite.cpp Node.o $(COMPOSITE)Composite.h
 	g++ $(CFLAGS) $(COMPOSITE)Composite.cpp
 
-UtilityDec.o: $(DECORATOR)UtilityDec.cpp Decorator.o $(DECORATOR)UtilityDec.h
+UtilityDec.o: $(DECORATOR)UtilityDec.cpp Decorator.o SensorData.o $(DECORATOR)UtilityDec.h
 	g++ $(CFLAGS) $(DECORATOR)UtilityDec.cpp
 
 Decorator.o: $(DECORATOR)Decorator.cpp Node.o $(DECORATOR)Decorator.h

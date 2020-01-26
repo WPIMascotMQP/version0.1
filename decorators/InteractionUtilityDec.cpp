@@ -1,2 +1,1 @@
-#define "InteractionUtilityDec.cpp"
-"
+#include "InteractionUtilityDec.h"

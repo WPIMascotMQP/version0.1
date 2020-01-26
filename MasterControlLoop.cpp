@@ -9,7 +9,6 @@
 #include "behaviours/MoveUpRight.h"
 #include "behaviourtree/composite/Parallel.h"
 #include "behaviourtree/composite/Utility.h"
-#include "behaviourtree/decorator/UtilityDec.h"
 #include "decorators/SUtilityDec.h"
 #include "decorators/PUtilityDec.h"
 #include "processors/AudioProcessor.h"

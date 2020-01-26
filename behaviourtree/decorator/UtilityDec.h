@@ -14,6 +14,7 @@
 #define UTILITYDEC_H
 
 #include "Decorator.h"
+#include "../../SensorData.h"
 
 class Utility;
 class UtilityDec : public Decorator {
