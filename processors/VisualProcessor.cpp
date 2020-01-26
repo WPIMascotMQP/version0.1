@@ -64,36 +64,17 @@ void VisualProcessor::process() {
     cv::cvtColor(frame, frame_gray, cv::COLOR_BGR2GRAY);
     cv::equalizeHist(frame_gray, frame_gray);
 
-    // Detect faces
-    /*
-    face_cascade.detectMultiScale( frame_gray, faces);
-    for(size_t i = 0; i < faces.size(); i++) {
-        cv::Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2);
-        cv::ellipse( frame, center, cv::Size( faces[i].width/2, faces[i].height/2), 
-        	0, 0, 360, cv::Scalar( 255, 0, 255 ), 4);
-        cv::Mat faceROI = frame_gray( faces[i]);
-        // In each face, detect eyes
-        std::vector<cv::Rect> eyes;
-        eyes_cascade.detectMultiScale( faceROI, eyes);
-        for(size_t j = 0; j < eyes.size(); j++) {
-            cv::Point eye_center( faces[i].x + eyes[j].x + eyes[j].width/2, 
-            	faces[i].y + eyes[j].y + eyes[j].height/2);
-            int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25);
-            cv::circle( frame, eye_center, radius, cv::Scalar( 255, 0, 0 ), 4);
-        }
-    }*/
-
     std::vector<cv::Rect> faces;
     display(faces, face_cascade, cv::Scalar(255, 0, 255), frame, frame_gray);
     deepCopyRect(visualData::global_faces, faces);
 
-    std::vector<cv::Rect> palms;
+    /*std::vector<cv::Rect> palms;
     display(palms, palm_cascade, cv::Scalar(255, 0, 0), frame, frame_gray);
-    deepCopyRect(visualData::global_palms, palms);
+    deepCopyRect(visualData::global_palms, palms);*/
 
-    std::vector<cv::Rect> bodies;
+    /*std::vector<cv::Rect> bodies;
     display(bodies, body_cascade, cv::Scalar(0, 0, 255), frame, frame_gray);
-    deepCopyRect(visualData::global_bodies, bodies);
+    deepCopyRect(visualData::global_bodies, bodies);*/
 
     //cv::resize(frame, frame, cv::Size(800,800));
 
