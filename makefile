@@ -15,21 +15,21 @@ PROCESSORS = processors/
 all: MasterControlLoop
 
 MasterControlLoop: BehaviourTree.o \
-	Composite.o \
 	Controller.o \
+	\
+	BehaviourTree.o \
+	Composite.o \
 	Sequence.o \
-	MoveBackDown.o \
-	MoveFrontLeft.o \
-	MoveUpRight.o \
 	Parallel.o \
 	SensorData.o \
 	Utility.o \
-	PUtilityDec.o \
-	SUtilityDec.o \
+	\
 	AudioProcessor.o \
 	TouchProcessor.o \
 	VisualProcessor.o \
 	\
+	PUtilityDec.o \
+	SUtilityDec.o \
 	PhysicalUtilityDec.o \
 	InteractionUtilityDec.o \
 	InteractionHeadUtilityDec.o \
@@ -39,6 +39,11 @@ MasterControlLoop: BehaviourTree.o \
 	SeekingSearchUtilityDec.o \
 	SeekingBodyUtilityDec.o \
 	SeekingMotionUtilityDec.o \
+	\
+	MoveBackDown.o \
+	MoveFrontLeft.o \
+	MoveUpRight.o \
+	\
 	MasterControlLoop.h
 	g++ -g -Wall --std=c++11 -o MCL MasterControlLoop.cpp *.o -lm $(LIBS)
 
