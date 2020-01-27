@@ -61,14 +61,15 @@ void VisualProcessor::process() {
 		std::cout << "ERROR: Frame is empty";
 	}
 
-    //cv::resize(frame, frame, cv::Size(800,800));
+    cv::resize(frame, frame, cv::Size(640,480));
 
 	// Setup
 	cv::Mat frame_gray;
     cv::cvtColor(frame, frame_gray, cv::COLOR_BGR2GRAY);
     cv::equalizeHist(frame_gray, frame_gray);
 
-    std::vector<cv::Rect> faces;
+    cv::resize(frame_gray, frame_gray, cv::Size(640,480));
+std::vector<cv::Rect> faces;
     display(faces, face_cascade, cv::Scalar(255, 0, 255), frame, frame_gray);
     deepCopyRect(visualData::global_faces, faces);
 
@@ -89,7 +90,7 @@ void VisualProcessor::process() {
 }
 
 void VisualProcessor::display(std::vector<cv::Rect> objects, cv::CascadeClassifier cascade, cv::Scalar color, cv::Mat frame, cv::Mat frame_gray) {
-    cascade.detectMultiScale(frame_gray, objects);
+    cascade.detectMultiScale(frame_gray, objects, 2);
     for(size_t i = 0; i < objects.size(); i++) {
         cv::Point center(objects[i].x + objects[i].width/2, objects[i].y + objects[i].height/2);
         cv::ellipse(frame, center, cv::Size( objects[i].width/2, objects[i].height/2), 
