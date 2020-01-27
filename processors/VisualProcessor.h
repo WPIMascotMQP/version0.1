@@ -18,10 +18,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/videoio/videoio.hpp"
 
-#include <iostream>
-#include <mutex>
-#include <string>
-#include <thread>
+#include <tuple>
 
 #include "SensorProcessor.h"
 
@@ -35,15 +32,21 @@ public:
 	void process();
 	void display(std::vector<cv::Rect> objects, cv::CascadeClassifier cascade, cv::Scalar color, cv::Mat frame, cv::Mat frame_gray);
 
-	void deepCopyRect(std::vector<cv::Rect*> global, std::vector<cv::Rect> local);
-
+	void deepCopyRect(std::vector<std::vector<cv::Rect*>*>, std::vector<cv::Rect> local);
+	void changePhase();
+	std::string getMatType(cv::Mat mat);
+	std::string getMatDepth(cv::Mat mat);
 protected:
 	cv::CascadeClassifier face_cascade;
-	cv::CascadeClassifier eyes_cascade;
-	cv::CascadeClassifier palm_cascade;
 	cv::CascadeClassifier body_cascade;
 
 	cv::VideoCapture capture;
 	cv::Mat frame;
+
+private:
+	unsigned int currentPhase;
+	cv::CascadeClassifier* currentClassifier;
+	std::vector<std::vector<cv::Rect*>*>* currentHistory;
+	std::tuple<cv::CascadeClassifier*, std::vector<std::vector<cv::Rect*>*>*> phases[2];
 };
 #endif
