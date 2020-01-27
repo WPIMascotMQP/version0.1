@@ -19,8 +19,9 @@
 #include "../behaviourtree/Behaviour.h"
 #include "Position.h"
 
-class Movement {
+class Behaviour;
 
+class Movement {
 public:
 	Movement();
 	~Movement();

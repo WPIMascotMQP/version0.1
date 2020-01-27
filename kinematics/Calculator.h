@@ -18,6 +18,9 @@
 #include "../SensorData.h"
 #include "Movement.h"
 
+class Behaviour;
+class Movement;
+
 class Calculator {
 public:
 	Calculator();

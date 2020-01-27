@@ -20,6 +20,8 @@
 
 #include "Node.h"
 #include "../kinematics/Action.h"
+#include "../kinematics/Calculator.h"
+#include "../communication/Controller.h"
 
 class Movement;
 

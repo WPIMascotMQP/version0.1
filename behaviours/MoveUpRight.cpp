@@ -1,9 +1,5 @@
 #include "MoveUpRight.h"
 
-#include "../kinematics/Calculator.h"
-#include "../communication/Controller.h"
-#include "../behaviourtree/Node.h"
-
 /**
  CONSTRUCTOR
  Creates all of the actions and

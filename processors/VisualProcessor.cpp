@@ -33,6 +33,8 @@ VisualProcessor::VisualProcessor(int camera_device) {
     
     // Read the video stream
     capture.open(camera_device);
+    capture.set(CV_CAP_PROP_FRAME_WIDTH, 640);
+    capture.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
     if (!capture.isOpened()) {
         std::cout << "ERROR: Unable to get Video Capture";
         return;
@@ -58,6 +60,8 @@ void VisualProcessor::process() {
 	if(frame.empty()) {
 		std::cout << "ERROR: Frame is empty";
 	}
+
+    //cv::resize(frame, frame, cv::Size(800,800));
 
 	// Setup
 	cv::Mat frame_gray;
