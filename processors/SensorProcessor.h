@@ -2,6 +2,8 @@
 #define SENSORPROCESSOR_H
 
 #include <chrono>
+#include <ctime>
+#include <iostream>
 #include <thread>
 #include <mutex>
 
