@@ -1,3 +1,16 @@
+/**
+ @file VisualTracker.h
+ @class VisualTracker
+ @brief The VisualTracker class
+ @details This VisualTracker class will handle the tracking of a single
+ object rect. It is able to return the moving average posiiton and keep
+ track of the number of times this object is missing
+
+ @author Jonathan Chang
+ @version 0.0.1
+ @date 28/1/2020
+*/
+
 #ifndef VISUALTRACKER_H
 #define VISUALTRACKER_H
 

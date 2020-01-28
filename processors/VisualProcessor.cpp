@@ -1,11 +1,16 @@
 #include "VisualProcessor.h"
 
+// Global Trackers that holds visual data
 namespace visualData {
     VisualTrackerManager face_manager;
     VisualTrackerManager body_manager;
     std::mutex visual_lock;
 }
 
+/**
+ CONSTRUCTOR
+ @param camera_device The hardware camera number
+ */
 VisualProcessor::VisualProcessor(int camera_device) {
 	// Load the cascades
     std::string face_cascade_name = cv::samples::findFile("haarcascades/haarcascade_frontalface_default.xml");
@@ -34,16 +39,26 @@ VisualProcessor::VisualProcessor(int camera_device) {
     currentPhase = -1;
 }
 
+/**
+ DECONSTRUCTOR
+ */
 VisualProcessor::~VisualProcessor() {
 
 }
 
+/**
+ Starts the processing thread for the visual procesor
+ */
 void VisualProcessor::startThread() {
 	kill = false;
 	pthread = std::thread(&VisualProcessor::processWrapper, this);
 }
 
-
+/**
+ The actual processing thread
+ Takes a snapshot from the capture device, detects one of the cascades
+ based on the phase and adds that data to the VisualTrackerManagers
+ */
 void VisualProcessor::process() {
     changePhase();
     //auto start = std::chrono::system_clock::now();
@@ -59,15 +74,18 @@ void VisualProcessor::process() {
     cv::cvtColor(frame, frame_gray, CV_BGR2GRAY);
     cv::equalizeHist(frame_gray, frame_gray);
 
+    // Detect obejcts
     std::vector<cv::Rect> objects;
-    currentClassifier->detectMultiScale(frame_gray, objects);
+    currentClassifier->detectMultiScale(frame_gray, objects, 1.5);
     currentManager->addRects(objects);
 
+    // Get rects from trackers
     visualData::visual_lock.lock();
     std::vector<cv::Rect*>* faces = visualData::face_manager.getRects();
     std::vector<cv::Rect*>* bodies = visualData::body_manager.getRects();
     visualData::visual_lock.unlock();
 
+    // Display Rects on frame
     display(faces, cv::Scalar(255, 0, 255), frame);
     display(bodies, cv::Scalar(0, 0, 255), frame);
     deleteVector(faces);
@@ -82,6 +100,12 @@ void VisualProcessor::process() {
     std::cout << elapsed_seconds.count() << std::endl;*/
 }
 
+/**
+ Displays the given rects on the given frame
+ @param objects The objects to display on the frame
+ @param color The cv color to show the ellipse as
+ @param frame The frame to paint the ellipse on
+ */
 void VisualProcessor::display(std::vector<cv::Rect*>* objects, cv::Scalar color, cv::Mat frame) {
     std::vector<cv::Rect*>::iterator itr = objects->begin();
     while(itr < objects->end()) {
@@ -93,6 +117,10 @@ void VisualProcessor::display(std::vector<cv::Rect*>* objects, cv::Scalar color,
     }
 }
 
+/**
+ Deletes the given vector of rects
+ @param objects The vector of rects to delete
+ */
 void VisualProcessor::deleteVector(std::vector<cv::Rect*>* objects) {
     std::vector<cv::Rect*>::iterator itr = objects->begin();
     while(itr < objects->end()) {
@@ -103,6 +131,9 @@ void VisualProcessor::deleteVector(std::vector<cv::Rect*>* objects) {
     delete(objects);
 }
 
+/**
+ Changes the current phase of the processor to the next
+ */
 void VisualProcessor::changePhase() {
     currentPhase++;
     if(currentPhase >= sizeof(phases)/sizeof(*phases)) {
@@ -111,9 +142,13 @@ void VisualProcessor::changePhase() {
     std::tie(currentClassifier, currentManager) = phases[currentPhase];
 }
 
-// Credit https://codeyarns.com/2015/08/27/depth-and-type-of-matrix-in-opencv/
-std::string VisualProcessor::getMatDepth(cv::Mat mat)
-{
+/**
+ Credit https://codeyarns.com/2015/08/27/depth-and-type-of-matrix-in-opencv/
+ Gets the depth of the given cv::Mat
+ To only be used for debugging
+ @param mat The Mat to get the depth of
+ */
+std::string VisualProcessor::getMatDepth(cv::Mat mat) {
     const int depth = mat.depth();
 
     switch (depth)
@@ -130,9 +165,13 @@ std::string VisualProcessor::getMatDepth(cv::Mat mat)
     }
 }
 
-//Credit https://codeyarns.com/2015/08/27/depth-and-type-of-matrix-in-opencv/
-std::string VisualProcessor::getMatType(cv::Mat mat)
-{
+/**
+ Credit https://codeyarns.com/2015/08/27/depth-and-type-of-matrix-in-opencv/
+ Gets the type of the given cv::Mat
+ To only be used for debugging
+ @param mat The mat to get the type of
+ */
+std::string VisualProcessor::getMatType(cv::Mat mat) {
     const int mtype = mat.type();
 
     switch (mtype)

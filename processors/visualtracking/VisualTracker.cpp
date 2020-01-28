@@ -1,16 +1,23 @@
 #include "VisualTracker.h"
 
+// Tracker Global constants
 namespace trackers {
-	int center_error = 50;
-	int size_error = 100;
+	int center_error = 100;
+	int size_error = 200;
 
 	unsigned int history_length = 5;
 }
 
+/**
+ CONSTRUCTOR
+*/
 VisualTracker::VisualTracker() {
 	missedCount = 0;
 }
 
+/**
+ DECONSTRUCTOR
+ */
 VisualTracker::~VisualTracker() {
 	std::vector<cv::Rect*>::iterator itr = history.begin();
 	if(itr < history.end()) {
@@ -20,6 +27,12 @@ VisualTracker::~VisualTracker() {
 	}
 }
 
+/**
+ Returns whether the given rect is closer enough to be considered the object that this object is
+ tracking
+ @param rect The new rect to compare
+ @return Whether the rect is part of this tracker of not
+ */
 bool VisualTracker::belongs(cv::Rect* rect) {
 	cv::Rect* average = getAverage();
 	int average_x = getMidX(average);
@@ -43,6 +56,11 @@ bool VisualTracker::belongs(cv::Rect* rect) {
 	return true;
 }
 
+/**
+ Adds the given rect to the history in this object
+ Deletes old history
+ @param rect The rect to add
+ */
 void VisualTracker::add(cv::Rect rect) {
 	cv::Rect_<int>* new_rect = new cv::Rect(rect.x, rect.y, rect.width, rect.height);
 	history.push_back(new_rect);
@@ -54,6 +72,10 @@ void VisualTracker::add(cv::Rect rect) {
 	}
 }
 
+/**
+ Creates a new rect which is the average position of the previous captured rects
+ @return The average rect for this object
+ */
 cv::Rect* VisualTracker::getAverage() {
 	int sum_x = 0;
 	int sum_y = 0;
@@ -78,10 +100,20 @@ cv::Rect* VisualTracker::getAverage() {
 	return rect;
 }
 
+/**
+ Returns the x midpoint of the given rect
+ @param The rect to get the x mdpoint
+ @return The x midpoint
+ */
 int VisualTracker::getMidX(cv::Rect* rect) {
 	return (int) rect->x + rect->width/2 + 0.5;
 }
 
+/**
+ Returns the y midpoint of the given rect
+ @param The rect to get the y mdpoint
+ @return The y midpoint
+ */
 int VisualTracker::getMidY(cv::Rect* rect) {
 	return (int) rect->y + rect->height/2 + 0.5;
 }

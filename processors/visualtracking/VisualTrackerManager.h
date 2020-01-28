@@ -1,3 +1,16 @@
+/**
+ @file VisualTrackerManager.h
+ @class VisualTrackerManager
+ @brief The VisualTrackerManager class
+ @details This VisualTrackerManager class will handle the tracking of a single
+ type of object using VisualTrackers. It will delete trackers that can no longer see
+ their object and create trackers for objects that do not belong to any tracker
+
+ @author Jonathan Chang
+ @version 0.0.1
+ @date 28/1/2020
+*/
+
 #ifndef VISUALTRACKERMANAGER_H
 #define VISUALTRACKERMANAGER_H
 
