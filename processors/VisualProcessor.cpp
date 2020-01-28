@@ -1,10 +1,9 @@
 #include "VisualProcessor.h"
 
 namespace visualData {
-    std::vector<std::vector<cv::Rect*>*> history_faces;
-    std::vector<std::vector<cv::Rect*>*> history_bodies;
-	std::mutex visual_lock;
-    unsigned int history_length = 5;
+    VisualTrackerManager face_manager;
+    VisualTrackerManager body_manager;
+    std::mutex visual_lock;
 }
 
 VisualProcessor::VisualProcessor(int camera_device) {
@@ -30,8 +29,8 @@ VisualProcessor::VisualProcessor(int camera_device) {
 
     kill = false;
 
-    phases[0] = std::make_tuple(&face_cascade, &visualData::history_faces);
-    phases[1] = std::make_tuple(&body_cascade, &visualData::history_bodies);
+    phases[0] = std::make_tuple(&face_cascade, &visualData::face_manager);
+    phases[1] = std::make_tuple(&body_cascade, &visualData::body_manager);
     currentPhase = -1;
 }
 
@@ -47,7 +46,7 @@ void VisualProcessor::startThread() {
 
 void VisualProcessor::process() {
     changePhase();
-    auto start = std::chrono::system_clock::now();
+    //auto start = std::chrono::system_clock::now();
 	if(!capture.read(frame)) {
 		std::cout << "ERROR: Unable to Capture Frame";
 	}
@@ -57,56 +56,51 @@ void VisualProcessor::process() {
 
 	// Setup
 	cv::Mat frame_gray;
-    cv::cvtColor(frame, frame_gray, CV_BGRA2BGR);
-    cv::cvtColor(frame_gray, frame_gray, CV_BGR2GRAY);
+    cv::cvtColor(frame, frame_gray, CV_BGR2GRAY);
     cv::equalizeHist(frame_gray, frame_gray);
 
     std::vector<cv::Rect> objects;
-    cv::CascadeClassifier classifier = *currentClassifier;
-    display(objects, classifier, cv::Scalar(255, 0, 255), frame, frame_gray);
-    deepCopyRect(*currentHistory, objects);
+    currentClassifier->detectMultiScale(frame_gray, objects);
+    currentManager->addRects(objects);
+
+    visualData::visual_lock.lock();
+    std::vector<cv::Rect*>* faces = visualData::face_manager.getRects();
+    std::vector<cv::Rect*>* bodies = visualData::body_manager.getRects();
+    visualData::visual_lock.unlock();
+
+    display(faces, cv::Scalar(255, 0, 255), frame);
+    display(bodies, cv::Scalar(0, 0, 255), frame);
+    deleteVector(faces);
+    deleteVector(bodies);
 
     //-- Show what you got
     cv::namedWindow("Capture - Face Detection", cv::WINDOW_AUTOSIZE);
     cv::imshow("Capture - Face Detection", frame);
     cv::waitKey(10);
-    auto end = std::chrono::system_clock::now();
+    /*auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
-    std::cout << elapsed_seconds.count() << std::endl;
+    std::cout << elapsed_seconds.count() << std::endl;*/
 }
 
-void VisualProcessor::display(std::vector<cv::Rect> objects, cv::CascadeClassifier cascade, cv::Scalar color, cv::Mat frame, cv::Mat sample) {
-    cascade.detectMultiScale(sample, objects);
-    for(size_t i = 0; i < objects.size(); i++) {
-        cv::Point center(objects[i].x + objects[i].width/2, objects[i].y + objects[i].height/2);
-        cv::ellipse(frame, center, cv::Size( objects[i].width/2, objects[i].height/2), 
+void VisualProcessor::display(std::vector<cv::Rect*>* objects, cv::Scalar color, cv::Mat frame) {
+    std::vector<cv::Rect*>::iterator itr = objects->begin();
+    while(itr < objects->end()) {
+        cv::Rect_<int>* rect = *itr;
+        cv::Point center(rect->x + rect->width/2, rect->y + rect->height/2);
+        cv::ellipse(frame, center, cv::Size(rect->width/2, rect->height/2), 
             0, 0, 360, color, 4);
+        itr++;
     }
 }
 
-void VisualProcessor::deepCopyRect(std::vector<std::vector<cv::Rect*>*> history, std::vector<cv::Rect> local) {
-	visualData::visual_lock.lock();
-    std::vector<cv::Rect*>* new_history = new std::vector<cv::Rect*>();
-    std::vector<cv::Rect>::iterator itr_local = local.begin();
-    while(itr_local < local.end()) {
-        cv::Rect_<int> rec = *itr_local;
-        cv::Rect_<int>* new_rec = new cv::Rect(rec.x, rec.y, rec.width, rec.height);
-        new_history->push_back(new_rec);
-        itr_local++;
+void VisualProcessor::deleteVector(std::vector<cv::Rect*>* objects) {
+    std::vector<cv::Rect*>::iterator itr = objects->begin();
+    while(itr < objects->end()) {
+        cv::Rect_<int>* rect = *itr;
+        delete(rect);
+        itr = objects->erase(itr);
     }
-    history.push_back(new_history);
-    if(history.size() > visualData::history_length) {
-        std::vector<std::vector<cv::Rect*>*>::iterator itr_history = history.begin();
-        std::vector<cv::Rect_<int>*>* old_history = *itr_history;
-        std::vector<cv::Rect*>::iterator itr_old = old_history->begin();
-        while(itr_old < old_history->end()) {
-            cv::Rect_<int>* rec = *itr_old;
-            delete(rec);
-            itr_old = old_history->erase(itr_old); 
-        }
-        delete(old_history);
-    }
-	visualData::visual_lock.unlock();
+    delete(objects);
 }
 
 void VisualProcessor::changePhase() {
@@ -114,7 +108,7 @@ void VisualProcessor::changePhase() {
     if(currentPhase >= sizeof(phases)/sizeof(*phases)) {
         currentPhase = 0;
     }
-    std::tie(currentClassifier, currentHistory) = phases[currentPhase];
+    std::tie(currentClassifier, currentManager) = phases[currentPhase];
 }
 
 // Credit https://codeyarns.com/2015/08/27/depth-and-type-of-matrix-in-opencv/

@@ -21,6 +21,7 @@
 #include <tuple>
 
 #include "SensorProcessor.h"
+#include "visualtracking/VisualTrackerManager.h"
 
 class VisualProcessor : public SensorProcessor {
 public:
@@ -30,9 +31,9 @@ public:
 
 	void startThread();
 	void process();
-	void display(std::vector<cv::Rect> objects, cv::CascadeClassifier cascade, cv::Scalar color, cv::Mat frame, cv::Mat frame_gray);
+	void display(std::vector<cv::Rect*>* objects, cv::Scalar color, cv::Mat frame);
+	void deleteVector(std::vector<cv::Rect*>* objects);
 
-	void deepCopyRect(std::vector<std::vector<cv::Rect*>*>, std::vector<cv::Rect> local);
 	void changePhase();
 	std::string getMatType(cv::Mat mat);
 	std::string getMatDepth(cv::Mat mat);
@@ -46,7 +47,7 @@ protected:
 private:
 	unsigned int currentPhase;
 	cv::CascadeClassifier* currentClassifier;
-	std::vector<std::vector<cv::Rect*>*>* currentHistory;
-	std::tuple<cv::CascadeClassifier*, std::vector<std::vector<cv::Rect*>*>*> phases[2];
+	VisualTrackerManager* currentManager;
+	std::tuple<cv::CascadeClassifier*, VisualTrackerManager*> phases[2];
 };
 #endif

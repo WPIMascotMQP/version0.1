@@ -10,7 +10,7 @@ COMMUNICATION = communication/
 DECORATORS = decorators/
 KINEMATICS = kinematics/
 PROCESSORS = processors/
-
+TRACKERS = processors/visualtracking/
 
 all: MasterControlLoop
 
@@ -136,11 +136,18 @@ AudioProcessor.o: $(PROCESSORS)AudioProcessor.cpp SensorProcessor.o $(PROCESSORS
 TouchProcessor.o: $(PROCESSORS)TouchProcessor.cpp SensorProcessor.o $(PROCESSORS)TouchProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)TouchProcessor.cpp
 
-VisualProcessor.o: $(PROCESSORS)VisualProcessor.cpp SensorProcessor.o $(PROCESSORS)VisualProcessor.h
+VisualProcessor.o: $(PROCESSORS)VisualProcessor.cpp SensorProcessor.o VisualTrackerManager.o $(PROCESSORS)VisualProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)VisualProcessor.cpp $(LIBS)
 
 SensorProcessor.o: $(PROCESSORS)SensorProcessor.cpp $(PROCESSORS)SensorProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)SensorProcessor.cpp
+
+##### VISUAL TRACKER CLASSES #####
+VisualTrackerManager.o: $(TRACKERS)VisualTrackerManager.cpp VisualTracker.o $(TRACKERS)VisualTrackerManager.h
+	g++ $(CFLAGS) $(TRACKERS)VisualTrackerManager.cpp $(LIBS)
+
+VisualTracker.o: $(TRACKERS)VisualTracker.cpp $(TRACKERS)VisualTracker.h
+	g++ $(CFLAGS) $(TRACKERS)VisualTracker.cpp $(LIBS)
 
 ##### DATA CLASSES #####
 Movement.o: $(KINEMATICS)Movement.cpp Position.o $(KINEMATICS)Movement.h
