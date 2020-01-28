@@ -16,6 +16,7 @@ all: MasterControlLoop
 
 MasterControlLoop: BehaviourTree.o \
 	Controller.o \
+	Logger.o \
 	\
 	BehaviourTree.o \
 	Composite.o \
@@ -165,6 +166,9 @@ SensorData.o: SensorData.cpp Position.o SensorData.h
 
 Position.o: $(KINEMATICS)Position.cpp $(KINEMATICS)Position.h
 	g++ $(CFLAGS) $(KINEMATICS)Position.cpp
+
+Logger.o: Logger.cpp Logger.h
+	g++ $(CFLAGS) Logger.cpp
 
 clean:
 	rm -f *.o MCL

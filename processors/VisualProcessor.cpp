@@ -61,7 +61,7 @@ void VisualProcessor::startThread() {
  */
 void VisualProcessor::process() {
     changePhase();
-    //auto start = std::chrono::system_clock::now();
+    auto start = std::chrono::system_clock::now();
 	if(!capture.read(frame)) {
 		std::cout << "ERROR: Unable to Capture Frame";
 	}
@@ -95,9 +95,11 @@ void VisualProcessor::process() {
     cv::namedWindow("Capture - Face Detection", cv::WINDOW_AUTOSIZE);
     cv::imshow("Capture - Face Detection", frame);
     cv::waitKey(10);
-    /*auto end = std::chrono::system_clock::now();
+    auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
-    std::cout << elapsed_seconds.count() << std::endl;*/
+    std::ostringstream strs;
+    strs << "VisualProcessor Phase " << currentPhase << "- Elasped Time: " << elapsed_seconds.count();
+    log(strs.str());
 }
 
 /**

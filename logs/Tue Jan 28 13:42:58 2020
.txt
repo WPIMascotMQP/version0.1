@@ -1,0 +1,174 @@
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.431728
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.039479
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0293349
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0293305
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0306108
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0280786
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0290542
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0289242
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0295985
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0280444
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0332508
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0322615
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0377069
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0294246
+Tue Jan 28 13:42:59 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0458484
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0312916
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0326869
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0350376
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0329431
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0307352
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0326805
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0355553
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.032333
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0310663
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0369939
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0313008
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0331743
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0347006
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0321035
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0320145
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0369343
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0315579
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0322056
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0355385
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.032285
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0321086
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0318475
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0360252
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0323538
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0316527
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0357097
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0320317
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0323521
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0351806
+Tue Jan 28 13:43:00 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0319296
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0315443
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0377467
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0309534
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0327139
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0311295
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.037422
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0303322
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0330987
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0348173
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0318884
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0310725
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0379384
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0299808
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0328511
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0350461
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0328745
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.030823
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0343822
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0341132
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.033118
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0305369
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0376897
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0320967
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0314841
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0345393
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0330984
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0307133
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0371764
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0309494
+Tue Jan 28 13:43:01 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0340553
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0301823
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0363134
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0315648
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0325467
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0354483
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0320433
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.033027
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0346971
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0313428
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.0328029
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 1- Elasped Time: 0.0358561
+Tue Jan 28 13:43:02 2020
+ |VisualProcessor Phase 0- Elasped Time: 0.032689

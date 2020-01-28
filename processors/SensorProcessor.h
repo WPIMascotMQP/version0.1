@@ -4,9 +4,12 @@
 #include <chrono>
 #include <ctime>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <thread>
 #include <mutex>
+
+#include "../Logger.h"
 
 class SensorProcessor {
 public:
