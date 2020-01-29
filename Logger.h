@@ -12,6 +12,7 @@
 #include <dirent.h> 
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 namespace logger {
 	void verbose(std::string verb);
