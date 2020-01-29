@@ -18,7 +18,7 @@
 extern std::vector<Behaviour*> currentBehaviours;
 
 int main(int argc, char* argv[]) {
-	startLog();
+	logger::startLog();
 	BehaviourTree bt;
 	Sequence sq;
 	Parallel pl;
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
 	//ap.killThread();
 	//tp.killThread();
 	vp.killThread();
-	endLog();
+	logger::endLog();
 }
 
 void executeBehaviours(std::string input) {

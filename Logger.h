@@ -3,13 +3,22 @@
 
 #include <chrono>
 #include <ctime>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <vector>
 
-void verbose(std::string verb);
-void startLog();
-void log(std::string log);
-void endLog();
+#include <dirent.h> 
+#include <stdio.h>
+#include <string.h>
+
+namespace logger {
+	void verbose(std::string verb);
+	void startLog();
+	void log(std::string log);
+	void endLog();
+	unsigned int getLogFolderSize();
+}
 
 #endif

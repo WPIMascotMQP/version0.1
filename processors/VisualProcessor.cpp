@@ -99,7 +99,7 @@ void VisualProcessor::process() {
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::ostringstream strs;
     strs << "VisualProcessor Phase " << currentPhase << "- Elasped Time: " << elapsed_seconds.count();
-    log(strs.str());
+    //logger::log(strs.str());
 }
 
 /**

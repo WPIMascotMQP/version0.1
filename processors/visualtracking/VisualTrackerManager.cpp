@@ -2,6 +2,7 @@
 
 // Tracker Manager Globals
 namespace trackerManager {
+	unsigned int minimum_frame = 3;
 	unsigned int error_frame = 3;
 }
 
@@ -83,7 +84,7 @@ std::vector<cv::Rect*>* VisualTrackerManager::getRects() {
 	std::vector<VisualTracker*>::iterator itr_tracker = trackers.begin();
 	while(itr_tracker < trackers.end()) {
 		VisualTracker* vt = *itr_tracker;
-		if(vt->history.size() >= trackerManager::error_frame) {
+		if(vt->history.size() >= trackerManager::minimum_frame) {
 			rects->push_back(vt->getAverage());
 		}
 		itr_tracker++;
