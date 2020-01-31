@@ -74,6 +74,9 @@ void VisualProcessor::process() {
     cv::cvtColor(frame, frame_gray, CV_BGR2GRAY);
     cv::equalizeHist(frame_gray, frame_gray);
 
+    cv::Size s = frame_gray.size();
+    logger::verbose("" + s.width + s.height);
+
     // Detect obejcts
     std::vector<cv::Rect> objects;
     currentClassifier->detectMultiScale(frame_gray, objects, 1.5);

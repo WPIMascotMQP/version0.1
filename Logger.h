@@ -1,3 +1,14 @@
+/**
+ @file Logger.h
+ @brief The Logger namespace
+ @details This Logger namespace will handle verbose printout and log file
+ handling inside the logger namespace
+
+ @author Jonathan Chang
+ @version 0.0.1
+ @date 08/1/2020
+*/
+
 #ifndef LOGGER_H
 #define LOGGER_H
 
