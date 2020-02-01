@@ -2,9 +2,11 @@
 #define SENDER_H
 
 class Sender {
-	public:
-	protected:
-	private:	
-}
+public:
+	Senser();
+	~Sender();
+protected:
+private:	
+};
 
 #endif

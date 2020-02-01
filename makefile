@@ -10,6 +10,7 @@ COMMUNICATION = communication/
 DECORATORS = decorators/
 KINEMATICS = kinematics/
 PROCESSORS = processors/
+MOTORSTATUS = processors/motorstatus/
 TRACKERS = processors/visualtracking/
 
 all: MasterControlLoop
@@ -26,7 +27,7 @@ MasterControlLoop: BehaviourTree.o \
 	Utility.o \
 	\
 	AudioProcessor.o \
-	TouchProcessor.o \
+	MotorProcessor.o \
 	VisualProcessor.o \
 	\
 	PUtilityDec.o \
@@ -134,14 +135,18 @@ Calculator.o: $(KINEMATICS)Calculator.cpp Movement.o SensorData.o Action.o $(KIN
 AudioProcessor.o: $(PROCESSORS)AudioProcessor.cpp SensorProcessor.o $(PROCESSORS)AudioProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)AudioProcessor.cpp 
 
-TouchProcessor.o: $(PROCESSORS)TouchProcessor.cpp SensorProcessor.o $(PROCESSORS)TouchProcessor.h
-	g++ $(CFLAGS) $(PROCESSORS)TouchProcessor.cpp
+MotorProcessor.o: $(PROCESSORS)MotorProcessor.cpp SensorProcessor.o MotorStatus.o $(PROCESSORS)MotorProcessor.h
+	g++ $(CFLAGS) $(PROCESSORS)MotorProcessor.cpp
 
 VisualProcessor.o: $(PROCESSORS)VisualProcessor.cpp SensorProcessor.o VisualTrackerManager.o $(PROCESSORS)VisualProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)VisualProcessor.cpp $(LIBS)
 
 SensorProcessor.o: $(PROCESSORS)SensorProcessor.cpp $(PROCESSORS)SensorProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)SensorProcessor.cpp
+
+##### MOTOR STATUS CLASSES #####
+MotorStatus.o: $(MOTORSTATUS)MotorStatus.cpp $(MOTORSTATUS)MotorStatus.h
+	g++ $(CFLAGS) $(MOTORSTATUS)MotorStatus.cpp
 
 ##### VISUAL TRACKER CLASSES #####
 VisualTrackerManager.o: $(TRACKERS)VisualTrackerManager.cpp VisualTracker.o $(TRACKERS)VisualTrackerManager.h
@@ -170,6 +175,8 @@ Position.o: $(KINEMATICS)Position.cpp $(KINEMATICS)Position.h
 Logger.o: Logger.cpp Logger.h
 	g++ $(CFLAGS) Logger.cpp
 
+
+##### CLEAN AND DOCS #####
 clean:
 	rm -f *.o MCL
 
