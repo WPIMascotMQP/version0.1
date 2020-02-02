@@ -1,6 +1,10 @@
 #include "AudioProcessor.h"
 
-AudioProcessor::AudioProcessor() {
+namespace processor {
+	AudioProcessor ap(3);
+}
+
+AudioProcessor::AudioProcessor(int num_mics) {
 
 }
 
@@ -15,4 +19,8 @@ void AudioProcessor::startThread() {
 
 void AudioProcessor::process() {
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
+}
+
+double AudioProcessor::getLastAudio() {
+	return 0.0;
 }

@@ -5,12 +5,19 @@
 
 class AudioProcessor : public SensorProcessor {
 public:
-	AudioProcessor();
+	AudioProcessor(int num_mics);
+	AudioProcessor() : AudioProcessor(0) {};
 	~AudioProcessor();
 
 	void startThread();
 	void process();
+
+	double getLastAudio();
 protected:
 private:
 };
+
+namespace processor {
+	extern AudioProcessor ap;
+}
 #endif 

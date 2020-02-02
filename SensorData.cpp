@@ -30,12 +30,25 @@ std::string SensorData::getInput() {
 	return input;
 }
 
+double SensorData::getLastAudio() {
+	return processor::ap.getLastAudio();
+}
+
 /**
  Gets the current position
  @return The current position
 */
-Position *SensorData::getCurrentPosition() {
+Position* SensorData::getCurrentPosition() {
 	return &currentPosition;
+	//return processor::mp::getCurrentPosition();
+}
+
+std::vector<cv::Rect*>* SensorData::getFaces() {
+	return processor::vp.getFaceRects();
+}
+
+std::vector<cv::Rect*>* SensorData::getBodies() {
+	return processor::vp.getBodyRects();
 }
 
 /**

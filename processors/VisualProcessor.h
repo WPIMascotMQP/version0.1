@@ -20,6 +20,7 @@
 
 #include <tuple>
 
+#include "MotorProcessor.h"
 #include "SensorProcessor.h"
 #include "visualtracking/VisualTrackerManager.h"
 
@@ -30,9 +31,13 @@ public:
 	~VisualProcessor();
 
 	void startThread();
+	void killThread();
 	void process();
 	void display(std::vector<cv::Rect*>* objects, cv::Scalar color, cv::Mat frame);
 	void deleteVector(std::vector<cv::Rect*>* objects);
+
+	std::vector<cv::Rect*>* getFaceRects();
+	std::vector<cv::Rect*>* getBodyRects();
 
 	void changePhase();
 	std::string getMatType(cv::Mat mat);
@@ -44,10 +49,16 @@ protected:
 	cv::VideoCapture capture;
 	cv::Mat frame;
 
+	double num_loops;
+	double total_loop_time;
 private:
 	unsigned int currentPhase;
 	cv::CascadeClassifier* currentClassifier;
 	VisualTrackerManager* currentManager;
 	std::tuple<cv::CascadeClassifier*, VisualTrackerManager*> phases[2];
 };
+
+namespace processor {
+	extern VisualProcessor vp;
+}
 #endif

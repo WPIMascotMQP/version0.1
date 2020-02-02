@@ -13,8 +13,16 @@
 #ifndef SENSORDATA_H
 #define SENSORDATA_H
 
+#include "opencv2/objdetect/objdetect.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/videoio/videoio.hpp"
+
 #include <string>
 
+#include "processors/AudioProcessor.h"
+#include "processors/MotorProcessor.h"
+#include "processors/VisualProcessor.h"
 #include "kinematics/Position.h"
 
 class SensorData {
@@ -24,7 +32,10 @@ public:
 	~SensorData();
 
 	std::string getInput();
+	double getLastAudio();
 	Position* getCurrentPosition();
+	std::vector<cv::Rect*>* getFaces();
+	std::vector<cv::Rect*>* getBodies();
 
 	void setInput(std::string inp);
 	void setCurrentPosition(Position* pos);

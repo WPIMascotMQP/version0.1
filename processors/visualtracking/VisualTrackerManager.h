@@ -22,6 +22,7 @@
 #include <iostream>
 #include <vector>
 
+#include "../../kinematics/Position.h"
 #include "VisualTracker.h"
 
 class VisualTrackerManager {
@@ -29,7 +30,7 @@ public:
 	VisualTrackerManager();
 	~VisualTrackerManager();
 
-	void addRects(std::vector<cv::Rect> rects);
+	void addRects(std::vector<cv::Rect> rects, Position* position);
 	std::vector<cv::Rect*>* getRects();
 
 private:

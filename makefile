@@ -132,6 +132,9 @@ Calculator.o: $(KINEMATICS)Calculator.cpp Movement.o SensorData.o Action.o $(KIN
 	g++ $(CFLAGS) $(KINEMATICS)Calculator.cpp
 #Behaviour.o
 
+SensorData.o: SensorData.cpp AudioProcessor.o MotorProcessor.o VisualProcessor.o Position.o SensorData.h
+	g++ $(CFLAGS) SensorData.cpp
+
 AudioProcessor.o: $(PROCESSORS)AudioProcessor.cpp SensorProcessor.o $(PROCESSORS)AudioProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)AudioProcessor.cpp 
 
@@ -165,9 +168,6 @@ Status.o: Status.cpp Action.o Status.h
 
 Action.o: $(KINEMATICS)Action.cpp Position.o $(KINEMATICS)Action.h
 	g++ $(CFLAGS) $(KINEMATICS)Action.cpp
-
-SensorData.o: SensorData.cpp Position.o SensorData.h
-	g++ $(CFLAGS) SensorData.cpp
 
 Position.o: $(KINEMATICS)Position.cpp $(KINEMATICS)Position.h
 	g++ $(CFLAGS) $(KINEMATICS)Position.cpp

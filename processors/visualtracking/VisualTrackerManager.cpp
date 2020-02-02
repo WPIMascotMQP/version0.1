@@ -25,7 +25,7 @@ VisualTrackerManager::~VisualTrackerManager() {
  Adds single rects to the apporiate tracker
  Deletes old trackers
  */
-void VisualTrackerManager::addRects(std::vector<cv::Rect> rects) {
+void VisualTrackerManager::addRects(std::vector<cv::Rect> rects, Position* position) {
 	// Add a missed count to all trackers
 	std::vector<VisualTracker*>::iterator itr_tracker = trackers.begin();
 	while(itr_tracker < trackers.end()) {
@@ -44,8 +44,8 @@ void VisualTrackerManager::addRects(std::vector<cv::Rect> rects) {
 		itr_tracker = trackers.begin();
 		while(itr_tracker < trackers.end()) {
 			VisualTracker* vt = *itr_tracker;
-			if(vt->belongs(&rec)) {
-				vt->add(rec);
+			if(vt->belongs(&rec, position)) {
+				vt->add(rec, position);
 				vt->missedCount = 0;
 				found = true;
 				break;
@@ -57,7 +57,7 @@ void VisualTrackerManager::addRects(std::vector<cv::Rect> rects) {
 		if(!found) {
 			VisualTracker* tracker = new VisualTracker();
 			trackers.push_back(tracker);
-			tracker->add(rec);
+			tracker->add(rec, position);
 		}
 		itr++;
 	}

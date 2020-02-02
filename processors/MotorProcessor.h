@@ -7,12 +7,19 @@
 
 class MotorProcessor : public SensorProcessor {
 public:
-	MotorProcessor();
+	MotorProcessor(int num_motors);
+	MotorProcessor() : MotorProcessor(0){};
 	~MotorProcessor();
 
 	void startThread();
 	void process();
+
+	Position* getCurrentPosition();
 protected:
 private:
 };
+
+namespace processor {
+	extern MotorProcessor mp;
+}
 #endif

@@ -31,10 +31,6 @@ int main(int argc, char* argv[]) {
 	MoveFrontLeft mfl;
 	MoveBackDown mbd;
 
-	AudioProcessor ap;
-	MotorProcessor mp;
-	VisualProcessor vp(0);
-
 	pl.addChild(&mur);
 	pl.addChild(&mfl);
 	pl.addChild(&mbd);
@@ -58,7 +54,7 @@ int main(int argc, char* argv[]) {
 
 	//ap.startThread();
 	//mp.startThread();
-	vp.startThread();
+	processor::vp.startThread();
 
 	std::string input;
 	std::getline(std::cin, input);
@@ -72,7 +68,7 @@ int main(int argc, char* argv[]) {
 	}
 	//ap.killThread();
 	//mp.killThread();
-	vp.killThread();
+	processor::vp.killThread();
 	logger::endLog();
 }
 

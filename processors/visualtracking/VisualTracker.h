@@ -21,13 +21,15 @@
 
 #include <cmath>
 
+#include "../../kinematics/Position.h"
+
 class VisualTracker {
 public:
 	VisualTracker();
 	~VisualTracker();
 
-	bool belongs(cv::Rect* rect);
-	void add(cv::Rect rect);
+	bool belongs(cv::Rect* rect, Position* position);
+	void add(cv::Rect rect, Position* position);
 	int getMissedCount();
 
 	cv::Rect* getAverage();
@@ -36,6 +38,7 @@ public:
 
 	unsigned int missedCount;
 	std::vector<cv::Rect*> history;
+	std::vector<Position*> positions;
 	
 };
 #endif

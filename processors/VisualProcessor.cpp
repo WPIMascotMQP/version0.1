@@ -1,5 +1,9 @@
 #include "VisualProcessor.h"
 
+namespace processor {
+    VisualProcessor vp(0);
+}
+
 // Global Trackers that holds visual data
 namespace visualData {
     VisualTrackerManager face_manager;
@@ -33,6 +37,8 @@ VisualProcessor::VisualProcessor(int camera_device) {
     }
 
     kill = false;
+    total_loop_time = 0;
+    num_loops = 0;
 
     phases[0] = std::make_tuple(&face_cascade, &visualData::face_manager);
     phases[1] = std::make_tuple(&body_cascade, &visualData::body_manager);
@@ -52,6 +58,13 @@ VisualProcessor::~VisualProcessor() {
 void VisualProcessor::startThread() {
 	kill = false;
 	pthread = std::thread(&VisualProcessor::processWrapper, this);
+}
+
+void VisualProcessor::killThread() {
+    std::ostringstream strs;
+    strs << "VisualProcessor Average Loop Time: " << (total_loop_time / num_loops);
+    logger::log(strs.str()); 
+    SensorProcessor::killThread();
 }
 
 /**
@@ -75,12 +88,12 @@ void VisualProcessor::process() {
     cv::equalizeHist(frame_gray, frame_gray);
 
     cv::Size s = frame_gray.size();
-    logger::verbose("" + s.width + s.height);
+    //logger::verbose("" + s.width + s.height);
 
     // Detect obejcts
     std::vector<cv::Rect> objects;
-    currentClassifier->detectMultiScale(frame_gray, objects, 1.5);
-    currentManager->addRects(objects);
+    currentClassifier->detectMultiScale(frame_gray, objects, 2.5);
+    currentManager->addRects(objects, processor::mp.getCurrentPosition());
 
     // Get rects from trackers
     visualData::visual_lock.lock();
@@ -97,11 +110,13 @@ void VisualProcessor::process() {
     //-- Show what you got
     cv::namedWindow("Capture - Face Detection", cv::WINDOW_AUTOSIZE);
     cv::imshow("Capture - Face Detection", frame);
-    cv::waitKey(10);
+
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
-    std::ostringstream strs;
-    strs << "VisualProcessor Phase " << currentPhase << "- Elasped Time: " << elapsed_seconds.count();
+    total_loop_time += elapsed_seconds.count();
+    num_loops++;
+
+    cv::waitKey(1);
     //logger::log(strs.str());
 }
 
@@ -134,6 +149,20 @@ void VisualProcessor::deleteVector(std::vector<cv::Rect*>* objects) {
         itr = objects->erase(itr);
     }
     delete(objects);
+}
+
+std::vector<cv::Rect*>* VisualProcessor::getFaceRects() {
+    visualData::visual_lock.lock();
+    std::vector<cv::Rect*>* faces = visualData::face_manager.getRects();
+    visualData::visual_lock.unlock();
+    return faces;
+}
+
+std::vector<cv::Rect*>* VisualProcessor::getBodyRects() {
+    visualData::visual_lock.lock();
+    std::vector<cv::Rect*>* bodies = visualData::face_manager.getRects();
+    visualData::visual_lock.unlock();
+    return bodies;
 }
 
 /**
