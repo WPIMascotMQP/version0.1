@@ -2,9 +2,6 @@
 
 #include "../behaviourtree/Node.h"
 
-Node node_calculator;
-SensorData Calculator::data = node_calculator.getSensorData();
-
 /**
  CONSTRUCTOR
 */
@@ -28,7 +25,9 @@ Calculator::~Calculator() {
 std::vector<Movement*> *Calculator::generateMovements(std::vector<Action*> actions, Behaviour *beh) {
 	std::vector<Movement*> *movements = new std::vector<Movement*>();
 	std::vector<Action*>::iterator act_itr;
-	Position pos = Position(data.getCurrentPosition()->getXPosition(), data.getCurrentPosition()->getYPosition(), data.getCurrentPosition()->getZPosition());
+	Position pos = Position(data::sensorData.getCurrentPosition()->getXPosition(), 
+		data::sensorData.getCurrentPosition()->getYPosition(), 
+		data::sensorData.getCurrentPosition()->getZPosition());
 	// For each action generate a movement based on the last one
 	for (act_itr = actions.begin(); act_itr < actions.end(); act_itr++) {
 		Action* action = *act_itr;

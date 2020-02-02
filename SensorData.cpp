@@ -1,7 +1,8 @@
 #include "SensorData.h"
-std::string SensorData::input = "";
-Position data_pos;
-Position SensorData::currentPosition = data_pos;
+
+namespace data {
+	SensorData sensorData(0.0, 0.0, 0.0);
+}
 
 /**
  CONSTRUCTOR
@@ -13,6 +14,8 @@ SensorData::SensorData(double cX, double cY, double cZ) {
 	currentPosition.setXPosition(cX);
 	currentPosition.setYPosition(cY);
 	currentPosition.setZPosition(cZ);
+	touched = false;
+	input = "";
 }
 
 /**
@@ -43,6 +46,10 @@ Position* SensorData::getCurrentPosition() {
 	//return processor::mp::getCurrentPosition();
 }
 
+bool SensorData::getTouched() {
+	return touched;
+}
+
 std::vector<cv::Rect*>* SensorData::getFaces() {
 	return processor::vp.getFaceRects();
 }
@@ -57,6 +64,10 @@ std::vector<cv::Rect*>* SensorData::getBodies() {
 */
 void SensorData::setInput(std::string inp) {
 	input = inp;
+}
+
+void SensorData::setTouched(bool touch) {
+	touched = touch;
 }
 
 /**

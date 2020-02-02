@@ -30,7 +30,6 @@ public:
 	Status* execute();
 protected:
 	std::vector<std::vector<Movement*>*> movementsList;
-	static SensorData data;
 	Status status;
 
 };

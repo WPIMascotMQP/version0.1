@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 
+#include "../SensorData.h"
 #include "../Status.h"
 
 class Calculator;
@@ -36,11 +37,9 @@ public:
 
 	Calculator getCalculator();
 	Controller getController();
-	SensorData getSensorData();
 
 	static Controller controller;
 	static Calculator calculator;
-	static SensorData data;
 
 protected:
 	Status status;

@@ -9,5 +9,5 @@ SUtilityDec::~SUtilityDec() {
 }
 
 double SUtilityDec::getPriority() {
-	return getSensorData().getInput().find("s") != std::string::npos ? 1.0 : 0.1;
+	return data::sensorData.getInput().find("s") != std::string::npos ? 1.0 : 0.1;
 }

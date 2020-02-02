@@ -6,8 +6,6 @@
 
 Calculator cal_node;
 Calculator Node::calculator = cal_node;
-SensorData dat_node;
-SensorData Node::data = dat_node;
 Controller con_node;
 Controller Node::controller = con_node;
 
@@ -72,12 +70,4 @@ Calculator Node::getCalculator() {
 */
 Controller Node::getController() {
 	return controller;
-}
-
-/**
- Get the static sensorData
- @return The sensorData
-*/
-SensorData Node::getSensorData() {
-	return data;
 }

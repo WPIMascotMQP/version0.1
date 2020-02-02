@@ -4,9 +4,6 @@
 #include "../behaviourtree/Node.h"
 #include "../kinematics/Position.h"
 
-Node node_controller;
-SensorData Controller::data = node_controller.getSensorData();
-
 std::vector<Behaviour*> currentBehaviours;
 
 /**
@@ -69,7 +66,7 @@ Status* Controller::execute() {
 		cur_pos->setYPosition(cur_pos->getYPosition() + moveY);
 		cur_pos->setZPosition(cur_pos->getZPosition() + moveZ);
 
-		Position *act_pos = data.getCurrentPosition();
+		Position *act_pos = data::sensorData.getCurrentPosition();
 		act_pos->setXPosition(act_pos->getXPosition() + moveX);
 		act_pos->setYPosition(act_pos->getYPosition() + moveY);
 		act_pos->setZPosition(act_pos->getZPosition() + moveZ);

@@ -14,6 +14,7 @@
 #include "processors/AudioProcessor.h"
 #include "processors/MotorProcessor.h"
 #include "processors/VisualProcessor.h"
+#include "SensorData.h"
 
 extern std::vector<Behaviour*> currentBehaviours;
 
@@ -50,7 +51,6 @@ int main(int argc, char* argv[]) {
 
 	currentBehaviours.push_back(&bt);
 	Controller* controller = &Node::controller;
-	SensorData* data = &Node::data;
 
 	//ap.startThread();
 	//mp.startThread();
@@ -58,13 +58,13 @@ int main(int argc, char* argv[]) {
 
 	std::string input;
 	std::getline(std::cin, input);
-	data->setInput(input);
+	data::sensorData.setInput(input);
 	while (input != "x") {
 		executeBehaviours(input);
 		controller->execute();
 
 		std::getline(std::cin, input);
-		data->setInput(input);
+		data::sensorData.setInput(input);
 	}
 	//ap.killThread();
 	//mp.killThread();

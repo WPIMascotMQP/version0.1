@@ -29,6 +29,6 @@ public:
 	std::vector<Movement*> *generateMovements(std::vector<Action*> actions, Behaviour *beh);
 
 protected:
-	static SensorData data;
+
 };
 #endif

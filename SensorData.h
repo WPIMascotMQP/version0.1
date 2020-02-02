@@ -34,15 +34,22 @@ public:
 	std::string getInput();
 	double getLastAudio();
 	Position* getCurrentPosition();
+	bool getTouched();
 	std::vector<cv::Rect*>* getFaces();
 	std::vector<cv::Rect*>* getBodies();
 
 	void setInput(std::string inp);
+	void setTouched(bool touch);
 	void setCurrentPosition(Position* pos);
 
 protected:
-	static std::string input;
-	static Position currentPosition;
+	bool touched;
+	std::string input;
+	Position currentPosition;
 
 };
+
+namespace data {
+	extern SensorData sensorData;
+}
 #endif
