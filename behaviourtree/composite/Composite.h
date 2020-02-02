@@ -30,6 +30,10 @@ public:
 	void removeChild(Node *chi);
 	void clearChildren();
 
+	friend Composite& operator<< (Composite& cp, Node& node) {
+		cp.addChild(&node);
+		return cp;
+	}
 protected:
 	std::vector<Node*> children;
 

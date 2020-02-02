@@ -6,6 +6,8 @@ namespace processor {
 
 // Global Trackers that holds visual data
 namespace visualData {
+    int capture_width = 640; // 640
+    int capture_height = 480; // 480
     VisualTrackerManager face_manager;
     VisualTrackerManager body_manager;
     std::mutex visual_lock;
@@ -35,6 +37,9 @@ VisualProcessor::VisualProcessor(int camera_device) {
         std::cout << "ERROR: Unable to get Video Capture";
         return;
     }
+
+    capture.set(CV_CAP_PROP_FRAME_WIDTH, visualData::capture_width);
+    capture.set(CV_CAP_PROP_FRAME_HEIGHT, visualData::capture_height);
 
     if(!capture.read(frame)) {
         std::cout << "ERROR: Unable to Capture Frame";

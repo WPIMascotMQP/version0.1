@@ -27,6 +27,11 @@ public:
 	Status* executeP(Status* stat);
 
 	void setRoot(Node *nod);
+
+	friend BehaviourTree& operator<< (BehaviourTree& bt, Node& node) {
+		bt.setRoot(&node);
+		return bt;
+	}
 private:
 	Node *root;
 };

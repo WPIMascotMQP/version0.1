@@ -9,5 +9,5 @@ SeekingMotionUtilityDec::~SeekingMotionUtilityDec() {
 }
 
 double SeekingMotionUtilityDec::getPriority() {
-	return 0.2;
+	return 0.3;
 }

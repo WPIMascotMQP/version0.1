@@ -25,6 +25,10 @@ public:
 	Status* executeP(Status* stat);
 	void setChild(Node *chi);
 
+	friend Decorator& operator<< (Decorator& dr, Node& node) {
+		dr.setChild(&node);
+		return dr;
+	}
 protected:
 	Node* child;
 };
