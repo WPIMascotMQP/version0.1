@@ -45,11 +45,39 @@ MasterControlLoop: BehaviourTree.o \
 	MoveBackDown.o \
 	MoveFrontLeft.o \
 	MoveUpRight.o \
+	PhysicalMoveHead.o \
+	InteractionMoveToHead.o \
+	InteractionMoveToHand.o \
+	SeekingMoveSearch.o \
+	SeekingMoveToBody.o \
+	Move.o \
 	\
 	MasterControlLoop.h
 	g++ -g -Wall --std=c++11 -o MCL MasterControlLoop.cpp *.o -lm $(LIBS)
 
 ##### BEHAVIOUR CLASSES #####
+PhysicalMoveHead.o: $(BEHAVIOURS)PhysicalMoveHead.cpp Behaviour.o $(BEHAVIOURS)PhysicalMoveHead.h
+	g++ $(CFLAGS) $(BEHAVIOURS)PhysicalMoveHead.cpp
+
+
+InteractionMoveToHead.o: $(BEHAVIOURS)InteractionMoveToHead.cpp Behaviour.o $(BEHAVIOURS)InteractionMoveToHead.h
+	g++ $(CFLAGS) $(BEHAVIOURS)InteractionMoveToHead.cpp
+
+InteractionMoveToHand.o: $(BEHAVIOURS)InteractionMoveToHand.cpp Behaviour.o $(BEHAVIOURS)InteractionMoveToHand.h
+	g++ $(CFLAGS) $(BEHAVIOURS)InteractionMoveToHand.cpp
+
+
+SeekingMoveSearch.o: $(BEHAVIOURS)SeekingMoveSearch.cpp Behaviour.o $(BEHAVIOURS)SeekingMoveSearch.h
+	g++ $(CFLAGS) $(BEHAVIOURS)SeekingMoveSearch.cpp
+
+SeekingMoveToBody.o: $(BEHAVIOURS)SeekingMoveToBody.cpp Behaviour.o $(BEHAVIOURS)SeekingMoveToBody.h
+	g++ $(CFLAGS) $(BEHAVIOURS)SeekingMoveToBody.cpp
+
+
+Move.o: $(BEHAVIOURS)Move.cpp Behaviour.o $(BEHAVIOURS)Move.h
+	g++ $(CFLAGS) $(BEHAVIOURS)Move.cpp
+
+
 MoveBackDown.o: $(BEHAVIOURS)MoveBackDown.cpp Behaviour.o $(BEHAVIOURS)MoveBackDown.h
 	g++ $(CFLAGS) $(BEHAVIOURS)MoveBackDown.cpp
 

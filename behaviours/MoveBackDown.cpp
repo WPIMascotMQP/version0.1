@@ -1,9 +1,5 @@
 #include "MoveBackDown.h"
 
-#include "../kinematics/Calculator.h"
-#include "../communication/Controller.h"
-#include "../behaviourtree/Node.h"
-
 /**
  CONSTRUCTOR
  Creates all of the actions and
@@ -59,10 +55,4 @@ Status* MoveBackDown::executeP(Status* stat) {
 	status = *stat;
 	verbose("Call MoveBackDown Parent");
 	return parent->executeP(stat);
-}
-
-
-std::vector<Movement*> MoveBackDown::generateMovements() {
-	std::vector<Movement*> movements;
-	return movements;
 }

@@ -15,15 +15,10 @@
 #ifndef BEHAVIOUR_H
 #define BEHAVIOUR_H
 
-#include <string>
-#include <vector>
-
 #include "Node.h"
 #include "../kinematics/Action.h"
 #include "../kinematics/Calculator.h"
 #include "../communication/Controller.h"
-
-class Movement;
 
 class Behaviour : public Node {
 public:
@@ -33,7 +28,6 @@ public:
 	Status* executeC();
 	Status* executeP(Status* stat);
 	void end();
-	std::vector<Movement*> generateMovements();
 
 protected:
 	std::vector<Action*> actions;

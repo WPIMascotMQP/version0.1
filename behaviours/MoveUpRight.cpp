@@ -51,7 +51,3 @@ Status* MoveUpRight::executeP(Status* stat) {
 	return parent->executeP(stat);
 }
 
-std::vector<Movement*> MoveUpRight::generateMovements() {
-	std::vector<Movement*> movements;
-	return movements;
-}

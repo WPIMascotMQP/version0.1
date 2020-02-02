@@ -1,9 +1,5 @@
 #include "MoveFrontLeft.h"
 
-#include "../kinematics/Calculator.h"
-#include "../communication/Controller.h"
-#include "../behaviourtree/Node.h"
-
 /**
  CONSTRUCTOR
  Creates all of the actions and
@@ -55,9 +51,4 @@ Status* MoveFrontLeft::executeP(Status* stat) {
 	status = *stat;
 	verbose("Call MoveFrontLeft Parent");
 	return parent->executeP(stat);
-}
-
-std::vector<Movement*> MoveFrontLeft::generateMovements() {
-	std::vector<Movement*> movements;
-	return movements;
 }

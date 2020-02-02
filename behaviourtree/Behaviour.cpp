@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-
 #include "Behaviour.h"
-#include "../kinematics/Movement.h"
 
 /**
  CONSTUCTOR
@@ -36,19 +30,6 @@ Status* Behaviour::executeC() {
  @return the status
 */
 Status* Behaviour::executeP(Status* stat) {
-	if (status.getState() != running) {
-		verbose("WARNING: Behaviour Already Running.");
-		return &status;
-	}
 	status = *stat;
 	return parent->executeP(stat);
-}
-
-/**
- Generates the movements
- @return The movements
-*/
-std::vector<Movement*> Behaviour::generateMovements() {
-	std::vector<Movement*> movementList;
-	return movementList;
 }
