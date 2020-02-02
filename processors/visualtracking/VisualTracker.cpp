@@ -77,6 +77,9 @@ void VisualTracker::add(cv::Rect rect, Position* position) {
  @return The average rect for this object
  */
 cv::Rect* VisualTracker::getAverage() {
+	int sum_weight = 0;
+	int current_weight = 1;
+
 	int sum_x = 0;
 	int sum_y = 0;
 
@@ -86,17 +89,19 @@ cv::Rect* VisualTracker::getAverage() {
 	std::vector<cv::Rect*>::iterator itr = history.begin();
 	while(itr < history.end()) {
 		cv::Rect_<int>* rec = *itr;
-		sum_x += rec->x;
-		sum_y += rec->y;
-		sum_width += rec->width;
-		sum_height += rec->height;
+		sum_x += rec->x * current_weight;
+		sum_y += rec->y * current_weight;
+		sum_width += rec->width * current_weight;
+		sum_height += rec->height * current_weight;
+		sum_weight += current_weight;
+		current_weight++;
 		itr++;
 	}
 
-	cv::Rect* rect = new cv::Rect((int) sum_x/history.size() + 0.5,
-								(int) sum_y/history.size() + 0.5,
-								(int) sum_width/history.size() + 0.5,
-								(int) sum_height/history.size() + 0.5);
+	cv::Rect* rect = new cv::Rect((int) sum_x/sum_weight + 0.5,
+								(int) sum_y/sum_weight + 0.5,
+								(int) sum_width/sum_weight + 0.5,
+								(int) sum_height/sum_weight + 0.5);
 	return rect;
 }
 

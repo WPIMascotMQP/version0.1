@@ -33,25 +33,33 @@ public:
 	void startThread();
 	void killThread();
 	void process();
-	void display(std::vector<cv::Rect*>* objects, cv::Scalar color, cv::Mat frame);
-	void deleteVector(std::vector<cv::Rect*>* objects);
 
 	std::vector<cv::Rect*>* getFaceRects();
 	std::vector<cv::Rect*>* getBodyRects();
 
 	void changePhase();
-	std::string getMatType(cv::Mat mat);
-	std::string getMatDepth(cv::Mat mat);
+	void setImageReduction(double reduction);
+	
+	int getVideoHeight();
+	int getVideoWidth();
 protected:
 	cv::CascadeClassifier face_cascade;
 	cv::CascadeClassifier body_cascade;
 
 	cv::VideoCapture capture;
 	cv::Mat frame;
+	double image_reduction;
 
 	double num_loops;
 	double total_loop_time;
+
 private:
+	void display(std::vector<cv::Rect*>* objects, cv::Scalar color, cv::Mat frame);
+	void deleteVector(std::vector<cv::Rect*>* objects);
+
+	std::string getMatType(cv::Mat mat);
+	std::string getMatDepth(cv::Mat mat);
+
 	unsigned int currentPhase;
 	cv::CascadeClassifier* currentClassifier;
 	VisualTrackerManager* currentManager;

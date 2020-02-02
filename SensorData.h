@@ -42,6 +42,8 @@ public:
 	void setTouched(bool touch);
 	void setCurrentPosition(Position* pos);
 
+	int getVisualWidth();
+	int getVisualHeight();
 protected:
 	bool touched;
 	std::string input;

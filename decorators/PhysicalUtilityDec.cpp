@@ -9,5 +9,5 @@ PhysicalUtilityDec::~PhysicalUtilityDec() {
 }
 
 double PhysicalUtilityDec::getPriority() {
-	return 0.0;
+	return data::sensorData.getTouched() ? 1.0 : 0.0;
 }

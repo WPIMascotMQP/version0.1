@@ -58,6 +58,14 @@ std::vector<cv::Rect*>* SensorData::getBodies() {
 	return processor::vp.getBodyRects();
 }
 
+int SensorData::getVisualWidth() {
+	return processor::vp.getVideoWidth();
+}
+
+int SensorData::getVisualHeight() {
+	return processor::vp.getVideoHeight();
+}
+
 /**
  Sets the string input
  @param inp The string input

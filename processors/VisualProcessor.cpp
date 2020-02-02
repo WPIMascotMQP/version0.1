@@ -36,7 +36,12 @@ VisualProcessor::VisualProcessor(int camera_device) {
         return;
     }
 
+    if(!capture.read(frame)) {
+        std::cout << "ERROR: Unable to Capture Frame";
+    }
+
     kill = false;
+    image_reduction = 1.5;
     total_loop_time = 0;
     num_loops = 0;
 
@@ -58,6 +63,10 @@ VisualProcessor::~VisualProcessor() {
 void VisualProcessor::startThread() {
 	kill = false;
 	pthread = std::thread(&VisualProcessor::processWrapper, this);
+
+    std::ostringstream strs;
+    strs << "VideoCapture Width: " << frame.cols << " Height: " << frame.rows;
+    logger::log(strs.str());
 }
 
 void VisualProcessor::killThread() {
@@ -87,12 +96,9 @@ void VisualProcessor::process() {
     cv::cvtColor(frame, frame_gray, CV_BGR2GRAY);
     cv::equalizeHist(frame_gray, frame_gray);
 
-    cv::Size s = frame_gray.size();
-    //logger::verbose("" + s.width + s.height);
-
     // Detect obejcts
     std::vector<cv::Rect> objects;
-    currentClassifier->detectMultiScale(frame_gray, objects, 2.5);
+    currentClassifier->detectMultiScale(frame_gray, objects, image_reduction);
     currentManager->addRects(objects, processor::mp.getCurrentPosition());
 
     // Get rects from trackers
@@ -165,6 +171,14 @@ std::vector<cv::Rect*>* VisualProcessor::getBodyRects() {
     return bodies;
 }
 
+int VisualProcessor::getVideoWidth() {
+    return frame.cols;
+}
+
+int VisualProcessor::getVideoHeight() {
+    return frame.rows;
+}
+
 /**
  Changes the current phase of the processor to the next
  */
@@ -174,6 +188,12 @@ void VisualProcessor::changePhase() {
         currentPhase = 0;
     }
     std::tie(currentClassifier, currentManager) = phases[currentPhase];
+}
+
+void VisualProcessor::setImageReduction(double reduction) {
+    if(reduction > 1.0) {
+        image_reduction = reduction;
+    }
 }
 
 /**
