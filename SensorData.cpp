@@ -2,6 +2,8 @@
 
 namespace data {
 	SensorData sensorData(0.0, 0.0, 0.0);
+	int centerVisualWidth = 640 / 2;
+	int centerVisualHeight = 480 / 2;
 }
 
 /**
@@ -22,7 +24,7 @@ SensorData::SensorData(double cX, double cY, double cZ) {
  DECONSTRUCTOR
 */
 SensorData::~SensorData() {
-	
+
 }
 
 /**

@@ -12,13 +12,15 @@ double InteractionHeadUtilityDec::getPriority() {
 	int visual_width = data::sensorData.getVisualWidth();
 	int visual_height = data::sensorData.getVisualHeight();
 	int mid_x = (int) visual_width / 2 + 0.5;
-	int mid_y = (int) visual_height / 2 + 0.5;	
+	int mid_y = (int) visual_height / 2 + 0.5;
 
+	// Get faces that currently in vision
 	std::vector<cv::Rect*>* faces = data::sensorData.getFaces();
 	if(faces->size() == 0) {
 		return 0.0;
 	}
 
+	// Get minimum distance from head to center of vision
 	double min_distance = distance(visual_height, visual_width, 0, 0);
 	std::vector<cv::Rect*>::iterator itr = faces->begin();
 	while(itr < faces->end()) {
@@ -31,7 +33,16 @@ double InteractionHeadUtilityDec::getPriority() {
 		itr = faces->erase(itr);
 	}
 	delete(faces);
-	return min_distance / std::min(visual_height, visual_width);
+
+	// Priority is minimum distance to size of vision
+	double priority = min_distance / std::min(visual_height, visual_width);
+
+	std::ostringstream strs;
+	strs << "InteractionHeadUtilityDec Priority: " << priority
+		<< " - Ratio of Distance of Closest Face To Center Of Vision";
+	logger::log(strs.str());
+
+	return priority;
 }
 
 double InteractionHeadUtilityDec::distance(int x1, int y1, int x2, int y2) {

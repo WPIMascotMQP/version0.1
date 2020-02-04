@@ -65,6 +65,8 @@ int main(int argc, char* argv[]) {
 						Move move_nk_up;
 						Move move_nk_dwn;
 						Move move_nk_cen;
+	logger::log("Behaviour Tree Objects Built");
+
 	bt << ut_t1;
 		ut_t1 << pud << iud << sud;
 			pud << physical_sq;
@@ -80,7 +82,8 @@ int main(int argc, char* argv[]) {
 					body_sud << move_to_body;
 					motion_sud << seeking_motion_sq;
 						seeking_ut << move_nk_up << move_hd_up << move_hd_cen << move_nk_dwn << move_nk_cen;
-					
+	logger::log("Behaviour Tree Objects Linked");
+
 	Sequence sq;
 	Parallel pl;
 	Utility ut;
@@ -112,6 +115,7 @@ int main(int argc, char* argv[]) {
 	//ap.startThread();
 	//mp.startThread();
 	processor::vp.startThread();
+	logger::log("VisualProcessor Thread Started");
 
 	std::string input;
 	std::getline(std::cin, input);
@@ -126,6 +130,7 @@ int main(int argc, char* argv[]) {
 	//ap.killThread();
 	//mp.killThread();
 	processor::vp.killThread();
+	logger::log("VisualProcessor Thread Killed");
 	logger::endLog();
 }
 
@@ -133,7 +138,7 @@ void executeBehaviours(std::string input) {
 	std::vector<Behaviour*>::iterator itr;
 	for (itr = currentBehaviours.begin(); itr < currentBehaviours.end(); itr++) {
 		Behaviour* behaviour = *itr;
-		Status* result = input.find("f") == std::string::npos ? 
+		Status* result = input.find("f") == std::string::npos ?
 			behaviour->executeP(Status().setSuccess()) : behaviour->executeP(Status().setFailure());
 		currentBehaviours.erase(itr);
 	}

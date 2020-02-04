@@ -6,13 +6,13 @@
 class SerialProcessor : public SensorProcessor{
 public:
 	SerialProcessor(int num_serials);
-	SerialProcessor() Serial(0) {};
+	SerialProcessor() : SerialProcessor(0) {};
 	~SerialProcessor();
 
 	void startThread();
 	void process();
 protected:
-private:	
+private:
 };
 
 namespace serial {

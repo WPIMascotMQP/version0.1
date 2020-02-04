@@ -53,5 +53,7 @@ protected:
 
 namespace data {
 	extern SensorData sensorData;
+	extern int centerVisualWidth;
+	extern int centerVisualHeight;
 }
 #endif

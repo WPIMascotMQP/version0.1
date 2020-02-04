@@ -47,11 +47,11 @@ MasterControlLoop: BehaviourTree.o \
 	MoveFrontLeft.o \
 	MoveUpRight.o \
 	PhysicalMoveHead.o \
-	InteractionMoveToHead.o \
 	InteractionMoveToHand.o \
+	InteractionMoveToHead.o \
+	Move.o \
 	SeekingMoveSearch.o \
 	SeekingMoveToBody.o \
-	Move.o \
 	\
 	MasterControlLoop.h
 	g++ -g -Wall --std=c++11 -o MCL MasterControlLoop.cpp *.o -lm $(LIBS)
@@ -60,24 +60,20 @@ MasterControlLoop: BehaviourTree.o \
 PhysicalMoveHead.o: $(BEHAVIOURS)PhysicalMoveHead.cpp Behaviour.o $(BEHAVIOURS)PhysicalMoveHead.h
 	g++ $(CFLAGS) $(BEHAVIOURS)PhysicalMoveHead.cpp
 
+InteractionMoveToHand.o: $(BEHAVIOURS)InteractionMoveToHand.cpp Behaviour.o $(BEHAVIOURS)InteractionMoveToHand.h
+	g++ $(CFLAGS) $(BEHAVIOURS)InteractionMoveToHand.cpp
 
 InteractionMoveToHead.o: $(BEHAVIOURS)InteractionMoveToHead.cpp Behaviour.o $(BEHAVIOURS)InteractionMoveToHead.h
 	g++ $(CFLAGS) $(BEHAVIOURS)InteractionMoveToHead.cpp
 
-InteractionMoveToHand.o: $(BEHAVIOURS)InteractionMoveToHand.cpp Behaviour.o $(BEHAVIOURS)InteractionMoveToHand.h
-	g++ $(CFLAGS) $(BEHAVIOURS)InteractionMoveToHand.cpp
-
+Move.o: $(BEHAVIOURS)Move.cpp Behaviour.o $(BEHAVIOURS)Move.h
+	g++ $(CFLAGS) $(BEHAVIOURS)Move.cpp
 
 SeekingMoveSearch.o: $(BEHAVIOURS)SeekingMoveSearch.cpp Behaviour.o $(BEHAVIOURS)SeekingMoveSearch.h
 	g++ $(CFLAGS) $(BEHAVIOURS)SeekingMoveSearch.cpp
 
 SeekingMoveToBody.o: $(BEHAVIOURS)SeekingMoveToBody.cpp Behaviour.o $(BEHAVIOURS)SeekingMoveToBody.h
 	g++ $(CFLAGS) $(BEHAVIOURS)SeekingMoveToBody.cpp
-
-
-Move.o: $(BEHAVIOURS)Move.cpp Behaviour.o $(BEHAVIOURS)Move.h
-	g++ $(CFLAGS) $(BEHAVIOURS)Move.cpp
-
 
 MoveBackDown.o: $(BEHAVIOURS)MoveBackDown.cpp Behaviour.o $(BEHAVIOURS)MoveBackDown.h
 	g++ $(CFLAGS) $(BEHAVIOURS)MoveBackDown.cpp
@@ -154,7 +150,7 @@ Node.o: $(BEHAVIOURTREE)Node.cpp Calculator.o Controller.o SensorData.o Status.o
 	g++ $(CFLAGS) $(BEHAVIOURTREE)Node.cpp
 
 ##### COMMUNICATION CLASSES #####
-SerialProcessor.o: $(COMMUNICATION)SerialProcessor.cpp SerialProcessor.o $(COMMUNICATION)SerialProcessor.h
+SerialProcessor.o: $(COMMUNICATION)SerialProcessor.cpp SensorProcessor.o $(COMMUNICATION)SerialProcessor.h
 	g++ $(CFLAGS) $(COMMUNICATION)SerialProcessor.cpp
 
 ##### PROCESSING CLASSES #####
@@ -169,7 +165,7 @@ SensorData.o: SensorData.cpp AudioProcessor.o MotorProcessor.o VisualProcessor.o
 	g++ $(CFLAGS) SensorData.cpp
 
 AudioProcessor.o: $(PROCESSORS)AudioProcessor.cpp SensorProcessor.o $(PROCESSORS)AudioProcessor.h
-	g++ $(CFLAGS) $(PROCESSORS)AudioProcessor.cpp 
+	g++ $(CFLAGS) $(PROCESSORS)AudioProcessor.cpp
 
 MotorProcessor.o: $(PROCESSORS)MotorProcessor.cpp SensorProcessor.o MotorStatus.o $(PROCESSORS)MotorProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)MotorProcessor.cpp
@@ -178,7 +174,7 @@ VisualProcessor.o: $(PROCESSORS)VisualProcessor.cpp SensorProcessor.o VisualTrac
 	g++ $(CFLAGS) $(PROCESSORS)VisualProcessor.cpp $(LIBS)
 
 SensorProcessor.o: $(PROCESSORS)SensorProcessor.cpp $(PROCESSORS)SensorProcessor.h
-	g++ $(CFLAGS) $(PROCESSORS)SensorProcessor.cpp
+	g++ $(CFLAGS) $(PROCESSORS)SensorProcessor.cpp $(LIBS)
 
 ##### MOTOR STATUS CLASSES #####
 MotorStatus.o: $(MOTORSTATUS)MotorStatus.cpp $(MOTORSTATUS)MotorStatus.h
