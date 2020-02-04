@@ -28,6 +28,7 @@ MasterControlLoop: BehaviourTree.o \
 	\
 	AudioProcessor.o \
 	MotorProcessor.o \
+	SerialProcessor.o \
 	VisualProcessor.o \
 	\
 	PUtilityDec.o \
@@ -151,6 +152,10 @@ Behaviour.o: $(BEHAVIOURTREE)Behaviour.cpp Node.o Action.o $(BEHAVIOURTREE)Behav
 
 Node.o: $(BEHAVIOURTREE)Node.cpp Calculator.o Controller.o SensorData.o Status.o $(BEHAVIOURTREE)Node.h
 	g++ $(CFLAGS) $(BEHAVIOURTREE)Node.cpp
+
+##### COMMUNICATION CLASSES #####
+SerialProcessor.o: $(COMMUNICATION)SerialProcessor.cpp SerialProcessor.o $(COMMUNICATION)SerialProcessor.h
+	g++ $(CFLAGS) $(COMMUNICATION)SerialProcessor.cpp
 
 ##### PROCESSING CLASSES #####
 Controller.o: $(COMMUNICATION)Controller.cpp Movement.o Position.o SensorData.o $(COMMUNICATION)Controller.h

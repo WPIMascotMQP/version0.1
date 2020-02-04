@@ -5,7 +5,8 @@ namespace motorstatus {
 }
 
 MotorStatus::MotorStatus() {
-
+	minimum = 0.0;
+	maximum = 0.0;
 }
 
 MotorStatus::~MotorStatus() {

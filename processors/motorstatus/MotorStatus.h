@@ -15,6 +15,9 @@ protected:
 	std::vector<double> current_history;
 	std::vector<double> temperature_history;
 	std::vector<double> position_history;
+
+	double minimum;
+	double maximum;
 private:
 
 };
