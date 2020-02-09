@@ -1,6 +1,6 @@
 CFLAGS = -c -g -Wall --std=c++11 -lstdc++fs
 OPENCV = `pkg-config opencv --cflags --libs`
-LIBS = $(OPENCV) -pthread
+LIBS = $(OPENCV) -pthread #-lwiringPi
 
 BEHAVIOURS = behaviours/
 BEHAVIOURTREE = behaviourtree/
@@ -150,8 +150,11 @@ Node.o: $(BEHAVIOURTREE)Node.cpp Calculator.o Controller.o SensorData.o Status.o
 	g++ $(CFLAGS) $(BEHAVIOURTREE)Node.cpp
 
 ##### COMMUNICATION CLASSES #####
-SerialProcessor.o: $(COMMUNICATION)SerialProcessor.cpp SensorProcessor.o $(COMMUNICATION)SerialProcessor.h
+SerialProcessor.o: $(COMMUNICATION)SerialProcessor.cpp SensorProcessor.o SpiSlave.o $(COMMUNICATION)SerialProcessor.h
 	g++ $(CFLAGS) $(COMMUNICATION)SerialProcessor.cpp
+
+SpiSlave.o: $(COMMUNICATION)SpiSlave.cpp $(COMMUNICATION)SpiSlave.h
+	g++ $(CFLAGS) $(COMMUNICATION)SpiSlave.cpp $(LIBS)
 
 ##### PROCESSING CLASSES #####
 Controller.o: $(COMMUNICATION)Controller.cpp Movement.o Position.o SensorData.o $(COMMUNICATION)Controller.h
@@ -159,7 +162,6 @@ Controller.o: $(COMMUNICATION)Controller.cpp Movement.o Position.o SensorData.o 
 
 Calculator.o: $(KINEMATICS)Calculator.cpp Movement.o SensorData.o Action.o $(KINEMATICS)Calculator.h
 	g++ $(CFLAGS) $(KINEMATICS)Calculator.cpp
-#Behaviour.o
 
 SensorData.o: SensorData.cpp AudioProcessor.o MotorProcessor.o VisualProcessor.o Position.o SensorData.h
 	g++ $(CFLAGS) SensorData.cpp
@@ -176,11 +178,11 @@ VisualProcessor.o: $(PROCESSORS)VisualProcessor.cpp SensorProcessor.o VisualTrac
 SensorProcessor.o: $(PROCESSORS)SensorProcessor.cpp $(PROCESSORS)SensorProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)SensorProcessor.cpp $(LIBS)
 
-##### MOTOR STATUS CLASSES #####
+    # MOTOR STATUS CLASSES #
 MotorStatus.o: $(MOTORSTATUS)MotorStatus.cpp $(MOTORSTATUS)MotorStatus.h
 	g++ $(CFLAGS) $(MOTORSTATUS)MotorStatus.cpp
 
-##### VISUAL TRACKER CLASSES #####
+    # VISUAL TRACKER CLASSES #
 VisualTrackerManager.o: $(TRACKERS)VisualTrackerManager.cpp VisualTracker.o $(TRACKERS)VisualTrackerManager.h
 	g++ $(CFLAGS) $(TRACKERS)VisualTrackerManager.cpp $(LIBS)
 
@@ -190,7 +192,6 @@ VisualTracker.o: $(TRACKERS)VisualTracker.cpp $(TRACKERS)VisualTracker.h
 ##### DATA CLASSES #####
 Movement.o: $(KINEMATICS)Movement.cpp Position.o $(KINEMATICS)Movement.h
 	g++ $(CFLAGS) $(KINEMATICS)Movement.cpp
-#Behaviour.o
 
 Status.o: Status.cpp Action.o Status.h
 	g++ $(CFLAGS) Status.cpp

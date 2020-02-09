@@ -77,7 +77,7 @@ void VisualProcessor::startThread() {
 void VisualProcessor::killThread() {
     std::ostringstream strs;
     strs << "VisualProcessor Average Loop Time: " << (total_loop_time / num_loops);
-    logger::log(strs.str()); 
+    logger::log(strs.str());
     SensorProcessor::killThread();
 }
 
@@ -103,7 +103,7 @@ void VisualProcessor::process() {
 
     // Detect obejcts
     std::vector<cv::Rect> objects;
-    currentClassifier->detectMultiScale(frame_gray, objects, image_reduction);
+    currentClassifier->detectMultiScale(frame_gray, objects);
     currentManager->addRects(objects, processor::mp.getCurrentPosition());
 
     // Get rects from trackers
@@ -142,7 +142,7 @@ void VisualProcessor::display(std::vector<cv::Rect*>* objects, cv::Scalar color,
     while(itr < objects->end()) {
         cv::Rect_<int>* rect = *itr;
         cv::Point center(rect->x + rect->width/2, rect->y + rect->height/2);
-        cv::ellipse(frame, center, cv::Size(rect->width/2, rect->height/2), 
+        cv::ellipse(frame, center, cv::Size(rect->width/2, rect->height/2),
             0, 0, 360, color, 4);
         itr++;
     }

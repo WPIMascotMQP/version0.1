@@ -37,6 +37,7 @@ extern std::vector<Behaviour*> currentBehaviours;
 
 int main(int argc, char* argv[]) {
 	logger::startLog();
+	// Create Behaviour Tree Objects
 	BehaviourTree bt;
 	Utility ut_t1;
 		PhysicalUtilityDec pud;
@@ -67,6 +68,7 @@ int main(int argc, char* argv[]) {
 						Move move_nk_cen;
 	logger::log("Behaviour Tree Objects Built");
 
+	// Link Behaviour Tree
 	bt << ut_t1;
 		ut_t1 << pud << iud << sud;
 			pud << physical_sq;

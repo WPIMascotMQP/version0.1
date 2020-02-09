@@ -1,7 +1,10 @@
 #ifndef SERIALPROCESSOR_H
 #define SERIALPROCESSOR_H
 
+#include <cstddef>
+
 #include "../processors/SensorProcessor.h"
+#include "SpiSlave.h"
 
 class SerialProcessor : public SensorProcessor{
 public:
