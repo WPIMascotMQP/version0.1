@@ -18,11 +18,8 @@
 #include <string>
 #include <vector>
 
-#include "../SensorData.h"
 #include "../Status.h"
 
-class Calculator;
-class Controller;
 class SensorData;
 
 class Node {
@@ -34,12 +31,6 @@ public:
 	virtual Status* executeP(Status* stat);
 	void setParent(Node *par);
 	void verbose(std::string log);
-
-	Calculator getCalculator();
-	Controller getController();
-
-	static Controller controller;
-	static Calculator calculator;
 
 protected:
 	Status status;

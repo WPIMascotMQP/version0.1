@@ -28,8 +28,6 @@
 #include "decorators/SeekingBodyUtilityDec.h"
 #include "decorators/SeekingMotionUtilityDec.h"
 
-extern std::vector<Behaviour*> currentBehaviours;
-
 int main(int argc, char* argv[]) {
 	logger::startLog();
 	// Create Behaviour Tree Objects
@@ -80,9 +78,7 @@ int main(int argc, char* argv[]) {
 					motion_sud << seeking_motion_sq;
 						seeking_ut << move_nk_up << move_hd_up << move_hd_cen << move_nk_dwn << move_nk_cen;
 	logger::log("Behaviour Tree Objects Linked");
-
-	currentBehaviours.push_back(&bt);
-	Controller* controller = &Node::controller;
+	coms::current_behaviours.push_back(&bt);
 
 	//ap.startThread();
 	//mp.startThread();
@@ -94,7 +90,7 @@ int main(int argc, char* argv[]) {
 	data::sensorData.setInput(input);
 	while (input != "x") {
 		executeBehaviours(input);
-		controller->execute();
+		coms::controller.execute();
 
 		std::getline(std::cin, input);
 		data::sensorData.setInput(input);
@@ -108,10 +104,10 @@ int main(int argc, char* argv[]) {
 
 void executeBehaviours(std::string input) {
 	std::vector<Behaviour*>::iterator itr;
-	for (itr = currentBehaviours.begin(); itr < currentBehaviours.end(); itr++) {
+	for (itr = coms::current_behaviours.begin(); itr < coms::current_behaviours.end(); itr++) {
 		Behaviour* behaviour = *itr;
 		Status* result = input.find("f") == std::string::npos ?
 			behaviour->executeP(Status().setSuccess()) : behaviour->executeP(Status().setFailure());
-		currentBehaviours.erase(itr);
+		coms::current_behaviours.erase(itr);
 	}
 }

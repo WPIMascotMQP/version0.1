@@ -19,6 +19,7 @@
 #include "../kinematics/Action.h"
 #include "../kinematics/Calculator.h"
 #include "../communication/Controller.h"
+#include "../SensorData.h"
 
 class Behaviour : public Node {
 public:

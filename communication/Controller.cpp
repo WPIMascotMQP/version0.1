@@ -1,17 +1,18 @@
 #include "Controller.h"
 
-#include "../MasterControlLoop.h"
+#include "../behaviourtree/Behaviour.h"
 #include "../behaviourtree/Node.h"
-#include "../kinematics/Position.h"
 
-std::vector<Behaviour*> currentBehaviours;
+namespace coms {
+	Controller controller(0);
+	std::vector<Behaviour*> current_behaviours;
+}
 
 /**
  CONSTRUCTOR
 */
-Controller::Controller() {
-	std::vector<std::vector<Movement*>*> movL;
-	movementsList = movL;
+Controller::Controller(int start_int) {
+
 }
 
 /**
@@ -22,11 +23,15 @@ Controller::~Controller() {
 }
 
 /**
- Adds movements to do
- @param movements The movements to add
+ Adds position to move to
+ @param pos The position to add
 */
-void Controller::addMovements(std::vector<Movement*> *movements) {
-	movementsList.push_back(movements);
+void Controller::addPosition(Position* pos) {
+	position_list.push_back(pos);
+
+	std::ostringstream strs;
+	strs << "Controller Added Position" << *pos;
+	logger::log(strs.str());
 }
 
 /**
@@ -34,5 +39,7 @@ void Controller::addMovements(std::vector<Movement*> *movements) {
  @return The status
 */
 Status* Controller::execute() {
+	logger::log("Controller Sending Positions to SerialProcessor");
+	// Send to SerialProcessor
 	return status.setSuccess();
 }

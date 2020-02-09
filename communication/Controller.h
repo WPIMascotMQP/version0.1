@@ -17,20 +17,28 @@
 #include <string>
 #include <vector>
 
-#include "../kinematics/Movement.h"
+#include "../behaviourtree/Node.h"
+#include "../kinematics/Position.h"
 #include "../SensorData.h"
+#include "../Status.h"
 
-class Node;
+class Behaviour;
 class Controller {
 public:
-	Controller();
+	Controller(int start_int);
+	Controller() : Controller(0){};
 	~Controller();
 
-	void addMovements(std::vector<Movement*> *movements);
+	void addPosition(Position* pos);
 	Status* execute();
 protected:
-	std::vector<std::vector<Movement*>*> movementsList;
+	std::vector<Position*> position_list;
 	Status status;
 
 };
+
+namespace coms {
+	extern Controller controller;
+	extern std::vector<Behaviour*> current_behaviours;
+}
 #endif

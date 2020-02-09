@@ -1,14 +1,5 @@
 #include "Node.h"
 
-#include "../kinematics/Calculator.h"
-#include "../communication/Controller.h"
-#include "../SensorData.h"
-
-Calculator cal_node;
-Calculator Node::calculator = cal_node;
-Controller con_node;
-Controller Node::controller = con_node;
-
 /**
  CONSTRUCTOR
 */
@@ -54,20 +45,4 @@ void Node::setParent(Node* par) {
 */
 void Node::verbose(std::string log) {
 	std::cout << log << std::endl;
-}
-
-/**
- Get the static calculator
- @return The calculator
-*/
-Calculator Node::getCalculator() {
-	return calculator;
-}
-
-/**
- Get the static controller
- @return The controller
-*/
-Controller Node::getController() {
-	return controller;
 }

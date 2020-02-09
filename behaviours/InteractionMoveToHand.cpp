@@ -4,7 +4,7 @@
  CONSTUCTOR
 */
 InteractionMoveToHand::InteractionMoveToHand() {
-	
+
 }
 
 /**
@@ -20,6 +20,7 @@ InteractionMoveToHand::~InteractionMoveToHand() {
  @return The status
 */
 Status* InteractionMoveToHand::executeC() {
+	logger::log("InteractionMoveToHand Called as Child");
 	status.setRunning();
 	return &status;
 }
@@ -30,6 +31,7 @@ Status* InteractionMoveToHand::executeC() {
  @return the status
 */
 Status* InteractionMoveToHand::executeP(Status* stat) {
+	logger::log("InteractionMoveToHand Called as Parent");
 	status = *stat;
 	return parent->executeP(stat);
 }

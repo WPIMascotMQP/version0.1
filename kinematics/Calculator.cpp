@@ -2,11 +2,15 @@
 
 #include "../behaviourtree/Node.h"
 
+namespace cal {
+	Calculator calculator(0);
+}
+
 /**
  CONSTRUCTOR
 */
-Calculator::Calculator() {
-	Node node;
+Calculator::Calculator(int start_int) {
+
 }
 
 /**

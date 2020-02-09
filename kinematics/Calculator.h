@@ -23,7 +23,8 @@ class Movement;
 
 class Calculator {
 public:
-	Calculator();
+	Calculator(int start_int);
+	Calculator() : Calculator(0){};
 	~Calculator();
 
 	//std::vector<Movement*> *generateMovements(std::vector<Action*> actions, Behaviour *beh);
@@ -31,4 +32,9 @@ public:
 protected:
 
 };
+
+namespace cal {
+	extern Calculator calculator;
+}
+
 #endif
