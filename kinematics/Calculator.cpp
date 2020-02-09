@@ -22,11 +22,11 @@ Calculator::~Calculator() {
  @param beh The beahviour associated with the actions
  @return The list of movements
 */
-std::vector<Movement*> *Calculator::generateMovements(std::vector<Action*> actions, Behaviour *beh) {
+/*std::vector<Movement*> *Calculator::generateMovements(std::vector<Action*> actions, Behaviour *beh) {
 	std::vector<Movement*> *movements = new std::vector<Movement*>();
 	std::vector<Action*>::iterator act_itr;
-	Position pos = Position(data::sensorData.getCurrentPosition()->getXPosition(), 
-		data::sensorData.getCurrentPosition()->getYPosition(), 
+	Position pos = Position(data::sensorData.getCurrentPosition()->getXPosition(),
+		data::sensorData.getCurrentPosition()->getYPosition(),
 		data::sensorData.getCurrentPosition()->getZPosition());
 	// For each action generate a movement based on the last one
 	for (act_itr = actions.begin(); act_itr < actions.end(); act_itr++) {
@@ -49,4 +49,4 @@ std::vector<Movement*> *Calculator::generateMovements(std::vector<Action*> actio
 		pos.setZPosition(newZ);
 	}
 	return movements;
-}
+}*/

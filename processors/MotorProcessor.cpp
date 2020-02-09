@@ -17,7 +17,7 @@ MotorProcessor::MotorProcessor(int num_motors) {
 }
 
 MotorProcessor::~MotorProcessor() {
-	
+
 }
 
 void MotorProcessor::startThread() {
@@ -31,5 +31,5 @@ void MotorProcessor::process() {
 }
 
 Position* MotorProcessor::getCurrentPosition() {
-	return new Position(0, 0, 0);
+	return new Position(0, 0, 0, 0);
 }

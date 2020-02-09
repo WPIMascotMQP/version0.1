@@ -31,8 +31,6 @@ MasterControlLoop: BehaviourTree.o \
 	SerialProcessor.o \
 	VisualProcessor.o \
 	\
-	PUtilityDec.o \
-	SUtilityDec.o \
 	PhysicalUtilityDec.o \
 	InteractionUtilityDec.o \
 	InteractionHeadUtilityDec.o \
@@ -43,9 +41,6 @@ MasterControlLoop: BehaviourTree.o \
 	SeekingBodyUtilityDec.o \
 	SeekingMotionUtilityDec.o \
 	\
-	MoveBackDown.o \
-	MoveFrontLeft.o \
-	MoveUpRight.o \
 	PhysicalMoveHead.o \
 	InteractionMoveToHand.o \
 	InteractionMoveToHead.o \
@@ -75,15 +70,6 @@ SeekingMoveSearch.o: $(BEHAVIOURS)SeekingMoveSearch.cpp Behaviour.o $(BEHAVIOURS
 SeekingMoveToBody.o: $(BEHAVIOURS)SeekingMoveToBody.cpp Behaviour.o $(BEHAVIOURS)SeekingMoveToBody.h
 	g++ $(CFLAGS) $(BEHAVIOURS)SeekingMoveToBody.cpp
 
-MoveBackDown.o: $(BEHAVIOURS)MoveBackDown.cpp Behaviour.o $(BEHAVIOURS)MoveBackDown.h
-	g++ $(CFLAGS) $(BEHAVIOURS)MoveBackDown.cpp
-
-MoveFrontLeft.o: $(BEHAVIOURS)MoveFrontLeft.cpp Behaviour.o $(BEHAVIOURS)MoveFrontLeft.h
-	g++ $(CFLAGS) $(BEHAVIOURS)MoveFrontLeft.cpp
-
-MoveUpRight.o: $(BEHAVIOURS)MoveUpRight.cpp Behaviour.o $(BEHAVIOURS)MoveUpRight.h
-	g++ $(CFLAGS) $(BEHAVIOURS)MoveUpRight.cpp
-
 ##### DECORATOR CLASSES #####
 PhysicalUtilityDec.o: $(DECORATORS)PhysicalUtilityDec.cpp UtilityDec.o $(DECORATORS)PhysicalUtilityDec.h
 	g++ $(CFLAGS) $(DECORATORS)PhysicalUtilityDec.cpp
@@ -101,7 +87,6 @@ InteractionHandUtilityDec.o: $(DECORATORS)InteractionHandUtilityDec.cpp UtilityD
 InteractionMotionUtilityDec.o: $(DECORATORS)InteractionMotionUtilityDec.cpp UtilityDec.o $(DECORATORS)InteractionMotionUtilityDec.h
 	g++ $(CFLAGS) $(DECORATORS)InteractionMotionUtilityDec.cpp
 
-
 SeekingUtilityDec.o: $(DECORATORS)SeekingUtilityDec.cpp UtilityDec.o $(DECORATORS)SeekingUtilityDec.h
 	g++ $(CFLAGS) $(DECORATORS)SeekingUtilityDec.cpp
 
@@ -113,13 +98,6 @@ SeekingBodyUtilityDec.o: $(DECORATORS)SeekingBodyUtilityDec.cpp UtilityDec.o $(D
 
 SeekingMotionUtilityDec.o: $(DECORATORS)SeekingMotionUtilityDec.cpp UtilityDec.o $(DECORATORS)SeekingMotionUtilityDec.h
 	g++ $(CFLAGS) $(DECORATORS)SeekingMotionUtilityDec.cpp
-
-
-PUtilityDec.o: $(DECORATORS)PUtilityDec.cpp UtilityDec.o $(DECORATORS)PUtilityDec.h
-	g++ $(CFLAGS) $(DECORATORS)PUtilityDec.cpp
-
-SUtilityDec.o: $(DECORATORS)SUtilityDec.cpp UtilityDec.o $(DECORATORS)SUtilityDec.h
-	g++ $(CFLAGS) $(DECORATORS)SUtilityDec.cpp
 
 ##### BEHAVIOUR TREE CLASSES #####
 BehaviourTree.o: $(BEHAVIOURTREE)BehaviourTree.cpp Node.o $(BEHAVIOURTREE)BehaviourTree.h

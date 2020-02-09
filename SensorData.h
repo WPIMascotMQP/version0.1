@@ -27,8 +27,8 @@
 
 class SensorData {
 public:
-	SensorData(double cX, double cY, double cZ);
-	SensorData() : SensorData(0.0, 0.0, 0.0) {};
+	SensorData(double by, double bp, double ny, double np);
+	SensorData() : SensorData(0.0, 0.0, 0.0,0.0) {};
 	~SensorData();
 
 	std::string getInput();
@@ -47,7 +47,7 @@ public:
 protected:
 	bool touched;
 	std::string input;
-	Position currentPosition;
+	Position current_position;
 
 };
 

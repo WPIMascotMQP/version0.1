@@ -1,21 +1,24 @@
 #include "SensorData.h"
 
 namespace data {
-	SensorData sensorData(0.0, 0.0, 0.0);
+	SensorData sensorData(0.0, 0.0, 0.0, 0.0);
 	int centerVisualWidth = 640 / 2;
 	int centerVisualHeight = 480 / 2;
 }
 
 /**
  CONSTRUCTOR
- @param cX The current X position
- @param cY The current Y position
- @param cZ The current Z position
+ CONSTRUCTOR
+ @param by The base yaw position
+ @param bp The base pitch position
+ @param ny The neck yaw position
+ @param np The neck pitch postiion
 */
-SensorData::SensorData(double cX, double cY, double cZ) {
-	currentPosition.setXPosition(cX);
-	currentPosition.setYPosition(cY);
-	currentPosition.setZPosition(cZ);
+SensorData::SensorData(double by, double bp, double ny, double np) {
+	current_position.base_yaw = by;
+	current_position.base_pitch = bp;
+	current_position.neck_yaw = ny;
+	current_position.neck_pitch = np;
 	touched = false;
 	input = "";
 }
@@ -44,7 +47,7 @@ double SensorData::getLastAudio() {
  @return The current position
 */
 Position* SensorData::getCurrentPosition() {
-	return &currentPosition;
+	return &current_position;
 	//return processor::mp::getCurrentPosition();
 }
 
@@ -85,5 +88,5 @@ void SensorData::setTouched(bool touch) {
  @param pos The current position
 */
 void SensorData::setCurrentPosition(Position* pos) {
-	currentPosition = *pos;
+	current_position = *pos;
 }

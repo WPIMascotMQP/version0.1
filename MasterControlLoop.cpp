@@ -11,9 +11,6 @@
 #include "processors/VisualProcessor.h"
 #include "SensorData.h"
 
-#include "behaviours/MoveBackDown.h"
-#include "behaviours/MoveFrontLeft.h"
-#include "behaviours/MoveUpRight.h"
 #include "behaviours/PhysicalMoveHead.h"
 #include "behaviours/InteractionMoveToHead.h"
 #include "behaviours/InteractionMoveToHand.h"
@@ -21,8 +18,6 @@
 #include "behaviours/SeekingMoveToBody.h"
 #include "behaviours/Move.h"
 
-#include "decorators/SUtilityDec.h"
-#include "decorators/PUtilityDec.h"
 #include "decorators/PhysicalUtilityDec.h"
 #include "decorators/InteractionUtilityDec.h"
 #include "decorators/InteractionHandUtilityDec.h"
@@ -85,31 +80,6 @@ int main(int argc, char* argv[]) {
 					motion_sud << seeking_motion_sq;
 						seeking_ut << move_nk_up << move_hd_up << move_hd_cen << move_nk_dwn << move_nk_cen;
 	logger::log("Behaviour Tree Objects Linked");
-
-	Sequence sq;
-	Parallel pl;
-	Utility ut;
-
-	MoveUpRight mur;
-	MoveFrontLeft mfl;
-	MoveBackDown mbd;
-
-	pl.addChild(&mur);
-	pl.addChild(&mfl);
-	pl.addChild(&mbd);
-	pl.reset();
-
-	sq.addChild(&mur);
-	sq.addChild(&mfl);
-	sq.addChild(&mbd);
-	sq.reset();
-
-	sud.setChild(&sq);
-	pud.setChild(&pl);
-	ut.addChild(&sud);
-	ut.addChild(&pud);
-
-	bt.setRoot(&ut);
 
 	currentBehaviours.push_back(&bt);
 	Controller* controller = &Node::controller;

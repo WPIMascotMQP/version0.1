@@ -2,7 +2,7 @@
  @file Calculator.h
  @class Calculator
  @brief The Calculator class figures out the movements
- @details This Calcualtor class takes in the expected actions as well as the 
+ @details This Calcualtor class takes in the expected actions as well as the
  current positiion and generates movements to based on those actions.
 
  @author Jonathan Chang
@@ -26,7 +26,7 @@ public:
 	Calculator();
 	~Calculator();
 
-	std::vector<Movement*> *generateMovements(std::vector<Action*> actions, Behaviour *beh);
+	//std::vector<Movement*> *generateMovements(std::vector<Action*> actions, Behaviour *beh);
 
 protected:
 
