@@ -87,13 +87,13 @@ int main(int argc, char* argv[]) {
 
 	std::string input;
 	std::getline(std::cin, input);
-	data::sensorData.setInput(input);
+	data::sensor_data.setInput(input);
 	while (input != "x") {
 		executeBehaviours(input);
 		coms::controller.execute();
 
 		std::getline(std::cin, input);
-		data::sensorData.setInput(input);
+		data::sensor_data.setInput(input);
 	}
 	//ap.killThread();
 	//mp.killThread();

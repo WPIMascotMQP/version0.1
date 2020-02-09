@@ -13,12 +13,12 @@ InteractionUtilityDec::~InteractionUtilityDec() {
 }
 
 double InteractionUtilityDec::getPriority() {
-	int visual_width = data::sensorData.getVisualWidth();
-	int visual_height = data::sensorData.getVisualHeight();
+	int visual_width = processor::vp.getVisualWidth();
+	int visual_height = processor::vp.getVisualHeight();
 
 	// Get max ratio of face size to visual size
 	double max_ratio = 0.0;
-	std::vector<cv::Rect*>* faces = data::sensorData.getFaces();
+	std::vector<cv::Rect*>* faces = processor::vp.getFaceRects();
 	std::vector<cv::Rect*>::iterator itr = faces->begin();
 	while(itr < faces->end()) {
 		cv::Rect_<int>* rect = *itr;

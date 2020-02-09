@@ -1,9 +1,11 @@
 #ifndef MOTORPROCESSOR_H
 #define MOTORPROCESSOR_H
 
-#include "motorstatus/MotorStatus.h"
+#include "motorstatus/MotorTracker.h"
 #include "../kinematics/Position.h"
 #include "SensorProcessor.h"
+
+enum motors {neck_yaw = 0, neck_pitch = 1, head_yaw = 2, head_pitch = 3};
 
 class MotorProcessor : public SensorProcessor {
 public:
@@ -15,6 +17,10 @@ public:
 	void process();
 
 	Position* getCurrentPosition();
+	Position* toPhysicalPosiiton(Position* pos);
+	Position* toMotorPosition(Position* pos);
+
+	double getMotorRatio(motors index);
 protected:
 private:
 };

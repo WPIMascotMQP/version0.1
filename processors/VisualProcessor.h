@@ -39,9 +39,15 @@ public:
 
 	void changePhase();
 	void setImageReduction(double reduction);
-	
-	int getVideoHeight();
-	int getVideoWidth();
+
+	int getVisualWidth();
+	int getVisualHeight();
+	double getVisualWidthRads();
+	double getVisualHeightRads();
+
+	int getMidX(cv::Rect* rect);
+	int getMidY(cv::Rect* rect);
+	double distance(int x1, int y1, int x2, int y2);
 protected:
 	cv::CascadeClassifier face_cascade;
 	cv::CascadeClassifier body_cascade;

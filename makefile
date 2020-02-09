@@ -147,7 +147,7 @@ SensorData.o: SensorData.cpp AudioProcessor.o MotorProcessor.o VisualProcessor.o
 AudioProcessor.o: $(PROCESSORS)AudioProcessor.cpp SensorProcessor.o $(PROCESSORS)AudioProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)AudioProcessor.cpp
 
-MotorProcessor.o: $(PROCESSORS)MotorProcessor.cpp SensorProcessor.o MotorStatus.o $(PROCESSORS)MotorProcessor.h
+MotorProcessor.o: $(PROCESSORS)MotorProcessor.cpp SensorProcessor.o MotorTracker.o $(PROCESSORS)MotorProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)MotorProcessor.cpp
 
 VisualProcessor.o: $(PROCESSORS)VisualProcessor.cpp SensorProcessor.o VisualTrackerManager.o $(PROCESSORS)VisualProcessor.h
@@ -157,8 +157,8 @@ SensorProcessor.o: $(PROCESSORS)SensorProcessor.cpp $(PROCESSORS)SensorProcessor
 	g++ $(CFLAGS) $(PROCESSORS)SensorProcessor.cpp $(LIBS)
 
     # MOTOR STATUS CLASSES #
-MotorStatus.o: $(MOTORSTATUS)MotorStatus.cpp $(MOTORSTATUS)MotorStatus.h
-	g++ $(CFLAGS) $(MOTORSTATUS)MotorStatus.cpp
+MotorTracker.o: $(MOTORSTATUS)MotorTracker.cpp $(MOTORSTATUS)MotorTracker.h
+	g++ $(CFLAGS) $(MOTORSTATUS)MotorTracker.cpp
 
     # VISUAL TRACKER CLASSES #
 VisualTrackerManager.o: $(TRACKERS)VisualTrackerManager.cpp VisualTracker.o $(TRACKERS)VisualTrackerManager.h

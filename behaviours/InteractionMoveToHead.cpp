@@ -4,7 +4,7 @@
  CONSTUCTOR
 */
 InteractionMoveToHead::InteractionMoveToHead() {
-	
+
 }
 
 /**
@@ -20,7 +20,36 @@ InteractionMoveToHead::~InteractionMoveToHead() {
  @return The status
 */
 Status* InteractionMoveToHead::executeC() {
+	logger::log("InteractionMoveToHand Called as Child");
 	status.setRunning();
+
+	int mid_x = processor::vp.getVisualWidth() / 2;
+	int max_y = processor::vp.getVisualHeight();
+
+	// Get Closesy Face to Center Bottom
+	std::vector<cv::Rect*>* faces = processor::vp.getFaceRects();
+	std::vector<cv::Rect*>::iterator itr_face = faces->begin();
+	cv::Rect_<int>* closest_face = *faces->begin();
+	double closest_distance = processor::vp.distance(processor::vp.getMidX(closest_face),
+		processor::vp.getMidY(closest_face), mid_x, max_y);
+	while(itr_face < faces->end()) {
+		cv::Rect_<int>* face = *itr_face;
+		double distance = processor::vp.distance(processor::vp.getMidX(face),
+			processor::vp.getMidY(face), mid_x, max_y);
+		if(distance < closest_distance) {
+			closest_distance = distance;
+			closest_face = face;
+		}
+	}
+
+	int ratio_x = (int) (processor::vp.getMidX(closest_face) - mid_x) /
+					mid_x + 0.5;
+	int ratio_y = (int) (processor::vp.getMidY(closest_face) - max_y / 2) /
+					(max_y / 2) + 0.5;
+	double delta_x = ratio_x * processor::vp.getVisualWidthRads() / 2;
+	double delta_y = ratio_y * processor::vp.getVisualHeightRads() / 2;
+	cal::calculator.getDeltaPosition(delta_x, delta_y);
+
 	return &status;
 }
 

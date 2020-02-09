@@ -27,7 +27,7 @@
 
 class SensorData {
 public:
-	SensorData(double by, double bp, double ny, double np);
+	SensorData(double ny, double np, double hy, double hp);
 	SensorData() : SensorData(0.0, 0.0, 0.0,0.0) {};
 	~SensorData();
 
@@ -35,15 +35,11 @@ public:
 	double getLastAudio();
 	Position* getCurrentPosition();
 	bool getTouched();
-	std::vector<cv::Rect*>* getFaces();
-	std::vector<cv::Rect*>* getBodies();
 
 	void setInput(std::string inp);
 	void setTouched(bool touch);
 	void setCurrentPosition(Position* pos);
 
-	int getVisualWidth();
-	int getVisualHeight();
 protected:
 	bool touched;
 	std::string input;
@@ -52,7 +48,7 @@ protected:
 };
 
 namespace data {
-	extern SensorData sensorData;
+	extern SensorData sensor_data;
 	extern int centerVisualWidth;
 	extern int centerVisualHeight;
 }

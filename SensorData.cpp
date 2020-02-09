@@ -1,24 +1,23 @@
 #include "SensorData.h"
 
 namespace data {
-	SensorData sensorData(0.0, 0.0, 0.0, 0.0);
+	SensorData sensor_data(0.0, 0.0, 0.0, 0.0);
 	int centerVisualWidth = 640 / 2;
 	int centerVisualHeight = 480 / 2;
 }
 
 /**
  CONSTRUCTOR
- CONSTRUCTOR
- @param by The base yaw position
- @param bp The base pitch position
  @param ny The neck yaw position
- @param np The neck pitch postiion
+ @param np The neck pitch position
+ @param hy The head yaw position
+ @param hp The head pitch postiion
 */
 SensorData::SensorData(double by, double bp, double ny, double np) {
-	current_position.base_yaw = by;
-	current_position.base_pitch = bp;
-	current_position.neck_yaw = ny;
-	current_position.neck_pitch = np;
+	current_position.neck_yaw = by;
+	current_position.neck_pitch = bp;
+	current_position.head_yaw = ny;
+	current_position.head_pitch = np;
 	touched = false;
 	input = "";
 }
@@ -53,22 +52,6 @@ Position* SensorData::getCurrentPosition() {
 
 bool SensorData::getTouched() {
 	return touched;
-}
-
-std::vector<cv::Rect*>* SensorData::getFaces() {
-	return processor::vp.getFaceRects();
-}
-
-std::vector<cv::Rect*>* SensorData::getBodies() {
-	return processor::vp.getBodyRects();
-}
-
-int SensorData::getVisualWidth() {
-	return processor::vp.getVideoWidth();
-}
-
-int SensorData::getVisualHeight() {
-	return processor::vp.getVideoHeight();
 }
 
 /**

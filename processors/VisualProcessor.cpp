@@ -8,6 +8,8 @@ namespace processor {
 namespace visualData {
     int capture_width = 640; // 640
     int capture_height = 480; // 480
+    double width_rads = std::atan(1) * 4 * 2 * 56 / 360;
+    double height_rads = std::atan(1) * 4 * 2 * 56 / 360;
     VisualTrackerManager face_manager;
     VisualTrackerManager body_manager;
     std::mutex visual_lock;
@@ -176,12 +178,20 @@ std::vector<cv::Rect*>* VisualProcessor::getBodyRects() {
     return bodies;
 }
 
-int VisualProcessor::getVideoWidth() {
+int VisualProcessor::getVisualWidth() {
     return frame.cols;
 }
 
-int VisualProcessor::getVideoHeight() {
+int VisualProcessor::getVisualHeight() {
     return frame.rows;
+}
+
+double VisualProcessor::getVisualWidthRads() {
+    return visualData::width_rads;
+}
+
+double VisualProcessor::getVisualHeightRads() {
+    return visualData::height_rads;
 }
 
 /**
@@ -199,6 +209,36 @@ void VisualProcessor::setImageReduction(double reduction) {
     if(reduction > 1.0) {
         image_reduction = reduction;
     }
+}
+
+/**
+ Returns the x midpoint of the given rect
+ @param The rect to get the x mdpoint
+ @return The x midpoint
+ */
+int VisualProcessor::getMidX(cv::Rect* rect) {
+	return (int) rect->x + rect->width/2 + 0.5;
+}
+
+/**
+ Returns the y midpoint of the given rect
+ @param The rect to get the y mdpoint
+ @return The y midpoint
+ */
+int VisualProcessor::getMidY(cv::Rect* rect) {
+	return (int) rect->y + rect->height/2 + 0.5;
+}
+
+/**
+ Returns the distance between the two points
+ @param x1 The x 1 position
+ @param y1 The y 1 position
+ @param x2 The x 2 position
+ @param y2 The y 2 position
+ @return The distance between the two points
+ */
+double VisualProcessor::distance(int x1, int y1, int x2, int y2) {
+	return std::sqrt(std::pow(std::abs(x1-x2), 2) + std::pow(std::abs(y1-y2), 2));
 }
 
 /**

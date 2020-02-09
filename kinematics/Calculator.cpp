@@ -4,6 +4,7 @@
 
 namespace cal {
 	Calculator calculator(0);
+
 }
 
 /**
@@ -20,6 +21,26 @@ Calculator::~Calculator() {
 
 }
 
+Position* Calculator::getDeltaPosition(double yaw, double pitch) {
+	Position* current_pos = data::sensor_data.getCurrentPosition();
+	Position* physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
+
+	Position* new_pos = processor::mp.toMotorPosition(physical_pos);
+	delete(physical_pos);
+	delete(current_pos);
+	return(new_pos);
+}
+
+Position* Calculator::getDeltaPosition(double by, double bp, double ny, double np) {
+	Position* current_pos = data::sensor_data.getCurrentPosition();
+	Position* new_pos = new Position(current_pos);
+	delete(current_pos);
+	return(new_pos);
+}
+
+double Calculator::getNeckHeadRatio(double from_0) {
+	return 0.5;
+}
 /**
  Generates the movements given a set of actions
  @param actions The list of actions

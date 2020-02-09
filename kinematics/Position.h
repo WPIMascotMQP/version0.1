@@ -22,26 +22,28 @@
 class Position {
 
 public:
-	Position(double by, double bp, double ny, double np);
+	Position(double ny, double np, double hy, double hp);
+	Position(Position* pos) : Position(pos->neck_yaw, pos->neck_pitch,
+			pos->head_yaw, pos->head_pitch) {};
 	Position() : Position(0.0, 0.0, 0.0, 0.0) {};
 	~Position();
 
-	double base_yaw;
-	double base_pitch;
 	double neck_yaw;
 	double neck_pitch;
+	double head_yaw;
+	double head_pitch;
 
 	bool operator==(const Position& pos2) {
-		return (base_yaw == pos2.base_yaw) &&
-			(base_pitch == pos2.base_pitch) &&
-			(neck_yaw == pos2.neck_yaw) &&
-			(neck_pitch == pos2.neck_pitch);
+		return (neck_yaw == pos2.neck_yaw) &&
+			(neck_pitch == pos2.neck_pitch) &&
+			(head_yaw == pos2.head_yaw) &&
+			(head_pitch == pos2.head_pitch);
 	};
 
 	friend std::ostream& operator<< (std::ostream& out, Position& pos) {
 		char output[50];
 		sprintf(output, "( %5.2f, %5.2f, %5.2f, %5.2f)",
-			pos.base_yaw, pos.base_pitch, pos.neck_yaw, pos.neck_pitch);
+			pos.neck_yaw, pos.neck_pitch, pos.head_yaw, pos.head_pitch);
 		out << output;
 		return out;
 	}

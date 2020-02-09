@@ -30,7 +30,7 @@ void Controller::addPosition(Position* pos) {
 	position_list.push_back(pos);
 
 	std::ostringstream strs;
-	strs << "Controller Added Position" << *pos;
+	strs << "Controller Added Position: " << *pos;
 	logger::log(strs.str());
 }
 
