@@ -13,12 +13,17 @@ public:
 	MotorProcessor() : MotorProcessor(0){};
 	~MotorProcessor();
 
+	void setupMotor(motors motor, double minimum, double ratio,
+		double maximum_physical, double neutral_physical);
+
 	void startThread();
 	void process();
 
 	Position* getCurrentPosition();
 	Position* toPhysicalPosiiton(Position* pos);
 	Position* toMotorPosition(Position* pos);
+	Position* getMidMotorPosition();
+	Position* getMidPhysicalPosition();
 
 	double getMotorRatio(motors index);
 protected:

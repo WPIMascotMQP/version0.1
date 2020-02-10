@@ -26,6 +26,7 @@ Position* Calculator::getDeltaPosition(double yaw, double pitch) {
 	Position* physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
 
 	Position* new_pos = processor::mp.toMotorPosition(physical_pos);
+
 	delete(physical_pos);
 	delete(current_pos);
 	return(new_pos);
@@ -39,6 +40,7 @@ Position* Calculator::getDeltaPosition(double by, double bp, double ny, double n
 }
 
 double Calculator::getNeckHeadRatio(double from_0) {
+
 	return 0.5;
 }
 /**

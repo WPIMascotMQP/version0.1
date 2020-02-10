@@ -4,6 +4,10 @@ namespace motortracker {
 	unsigned int max_history = 50;
 }
 
+namespace math {
+ 	double PI = 4 * std::atan(1);
+}
+
 MotorTracker::MotorTracker() {
 	minimum = 0.0;
 	maximum = 0.0;
