@@ -89,7 +89,23 @@ Position* MotorProcessor::toMotorPosition(Position* pos) {
 	return new Position(ny, np, hy, hp);
 }
 
-Position* MotorProcessor::getMidMotorPosition() {
+Position* MotorProcessor::getMaximumMotorPosition() {
+	double ny_mid = motorData::motors[neck_yaw]->maximum;
+	double np_mid = motorData::motors[neck_pitch]->maximum;
+	double hy_mid = motorData::motors[head_yaw]->maximum;
+	double hp_mid = motorData::motors[head_pitch]->maximum;
+	return new Position(ny_mid, np_mid, hy_mid, hp_mid);
+}
+
+Position* MotorProcessor::getMaximumPhysicalPosition() {
+	double ny_mid = motorData::motors[neck_yaw]->maximum_physical;
+	double np_mid = motorData::motors[neck_pitch]->maximum_physical;
+	double hy_mid = motorData::motors[head_yaw]->maximum_physical;
+	double hp_mid = motorData::motors[head_pitch]->maximum_physical;
+	return new Position(ny_mid, np_mid, hy_mid, hp_mid);
+}
+
+Position* MotorProcessor::getNeutralMotorPosition() {
 	double ny_mid = motorData::motors[neck_yaw]->neutral;
 	double np_mid = motorData::motors[neck_pitch]->neutral;
 	double hy_mid = motorData::motors[head_yaw]->neutral;
@@ -97,7 +113,7 @@ Position* MotorProcessor::getMidMotorPosition() {
 	return new Position(ny_mid, np_mid, hy_mid, hp_mid);
 }
 
-Position* MotorProcessor::getMidPhysicalPosition() {
+Position* MotorProcessor::getNeutralPhysicalPosition() {
 	double ny_mid = motorData::motors[neck_yaw]->neutral_physical;
 	double np_mid = motorData::motors[neck_pitch]->neutral_physical;
 	double hy_mid = motorData::motors[head_yaw]->neutral_physical;

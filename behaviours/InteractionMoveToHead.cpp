@@ -42,14 +42,19 @@ Status* InteractionMoveToHead::executeC() {
 		}
 	}
 
+	// Calculate New Position
 	int ratio_x = (int) (processor::vp.getMidX(closest_face) - mid_x) /
 					mid_x + 0.5;
 	int ratio_y = (int) (processor::vp.getMidY(closest_face) - max_y / 2) /
 					(max_y / 2) + 0.5;
 	double delta_x = ratio_x * processor::vp.getVisualWidthRads() / 2;
 	double delta_y = ratio_y * processor::vp.getVisualHeightRads() / 2;
-	cal::calculator.getDeltaPosition(delta_x, delta_y);
+	Position* pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
+	coms::controller.addPosition(pos);
 
+	std::ostringstream strs;
+	strs << "InteractionMoveToHand Added to Controller Position:" << *pos;
+	logger::log(strs.str());
 	return &status;
 }
 

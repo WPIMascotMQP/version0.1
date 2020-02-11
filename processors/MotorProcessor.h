@@ -22,8 +22,11 @@ public:
 	Position* getCurrentPosition();
 	Position* toPhysicalPosiiton(Position* pos);
 	Position* toMotorPosition(Position* pos);
-	Position* getMidMotorPosition();
-	Position* getMidPhysicalPosition();
+	Position* getMaximumMotorPosition();
+	Position* getMaximumPhysicalPosition();
+	Position* getNeutralMotorPosition();
+	Position* getNeutralPhysicalPosition();
+
 
 	double getMotorRatio(motors index);
 protected:
