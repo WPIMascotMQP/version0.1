@@ -21,9 +21,11 @@ Sequence::~Sequence() {
  @return The status
 */
 Status* Sequence::executeC() {
+	logger::log("Sequence Called As Child");
+
 	Node* node = *currentChild;
 	node->setParent(this);
-	verbose("Call Sequence Child");
+	logger::log("Call Sequence Child");
 	node->executeC();
 
 	currentChild++;
@@ -38,10 +40,7 @@ Status* Sequence::executeC() {
  @return the status
 */
 Status* Sequence::executeP(Status* stat) {
-	if (status.getState() != running) {
-		verbose("WARNING: Sequence is not Running.");
-		return &status;
-	}
+	logger::log("Sequence Called As Parent");
 	if (stat->getState() == failure) {
 		reset();
 		return parent->executeP(stat);
@@ -49,7 +48,7 @@ Status* Sequence::executeP(Status* stat) {
 	if (currentChild >= children.end()) {
 		reset();
 		status.setSuccess();
-		verbose("Call Sequence Parent");
+		logger::log("Call Sequence Parent");
 		return parent->executeP(&status);
 	}
 	return executeC();

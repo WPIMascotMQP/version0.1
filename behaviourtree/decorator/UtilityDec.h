@@ -29,9 +29,14 @@ public:
 	~UtilityDec();
 
 	virtual double getPriority();
+	Status* executeC();
 	Status* executeP(Status* stat);
 	void setParent(Utility* par);
 
+	friend UtilityDec& operator<< (UtilityDec& ud, Node& node) {
+		ud.setChild(&node);
+		return ud;
+	}
 protected:
 	Utility* parent;
 };

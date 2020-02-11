@@ -23,10 +23,7 @@ Parallel::~Parallel() {
  @return The status
 */
 Status* Parallel::executeC() {
-	if(status.getState() == running) {
-		verbose("WARNING: Parallel Already Running.");
-		return &status;
-	}
+	logger::log("Parallel Called As Child");
 	// Iterator through children all call execute on them
 	status.setRunning();
 	std::vector<Node*>::iterator itr;
@@ -35,7 +32,7 @@ Status* Parallel::executeC() {
 	for (itr = children.begin(); itr < children.end(); itr++) {
 		Node *node = *itr;
 		node->setParent(this);
-		verbose("Call Parallel Child");
+		logger::log("Call Parallel Child");
 		Status* stat = node->executeC();
 		returnedStatus = (stat->getState() == failure) ? stat : &successStatus;
 	}
@@ -50,18 +47,16 @@ Status* Parallel::executeC() {
  @return the status
 */
 Status* Parallel::executeP(Status* stat) {
+	logger::log("Parallel Called As Parent");
+
 	// If children still need to return count number of returns
-	if (status.getState() != running) {
-		verbose("WARNING: Parallel is not Running.");
-		return &status;
-	}
 	returedExecutes++;
 	returnedStatuses = (stat->getState() == failure) ? stat : returnedStatuses;
 	// If all children have returned call parent
 	if (returedExecutes >= children.size()) {
 		reset();
 		status = *returnedStatuses;
-		verbose("Call Parallel Parent");
+		logger::log("Call Parallel Parent");
 		return parent->executeP(returnedStatuses);
 	}
 	return &status;

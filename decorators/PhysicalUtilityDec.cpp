@@ -12,9 +12,7 @@ double PhysicalUtilityDec::getPriority() {
 	// If being touched, return 1
 	double priority = data::sensor_data.getTouched() ? 1.0 : 0.0;
 
-	std::ostringstream strs;
-	strs << "PhysicalUtilityDec Priority: " << priority;
-	logger::log(strs.str());
+	logger::log("PhysicalUtilityDec", "Priority:", priority, "1 if touched, else 0");
 
 	return priority;
 }

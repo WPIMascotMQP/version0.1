@@ -3,14 +3,20 @@
 namespace logger {
 	std::ofstream* log_file;
 	unsigned int max_log_size = 5;
+	unsigned int print_width = 40;
 
 	/**
-	 The verbose printout 
+	 The verbose printout
 	 Used to control all verbose functions
 	 @param verb The string to print out
 	 */
 	void verbose(std::string verb) {
 		std::cout << verb << std::endl;
+	}
+
+	void verbose(std::string verb, double value) {
+		std::cout << std::setw(print_width) << std::left << verb <<
+			std::setw(print_width) << std::left << value << std::endl;
 	}
 
 	/**
@@ -42,6 +48,18 @@ namespace logger {
 	 */
 	void log(std::string log) {
 		*log_file << getDateTime() << " | " << log << std::endl;
+	}
+
+	/**
+	 Logs the given string with a DateTime stamp
+	 @param log The string to log
+	 */
+	void log(std::string log, std::string key, double value, std::string comment) {
+		*log_file << getDateTime() << " | " <<
+		 	std::setw(print_width) << std::left << log <<
+			std::setw(print_width) << std::left << key <<
+			std::setw(print_width) << std::left << value <<
+			std::setw(print_width) << std::left << comment << std::endl;
 	}
 
 	/**
@@ -79,7 +97,7 @@ namespace logger {
 			times.push_back(time);
 			itr_path++;
 		}
-		
+
 		// Removes oldest log files until folder size down to max_log_size
 		while(getLogFolderSize() > max_log_size) {
 			std::vector<std::string>::iterator oldest_path = paths.begin();

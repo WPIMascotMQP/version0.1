@@ -34,6 +34,11 @@ public:
 	void addChild(UtilityDec* chi);
 	void removeChild(UtilityDec* chi);
 	void clearChildren();
+
+	friend Utility& operator<< (Utility& ut, UtilityDec& node) {
+		ut.addChild(&node);
+		return ut;
+	}
 protected:
 	std::vector<UtilityDec*> children;
 	std::vector<UtilityDec*> failures;

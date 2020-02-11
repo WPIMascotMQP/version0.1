@@ -9,9 +9,7 @@ SeekingMotionUtilityDec::~SeekingMotionUtilityDec() {
 }
 
 double SeekingMotionUtilityDec::getPriority() {
-	std::ostringstream strs;
-	strs << "SeekingMotionUtilityDec Priority: 0.3 - Steady Minimum";
-	logger::log(strs.str());
-	
+	logger::log("SeekingMotionUtilityDec", "Priority:", 0.3, "Stead Minimum");
+
 	return 0.3;
 }

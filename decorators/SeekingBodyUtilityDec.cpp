@@ -38,10 +38,7 @@ double SeekingBodyUtilityDec::getPriority() {
 	// Priority is ratio of minimum distance to size of vision
 	double priority = min_distance / std::min(visual_height, visual_width);
 
-	std::ostringstream strs;
-	strs << "SeekingBodyUtilityDec Priority: " << priority
-		<< " - Ratio of Distance of Closest Body To Center Of Vision";
-	logger::log(strs.str());
-
+	logger::log("SeekingBodyUtilityDec", "Priority:", priority,
+		"Ratio of Distance of Closest Body To Center Of Vision");
 	return priority;
 }

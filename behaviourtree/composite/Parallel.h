@@ -28,6 +28,11 @@ public:
 	Status* executeP(Status* stat);
 	void reset();
 
+	friend Parallel& operator<< (Parallel& pl, Node& node) {
+		pl.addChild(&node);
+		return pl;
+	}
+
 protected:
 	Status status;
 	Status* returnedStatus;

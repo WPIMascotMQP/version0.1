@@ -31,6 +31,10 @@ public:
 	Status* executeP(Status* stat);
 	void reset();
 
+	friend Sequence& operator<< (Sequence& sq, Node& node) {
+		sq.addChild(&node);
+		return sq;
+	}
 protected:
 	std::vector<Node*>::iterator currentChild;
 

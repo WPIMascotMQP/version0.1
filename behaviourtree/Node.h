@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 
+#include "../Logger.h"
 #include "../Status.h"
 
 class SensorData;

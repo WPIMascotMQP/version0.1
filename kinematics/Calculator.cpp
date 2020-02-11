@@ -27,18 +27,27 @@ Position* Calculator::getDeltaPosition(double yaw, double pitch) {
 	Position* neutral_pos = processor::mp.getNeutralPhysicalPosition();
 	Position* maximum_pos = processor::mp.getMaximumPhysicalPosition();
 
+	// Get total yaw positions
 	double total_yaw = maximum_pos->neck_yaw + maximum_pos->head_yaw;
 	double current_yaw = physical_pos->neck_yaw + physical_pos->head_yaw;
-	double yaw_ratio = getNeckHeadRatio((current_yaw + yaw) / total_yaw);
+	double neutral_yaw = neutral_pos->neck_yaw + neutral_pos->head_yaw;
 
+	// Get total pitch positions
 	double total_pitch = maximum_pos->neck_pitch + maximum_pos->head_pitch;
 	double current_pitch = physical_pos->neck_pitch + physical_pos->head_pitch;
+	double neutral_pitch = neutral_pos->neck_pitch + neutral_pos->head_pitch;
+
+	// Current polar + change in polar / total yaw = percent of total polar
+	double yaw_ratio = getNeckHeadRatio((current_yaw + yaw) / total_yaw);
 	double pitch_ratio = getNeckHeadRatio((current_pitch + pitch) / total_pitch);
 
-	Position* new_physical = new Position(neutral_pos->neck_yaw + (current_yaw + yaw) * (1 - yaw_ratio),
-									neutral_pos->neck_pitch + (current_pitch + pitch) * (1 - pitch_ratio),
-									neutral_pos->head_yaw + (current_yaw + yaw) * yaw_ratio,
-									neutral_pos->head_pitch + (current_pitch + pitch) * pitch_ratio);
+	// New Position based on
+	// neutral position + (final total polar change * ratio between head and neck)
+	Position* new_physical = new Position(
+		neutral_pos->neck_yaw + (current_yaw - neutral_yaw + yaw) * (1 - yaw_ratio),
+		neutral_pos->neck_pitch + (current_pitch - neutral_pitch + pitch) * (1 - pitch_ratio),
+		neutral_pos->head_yaw + (current_yaw -neutral_yaw + yaw) * yaw_ratio,
+		neutral_pos->head_pitch + (current_pitch -neutral_pitch + pitch) * pitch_ratio);
 	Position* new_pos = processor::mp.toMotorPosition(new_physical);
 	delete(current_pos);
 	delete(physical_pos);

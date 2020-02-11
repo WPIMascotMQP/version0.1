@@ -17,18 +17,26 @@ UtilityDec::~UtilityDec() {
 }
 
 /**
+ The Node execute as child function
+ Calls the child
+ @return The status
+*/
+Status* UtilityDec::executeC() {
+	status.setRunning();
+	child->setParent(this);
+	logger::log("Call Utility Decorator Child");
+	return child->executeC();;
+}
+
+/**
  Node execute as parent function
  Calls the parent node
  @param stat The status of the child executing this parent
  @return the status
 */
 Status* UtilityDec::executeP(Status* stat) {
-	if (status.getState() != running) {
-		verbose("WARNING: UtilityDec is not Running.");
-		return &status;
-	}
 	status = *stat;
-	verbose("Call Decorator Parent");
+	logger::log("Call Utility Decorator Parent");
 	return parent->executeP(stat, this);
 }
 

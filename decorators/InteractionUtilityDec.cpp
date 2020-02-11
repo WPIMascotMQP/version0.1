@@ -1,7 +1,7 @@
 #include "InteractionUtilityDec.h"
 
 namespace interactionUtilityDec {
-		int max_priority = 0.9;
+	double max_priority = 0.9;
 }
 
 InteractionUtilityDec::InteractionUtilityDec(Node* chi) : UtilityDec(chi) {
@@ -22,7 +22,8 @@ double InteractionUtilityDec::getPriority() {
 	std::vector<cv::Rect*>::iterator itr = faces->begin();
 	while(itr < faces->end()) {
 		cv::Rect_<int>* rect = *itr;
-		double ratio = rect->height / std::min(visual_height, visual_width);
+		double ratio = (0.0 + std::max(rect->width, rect->height))
+			/ std::min(visual_width, visual_height);
 		if(ratio > max_ratio) {
 			max_ratio = ratio;
 		}
@@ -36,10 +37,8 @@ double InteractionUtilityDec::getPriority() {
 		max_ratio = interactionUtilityDec::max_priority;
 	}
 
-	std::ostringstream strs;
-	strs << "InteractionUtilityDec Priority: " << max_ratio
-		<< " - Ratio of Largest Face to Total Vision";
-	logger::log(strs.str());
+	logger::log("InteractionUtilityDec", "Priority:", max_ratio,
+		"Ratio of Largest Face to Total Vision");
 
 	return max_ratio;
 }

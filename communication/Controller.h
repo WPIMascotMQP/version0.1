@@ -30,6 +30,8 @@ public:
 	~Controller();
 
 	void addPosition(Position* pos);
+	void addBehaviour(Behaviour* beh);
+
 	Status* execute();
 protected:
 	std::vector<Position*> position_list;

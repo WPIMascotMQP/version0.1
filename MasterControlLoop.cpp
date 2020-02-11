@@ -28,10 +28,7 @@
 #include "decorators/SeekingBodyUtilityDec.h"
 #include "decorators/SeekingMotionUtilityDec.h"
 
-int main(int argc, char* argv[]) {
-	logger::startLog();
-	// Create Behaviour Tree Objects
-	BehaviourTree bt;
+namespace nodes {
 	Utility ut_t1;
 		PhysicalUtilityDec pud;
 			Sequence physical_sq;
@@ -59,7 +56,13 @@ int main(int argc, char* argv[]) {
 						Move move_nk_up;
 						Move move_nk_dwn;
 						Move move_nk_cen;
-	logger::log("Behaviour Tree Objects Built");
+}
+
+int main(int argc, char* argv[]) {
+	logger::startLog();
+	// Create Behaviour Tree Objects
+	using namespace nodes;
+	BehaviourTree bt;
 
 	// Link Behaviour Tree
 	bt << ut_t1;
@@ -78,6 +81,8 @@ int main(int argc, char* argv[]) {
 					motion_sud << seeking_motion_sq;
 						seeking_ut << move_nk_up << move_hd_up << move_hd_cen << move_nk_dwn << move_nk_cen;
 	logger::log("Behaviour Tree Objects Linked");
+	interaction_motion_sq.reset();
+	seeking_motion_sq.reset();
 	coms::current_behaviours.push_back(&bt);
 
 	//ap.startThread();
@@ -91,6 +96,8 @@ int main(int argc, char* argv[]) {
 	while (input != "x") {
 		executeBehaviours(input);
 		coms::controller.execute();
+
+		//printDecoratorPriorities();
 
 		std::getline(std::cin, input);
 		data::sensor_data.setInput(input);
@@ -110,4 +117,18 @@ void executeBehaviours(std::string input) {
 			behaviour->executeP(Status().setSuccess()) : behaviour->executeP(Status().setFailure());
 		coms::current_behaviours.erase(itr);
 	}
+}
+
+void printDecoratorPriorities() {
+	using namespace nodes;
+	logger::verbose("PhysicalUtilityDec Priority: ", pud.getPriority());
+	logger::verbose("InteractionUtilityDec Priority: ", iud.getPriority());
+	logger::verbose("  InteractionHeadUtilityDec Priority: ", head_iud.getPriority());
+	logger::verbose("  InteractionHandUtilityDec Priority: ", hand_iud.getPriority());
+	logger::verbose("  InteractionMotionUtilityDec", motion_iud.getPriority());
+	logger::verbose("SeekingUtilityDec Priority: ", sud.getPriority());
+	logger::verbose("  SeekingSearchUtilityDec Priority: ", search_sud.getPriority());
+	logger::verbose("  SeekingBodyUtilityDec Priority: ", body_sud.getPriority());
+	logger::verbose("  SeekingMotionUtilityDec Priority: ", motion_sud.getPriority());
+	logger::verbose("");
 }

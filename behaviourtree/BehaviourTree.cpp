@@ -36,7 +36,7 @@ Status* BehaviourTree::executeC() {
  @return The status
 */
 Status* BehaviourTree::executeP(Status* stat) {
-	std::cout << "Call Beahviour Tree Root" << std::endl;
+	logger::log("Call Behaviour Tree Root");
 	return root->executeC();
 }
 

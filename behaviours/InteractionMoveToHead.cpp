@@ -51,6 +51,7 @@ Status* InteractionMoveToHead::executeC() {
 	double delta_y = ratio_y * processor::vp.getVisualHeightRads() / 2;
 	Position* pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
 	coms::controller.addPosition(pos);
+	coms::current_behaviours.push_back(this);
 
 	std::ostringstream strs;
 	strs << "InteractionMoveToHand Added to Controller Position:" << *pos;

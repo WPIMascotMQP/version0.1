@@ -21,10 +21,7 @@ Utility::~Utility() {
  @return The status
 */
 Status* Utility::executeC() {
-	if(status.getState() == running) {
-		verbose("WARNING: Utility is Already Running.");
-		return &status;
-	}
+	logger::log("Utility Composite Called As Child");
 	status.setRunning();
 
 	// Get Priorities
@@ -56,14 +53,14 @@ Status* Utility::executeC() {
 		status.setFailure();
 		status.setErrorCode(-3101);
 		status.setDescription("All Children Returned Priority 0.0");
-		verbose("Call Utility Parent");
+		logger::log("Call Utility Composite Parent");
 		return parent->executeP(&status);
 	}
 
 	// Call Highest Child
 	UtilityDec* node = *itr;
 	node->setParent(this);
-	verbose("Call Utility Child");
+	logger::log("Call Utility Composite Child");
 	node->executeC();
 	return &status;
 }
@@ -76,10 +73,7 @@ Status* Utility::executeC() {
  @return the status
 */
 Status* Utility::executeP(Status* stat, UtilityDec* dec) {
-	if (status.getState() != running) {
-		verbose("WARNING: Utility is not Running.");
-		return &status;
-	}
+	logger::log("Utility Composite Called As Parent");
 	if (stat->getState() == failure) {
 		failures.push_back(dec);
 		if (children.size() == failures.size()) {
@@ -87,14 +81,14 @@ Status* Utility::executeP(Status* stat, UtilityDec* dec) {
 			status.setFailure();
 			status.setErrorCode(-3102);
 			status.setDescription("All Children Failed in Execution");
-			verbose("Call Utility Parent");
+			logger::log("Call Utility Composite Parent");
 			return parent->executeP(&status);
 		}
 		return executeC();
 	}
 	failures.clear();
 	status = *stat;
-	verbose("Call Utility Parent");
+	logger::log("Call Utility Composite Parent");
 	return parent->executeP(stat);
 }
 

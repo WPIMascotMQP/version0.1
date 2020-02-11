@@ -173,7 +173,7 @@ std::vector<cv::Rect*>* VisualProcessor::getFaceRects() {
 
 std::vector<cv::Rect*>* VisualProcessor::getBodyRects() {
     visualData::visual_lock.lock();
-    std::vector<cv::Rect*>* bodies = visualData::face_manager.getRects();
+    std::vector<cv::Rect*>* bodies = visualData::body_manager.getRects();
     visualData::visual_lock.unlock();
     return bodies;
 }

@@ -38,10 +38,8 @@ double InteractionHeadUtilityDec::getPriority() {
 	// Priority is minimum distance to size of vision
 	double priority = min_distance / std::min(visual_height, visual_width);
 
-	std::ostringstream strs;
-	strs << "InteractionHeadUtilityDec Priority: " << priority
-		<< " - Ratio of Distance of Closest Face To Center Of Vision";
-	logger::log(strs.str());
+	logger::log("InteractionHeadUtilityDec", "Priority:", priority,
+		"Ratio of Distance of Closest Face To Center Of Vision");
 
 	return priority;
 }

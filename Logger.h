@@ -20,15 +20,17 @@
 #include <fstream>
 #include <vector>
 
-#include <dirent.h> 
+#include <dirent.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 
 namespace logger {
 	void verbose(std::string verb);
+	void verbose(std::string verb, double value);
 	void startLog();
 	void log(std::string log);
+	void log(std::string log, std::string key, double value, std::string comment);
 	void endLog();
 	unsigned int getLogFolderSize();
 }

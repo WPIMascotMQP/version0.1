@@ -66,7 +66,6 @@ void MotorProcessor::startThread() {
 
 void MotorProcessor::process() {
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
 }
 
 Position* MotorProcessor::getCurrentPosition() {
