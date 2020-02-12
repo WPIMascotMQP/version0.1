@@ -53,7 +53,7 @@ Status* InteractionMoveToHead::executeC() {
 	std::cout << "Got here" << std::endl;
 	Position* pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
 	coms::controller.addPosition(pos);
-	coms::current_behaviours.push_back(this);
+	coms::controller.addBehaviour(this);
 
 	itr_face = faces->begin();
 	while(itr_face < faces->end()) {

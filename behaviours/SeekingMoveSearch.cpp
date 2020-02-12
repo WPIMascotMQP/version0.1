@@ -23,12 +23,8 @@ Status* SeekingMoveSearch::executeC() {
 	logger::log("SeekingMoveSearch Called as Child");
 	status.setRunning();
 
-	std::cout << "Getting Positions" << std::endl;
-
 	Position* neutral_pos = processor::mp.getNeutralPhysicalPosition();
 	Position* maximum_pos = processor::mp.getMaximumPhysicalPosition();
-
-	std::cout << "Got Positions" << std::endl;
 
 	double neutral_yaw = neutral_pos->neck_yaw + neutral_pos->head_yaw;
 	double maximum_yaw = maximum_pos->neck_yaw + maximum_pos->head_yaw;
@@ -44,11 +40,9 @@ Status* SeekingMoveSearch::executeC() {
 	double random_pitch = neutral_pitch - (delta_pitch / 2) + std::rand() %
 		(int) (delta_pitch + 0.5);
 
-	std::cout << "Called Calculator" << std::endl;
-
 	Position* pos = cal::calculator.getPosition(random_yaw, random_pitch);
 	coms::controller.addPosition(pos);
-	coms::current_behaviours.push_back(this);
+	coms::controller.addBehaviour(this);
 
 	delete(neutral_pos);
 	delete(maximum_pos);

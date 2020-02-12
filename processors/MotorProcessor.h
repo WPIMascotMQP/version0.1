@@ -5,7 +5,7 @@
 #include "../kinematics/Position.h"
 #include "SensorProcessor.h"
 
-enum motors {neck_yaw = 0, neck_pitch = 1, head_yaw = 2, head_pitch = 3};
+enum motor_index {neck_yaw = 0, neck_pitch = 1, head_yaw = 2, head_pitch = 3};
 
 class MotorProcessor : public SensorProcessor {
 public:
@@ -13,7 +13,7 @@ public:
 	MotorProcessor() : MotorProcessor(0){};
 	~MotorProcessor();
 
-	void setupMotor(motors motor, double minimum, double ratio,
+	void setupMotor(motor_index motor, double minimum, double ratio,
 		double maximum_physical, double neutral_physical);
 
 	void startThread();
@@ -27,8 +27,13 @@ public:
 	Position* getNeutralMotorPosition();
 	Position* getNeutralPhysicalPosition();
 
-	double getMotorRatio(motors index);
+	double getMotorRatio(motor_index index);
+
+	std::mutex motor_lock;
 protected:
+	Position position;
+	std::vector<MotorTracker*> motors;
+
 private:
 };
 

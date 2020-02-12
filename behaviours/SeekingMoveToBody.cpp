@@ -52,7 +52,7 @@ Status* SeekingMoveToBody::executeC() {
 	double delta_y = ratio_y * processor::vp.getVisualHeightRads() / 2;
 	Position* pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
 	coms::controller.addPosition(pos);
-	coms::current_behaviours.push_back(this);
+	coms::controller.addBehaviour(this);
 
 	itr_body = bodies->begin();
 	while(itr_body < bodies->end()) {

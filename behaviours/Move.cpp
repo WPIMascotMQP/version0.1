@@ -29,7 +29,7 @@ Status* Move::executeC() {
 	Position* pos = cal::calculator.getDeltaPosition(
 		neck_yaw, neck_pitch, head_yaw, head_pitch);
 	coms::controller.addPosition(pos);
-	coms::current_behaviours.push_back(this);
+	coms::controller.addBehaviour(this);
 
 	logger::log("Move", "Calculated Position", pos->toString(), "Position to Move To");
 	return &status;

@@ -35,6 +35,7 @@ public:
 	Status* execute();
 protected:
 	std::vector<Position*> position_list;
+	std::vector<Behaviour*> behaviour_list;
 	Status status;
 
 };

@@ -34,6 +34,10 @@ void Controller::addPosition(Position* pos) {
 	logger::log(strs.str());
 }
 
+void Controller::addBehaviour(Behaviour* beh) {
+	behaviour_list.push_back(beh);
+}
+
 /**
  Splits up the movements and executes of them
  @return The status
