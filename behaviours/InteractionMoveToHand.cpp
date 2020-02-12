@@ -21,8 +21,10 @@ InteractionMoveToHand::~InteractionMoveToHand() {
 */
 Status* InteractionMoveToHand::executeC() {
 	logger::log("InteractionMoveToHand Called as Child");
-	logger::log("InteractionMoveToHand This Behaviour is Not Inplemented");
 	status.setRunning();
+
+	logger::log("InteractionMoveToHand This Behaviour is Not Implemented");
+	coms::current_behaviours.push_back(this);
 	return &status;
 }
 

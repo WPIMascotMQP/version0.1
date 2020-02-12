@@ -5,13 +5,18 @@
 
 class Move : public Behaviour {
 public:
-	Move();
+	Move(double ny, double np, double hy, double hp);
+	Move() : Move(0.0, 0.0, 0.0, 0.0) {};
 	~Move();
 
 	Status* executeC();
 	Status* executeP(Status* stat);
 
 protected:
+	double neck_yaw;
+	double neck_pitch;
+	double head_yaw;
+	double head_pitch;
 
 };
 

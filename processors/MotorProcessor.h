@@ -27,7 +27,6 @@ public:
 	Position* getNeutralMotorPosition();
 	Position* getNeutralPhysicalPosition();
 
-
 	double getMotorRatio(motors index);
 protected:
 private:

@@ -12,6 +12,7 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <cstdlib>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>

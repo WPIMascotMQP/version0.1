@@ -33,6 +33,8 @@ public:
 	double head_yaw;
 	double head_pitch;
 
+	std::string toString();
+
 	bool operator==(const Position& pos2) {
 		return (neck_yaw == pos2.neck_yaw) &&
 			(neck_pitch == pos2.neck_pitch) &&
@@ -41,9 +43,7 @@ public:
 	};
 
 	friend std::ostream& operator<< (std::ostream& out, Position& pos) {
-		char output[50];
-		sprintf(output, "( %5.2f, %5.2f, %5.2f, %5.2f)",
-			pos.neck_yaw, pos.neck_pitch, pos.head_yaw, pos.head_pitch);
+		std::string output = pos.toString();
 		out << output;
 		return out;
 	}

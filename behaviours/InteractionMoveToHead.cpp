@@ -20,13 +20,13 @@ InteractionMoveToHead::~InteractionMoveToHead() {
  @return The status
 */
 Status* InteractionMoveToHead::executeC() {
-	logger::log("InteractionMoveToHand Called as Child");
+	logger::log("InteractionMoveToHead Called as Child");
 	status.setRunning();
 
 	int mid_x = processor::vp.getVisualWidth() / 2;
 	int max_y = processor::vp.getVisualHeight();
 
-	// Get Closesy Face to Center Bottom
+	// Get Closest Face to Center Bottom
 	std::vector<cv::Rect*>* faces = processor::vp.getFaceRects();
 	std::vector<cv::Rect*>::iterator itr_face = faces->begin();
 	cv::Rect_<int>* closest_face = *faces->begin();
@@ -40,6 +40,7 @@ Status* InteractionMoveToHead::executeC() {
 			closest_distance = distance;
 			closest_face = face;
 		}
+		itr_face++;
 	}
 
 	// Calculate New Position
@@ -49,13 +50,20 @@ Status* InteractionMoveToHead::executeC() {
 					(max_y / 2) + 0.5;
 	double delta_x = ratio_x * processor::vp.getVisualWidthRads() / 2;
 	double delta_y = ratio_y * processor::vp.getVisualHeightRads() / 2;
+	std::cout << "Got here" << std::endl;
 	Position* pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
 	coms::controller.addPosition(pos);
 	coms::current_behaviours.push_back(this);
 
-	std::ostringstream strs;
-	strs << "InteractionMoveToHand Added to Controller Position:" << *pos;
-	logger::log(strs.str());
+	itr_face = faces->begin();
+	while(itr_face < faces->end()) {
+		cv::Rect_<int>* face = *itr_face;
+		delete(face);
+		itr_face = faces->erase(itr_face);
+	}
+	delete(faces);
+
+	logger::log("InteractionMoveToHead", "Calculated Position", pos->toString(), "Position to Move To");
 	return &status;
 }
 

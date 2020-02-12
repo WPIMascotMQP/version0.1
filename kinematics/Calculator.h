@@ -28,6 +28,8 @@ public:
 	~Calculator();
 
 	//std::vector<Movement*> *generateMovements(std::vector<Action*> actions, Behaviour *beh);
+	Position* getPosition(double yaw, double pitch);
+
 	Position* getDeltaPosition(double yaw, double pitch);
 	Position* getDeltaPosition(double ny, double np, double hy, double hp);
 

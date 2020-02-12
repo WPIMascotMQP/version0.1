@@ -63,6 +63,18 @@ namespace logger {
 	}
 
 	/**
+	 Logs the given string with a DateTime stamp
+	 @param log The string to log
+	 */
+	void log(std::string log, std::string key, std::string value, std::string comment) {
+		*log_file << getDateTime() << " | " <<
+			std::setw(print_width) << std::left << log <<
+			std::setw(print_width) << std::left << key <<
+			std::setw(print_width) << std::left << value <<
+			std::setw(print_width) << std::left << comment << std::endl;
+	}
+
+	/**
 	 Ends the current log and removes old log files
 	 */
 	void endLog() {
