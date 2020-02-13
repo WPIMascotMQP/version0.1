@@ -50,9 +50,9 @@ Status* SeekingMoveToBody::executeC() {
 					(max_y / 2) + 0.5;
 	double delta_x = ratio_x * processor::vp.getVisualWidthRads() / 2;
 	double delta_y = ratio_y * processor::vp.getVisualHeightRads() / 2;
-	Position* pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
+	std::shared_ptr<Position> pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
 	coms::controller.addPosition(pos);
-	coms::controller.addBehaviour(this);
+	coms::controller.addBehaviour(std::shared_ptr<Behaviour>(this));
 
 	itr_body = bodies->begin();
 	while(itr_body < bodies->end()) {

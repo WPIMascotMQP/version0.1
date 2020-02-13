@@ -20,6 +20,7 @@
 #include "opencv2/videoio/videoio.hpp"
 
 #include <cmath>
+#include <memory>
 
 #include "../../kinematics/Position.h"
 
@@ -28,8 +29,8 @@ public:
 	VisualTracker();
 	~VisualTracker();
 
-	bool belongs(cv::Rect* rect, Position* position);
-	void add(cv::Rect rect, Position* position);
+	bool belongs(cv::Rect* rect, std::shared_ptr<Position> position);
+	void add(cv::Rect rect, std::shared_ptr<Position> position);
 	int getMissedCount();
 
 	cv::Rect* getAverage();
@@ -38,7 +39,7 @@ public:
 
 	unsigned int missedCount;
 	std::vector<cv::Rect*> history;
-	std::vector<Position*> positions;
-	
+	std::vector<std::shared_ptr<Position>> positions;
+
 };
 #endif

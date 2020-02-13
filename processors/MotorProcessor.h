@@ -13,28 +13,29 @@ public:
 	MotorProcessor() : MotorProcessor(0){};
 	~MotorProcessor();
 
-	void setupMotor(motor_index motor, double minimum, double ratio,
+	void setupMotor(MotorTracker* motor, double minimum, double ratio,
 		double maximum_physical, double neutral_physical);
 
 	void startThread();
 	void process();
 
-	Position* getCurrentPosition();
-	Position* toPhysicalPosiiton(Position* pos);
-	Position* toMotorPosition(Position* pos);
-	Position* getMaximumMotorPosition();
-	Position* getMaximumPhysicalPosition();
-	Position* getNeutralMotorPosition();
-	Position* getNeutralPhysicalPosition();
+	std::shared_ptr<Position> getCurrentPosition();
+	std::shared_ptr<Position> toPhysicalPosiiton(std::shared_ptr<Position> pos);
+	std::shared_ptr<Position> toMotorPosition(std::shared_ptr<Position> pos);
 
-	double getMotorRatio(motor_index index);
+	std::shared_ptr<Position> getMinimumMotorPosition();
+	std::shared_ptr<Position> getNeutralMotorPosition();
+	std::shared_ptr<Position> getMaximumMotorPosition();
+	std::shared_ptr<Position> getNeutralPhysicalPosition();
+	std::shared_ptr<Position> getMaximumPhysicalPosition();
+	std::shared_ptr<Position> getRatioPosition();
 
 	std::mutex motor_lock;
 protected:
-	Position position;
 	std::vector<MotorTracker*> motors;
 
 private:
+
 };
 
 namespace processor {

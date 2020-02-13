@@ -28,10 +28,15 @@ public:
 	Position() : Position(0.0, 0.0, 0.0, 0.0) {};
 	~Position();
 
-	double neck_yaw;
-	double neck_pitch;
-	double head_yaw;
-	double head_pitch;
+	void setNeckYaw(double ny);
+	void setNeckPitch(double np);
+	void setHeadYaw(double hy);
+	void setHeadPitch(double hp);
+
+	double getNeckYaw();
+	double getNeckPitch();
+	double getHeadYaw();
+	double getHeadPitch();
 
 	std::string toString();
 
@@ -47,6 +52,12 @@ public:
 		out << output;
 		return out;
 	}
+protected:
+	double neck_yaw;
+	double neck_pitch;
+	double head_yaw;
+	double head_pitch;
+
 private:
 
 };

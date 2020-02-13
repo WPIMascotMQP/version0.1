@@ -21,12 +21,12 @@ Calculator::~Calculator() {
 
 }
 
-Position* Calculator::getPosition(double yaw, double pitch) {
-	Position* maximum_pos = processor::mp.getMaximumPhysicalPosition();
+std::shared_ptr<Position> Calculator::getPosition(double yaw, double pitch) {
+	std::shared_ptr<Position> maximum_pos = processor::mp.getMaximumPhysicalPosition();
 
 	// Get maximum positions
-	double maximum_yaw = maximum_pos->neck_yaw + maximum_pos->head_yaw;
-	double maximum_pitch = maximum_pos->neck_pitch + maximum_pos->head_pitch;
+	double maximum_yaw = maximum_pos->getNeckYaw() + maximum_pos->getHeadYaw();
+	double maximum_pitch = maximum_pos->getNeckPitch() + maximum_pos->getHeadPitch();
 
 	// Current polar + change in polar / total yaw = percent of total polar
 	double yaw_ratio = getNeckHeadRatio(yaw / maximum_yaw);
@@ -34,33 +34,31 @@ Position* Calculator::getPosition(double yaw, double pitch) {
 
 	// New Position based on
 	// neutral position + (final total polar change * ratio between head and neck)
-	Position* new_physical = new Position(
+	std::shared_ptr<Position> new_physical(new Position(
 		(yaw) * (1 - yaw_ratio),
 		(pitch) * (1 - pitch_ratio),
 		(yaw) * yaw_ratio,
-		(pitch) * pitch_ratio);
-	Position* new_pos = processor::mp.toMotorPosition(new_physical);
+		(pitch) * pitch_ratio));
+	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 
-	delete(maximum_pos);
-	delete(new_physical);
 	return new_pos;
 }
 
-Position* Calculator::getDeltaPosition(double yaw, double pitch) {
-	Position* current_pos = data::sensor_data.getCurrentPosition();
-	Position* physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
-	Position* neutral_pos = processor::mp.getNeutralPhysicalPosition();
-	Position* maximum_pos = processor::mp.getMaximumPhysicalPosition();
+std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch) {
+	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentPosition();
+	std::shared_ptr<Position> physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
+	std::shared_ptr<Position> neutral_pos = processor::mp.getNeutralPhysicalPosition();
+	std::shared_ptr<Position> maximum_pos = processor::mp.getMaximumPhysicalPosition();
 
 	// Get total yaw positions
-	double maximum_yaw = maximum_pos->neck_yaw + maximum_pos->head_yaw;
-	double current_yaw = physical_pos->neck_yaw + physical_pos->head_yaw;
-	double neutral_yaw = neutral_pos->neck_yaw + neutral_pos->head_yaw;
+	double maximum_yaw = maximum_pos->getNeckYaw() + maximum_pos->getHeadYaw();
+	double current_yaw = physical_pos->getNeckYaw() + physical_pos->getHeadYaw();
+	double neutral_yaw = neutral_pos->getNeckYaw() + neutral_pos->getHeadYaw();
 
 	// Get total pitch positions
-	double maximum_pitch = maximum_pos->neck_pitch + maximum_pos->head_pitch;
-	double current_pitch = physical_pos->neck_pitch + physical_pos->head_pitch;
-	double neutral_pitch = neutral_pos->neck_pitch + neutral_pos->head_pitch;
+	double maximum_pitch = maximum_pos->getNeckPitch() + maximum_pos->getHeadPitch();
+	double current_pitch = physical_pos->getNeckPitch() + physical_pos->getHeadPitch();
+	double neutral_pitch = neutral_pos->getNeckPitch() + neutral_pos->getHeadPitch();
 
 	// Current polar + change in polar / total yaw = percent of total polar
 	double yaw_ratio = getNeckHeadRatio((current_yaw + yaw) / maximum_yaw);
@@ -68,32 +66,24 @@ Position* Calculator::getDeltaPosition(double yaw, double pitch) {
 
 	// New Position based on
 	// neutral position + (final total polar change * ratio between head and neck)
-	Position* new_physical = new Position(
-		neutral_pos->neck_yaw + (current_yaw - neutral_yaw + yaw) * (1 - yaw_ratio),
-		neutral_pos->neck_pitch + (current_pitch - neutral_pitch + pitch) * (1 - pitch_ratio),
-		neutral_pos->head_yaw + (current_yaw -neutral_yaw + yaw) * yaw_ratio,
-		neutral_pos->head_pitch + (current_pitch -neutral_pitch + pitch) * pitch_ratio);
-	Position* new_pos = processor::mp.toMotorPosition(new_physical);
+	std::shared_ptr<Position> new_physical(new Position(
+		neutral_pos->getNeckYaw() + (current_yaw - neutral_yaw + yaw) * (1 - yaw_ratio),
+		neutral_pos->getNeckPitch() + (current_pitch - neutral_pitch + pitch) * (1 - pitch_ratio),
+		neutral_pos->getHeadYaw() + (current_yaw -neutral_yaw + yaw) * yaw_ratio,
+		neutral_pos->getHeadPitch() + (current_pitch -neutral_pitch + pitch) * pitch_ratio));
+	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 
-	delete(current_pos);
-	delete(physical_pos);
-	delete(neutral_pos);
-	delete(maximum_pos);
-	delete(new_physical);
 	return(new_pos);
 }
 
-Position* Calculator::getDeltaPosition(double ny, double np, double hy, double hp) {
-	Position* current_pos = data::sensor_data.getCurrentPosition();
-	Position* physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
-	Position* new_physical = new Position(physical_pos->neck_yaw + ny,
-									physical_pos->neck_pitch + np,
-									physical_pos->head_yaw + hy,
-									physical_pos->head_pitch + hp);
-	Position* new_pos = processor::mp.toMotorPosition(new_physical);
-	delete(current_pos);
-	delete(physical_pos);
-	delete(new_physical);
+std::shared_ptr<Position> Calculator::getDeltaPosition(double ny, double np, double hy, double hp) {
+	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentPosition();
+	std::shared_ptr<Position> physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
+	std::shared_ptr<Position> new_physical(new Position(physical_pos->getNeckYaw() + ny,
+									physical_pos->getNeckPitch() + np,
+									physical_pos->getHeadYaw() + hy,
+									physical_pos->getHeadPitch() + hp));
+	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 	return(new_pos);
 }
 

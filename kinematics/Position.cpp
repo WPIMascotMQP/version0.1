@@ -21,6 +21,38 @@ Position::~Position() {
 
 }
 
+void Position::setNeckYaw(double ny) {
+	neck_yaw = ny;
+}
+
+void Position::setNeckPitch(double np) {
+	neck_pitch = np;
+}
+
+void Position::setHeadYaw(double hy) {
+	head_yaw = hy;
+}
+
+void Position::setHeadPitch(double hp) {
+	head_pitch = hp;
+}
+
+double Position::getNeckYaw() {
+	return neck_yaw;
+}
+
+double Position::getNeckPitch() {
+	return neck_pitch;
+}
+
+double Position::getHeadYaw() {
+	return head_yaw;
+}
+
+double Position::getHeadPitch() {
+	return head_pitch;
+}
+
 std::string Position::toString() {
 	char output[50];
 	sprintf(output, "( %5.2f, %5.2f, %5.2f, %5.2f)",

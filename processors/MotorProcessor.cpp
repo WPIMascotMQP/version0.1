@@ -5,50 +5,45 @@ namespace processor {
 }
 
 namespace motorData {
+	double neck_yaw_ratio = 1;
+	double neck_pitch_ratio = 1;
+	double head_yaw_ratio = 1;
+	double head_pitch_ratio = 1;
 
+	double neck_yaw_maximum_physical = 120;
+	double neck_pitch_maximum_physical = 100;
+	double head_yaw_maximum_physical = 100;
+	double head_pitch_maximum_physical = 125;
 
-	int neck_yaw_ratio = 120;
-	int neck_pitch_ratio = 100;
-	int head_yaw_ratio = 100;
-	int head_pitch_ratio = 125;
-
-	int neck_yaw_maximum_physical = 120;
-	int neck_pitch_maximum_physical = 100;
-	int head_yaw_maximum_physical = 100;
-	int head_pitch_maximum_physical = 125;
-
-	int neck_yaw_neutral_physical = 60;
-	int neck_pitch_neutral_physical = 35;
-	int head_yaw_neutral_physical = 50;
-	int head_pitch_neutral_physical = 50;
+	double neck_yaw_neutral_physical = 60;
+	double neck_pitch_neutral_physical = 35;
+	double head_yaw_neutral_physical = 50;
+	double head_pitch_neutral_physical = 50;
 }
 
 MotorProcessor::MotorProcessor(int num_motors) {
-	for(int i = 0; i < num_motors; i++) {
-		motors.push_back(new MotorTracker());
+	for(int i = 0; i < 4; i++) {
+		MotorTracker* mt = new MotorTracker();
+		motors.push_back(mt);
 	}
-	setupMotor(neck_yaw, 0, motorData::neck_yaw_ratio,
+	setupMotor(motors.at(neck_yaw), 0, motorData::neck_yaw_ratio,
 		motorData::neck_yaw_maximum_physical, motorData::neck_yaw_neutral_physical);
-	setupMotor(neck_pitch, 0, motorData::neck_pitch_ratio,
+	setupMotor(motors.at(neck_pitch), 0, motorData::neck_pitch_ratio,
 		motorData::neck_pitch_maximum_physical, motorData::neck_pitch_neutral_physical);
-	setupMotor(head_yaw, 0, motorData::head_yaw_ratio,
+	setupMotor(motors.at(head_yaw), 0, motorData::head_yaw_ratio,
 		motorData::head_yaw_maximum_physical, motorData::head_yaw_neutral_physical);
-	setupMotor(head_pitch, 0, motorData::head_pitch_ratio,
+	setupMotor(motors.at(head_pitch), 0, motorData::head_pitch_ratio,
 		motorData::head_pitch_maximum_physical, motorData::head_pitch_neutral_physical);
 }
 
-void MotorProcessor::setupMotor(motor_index motor, double minimum, double ratio,
+void MotorProcessor::setupMotor(MotorTracker* motor, double minimum, double ratio,
 	double maximum_physical, double neutral_physical) {
-	motors.at(motor)->minimum = minimum;
-	motors.at(motor)->ratio = ratio;
-	motors.at(motor)->maximum_physical = maximum_physical;
-	motors.at(motor)->neutral_physical = neutral_physical;
-	motors.at(motor)->maximum =
-		math::PI  * maximum_physical / 180
-		/ motors.at(motor)->ratio;
-	motors.at(motor)->neutral =
-		math::PI  * neutral_physical / 180
-		/ motors.at(motor)->ratio;
+	motor->setMinimum(minimum);
+	motor->setNeutralPhysical(neutral_physical);
+	motor->setMaximumPhysical(maximum_physical);
+	motor->setRatio(ratio);
+	motor->setNeutral(math::PI  * maximum_physical / 180 / motor->getRatio());
+	motor->setMaximum(math::PI  * neutral_physical / 180 / motor->getRatio());
 }
 
 MotorProcessor::~MotorProcessor() {
@@ -57,67 +52,81 @@ MotorProcessor::~MotorProcessor() {
 
 void MotorProcessor::startThread() {
 	kill = false;
+	logger::log("MotorProcessor", motors.at(neck_yaw)->toString(), " - neck_yaw",  "Motor Constants");
+	logger::log("MotorProcessor", motors.at(neck_pitch)->toString(), " - neck_pitch", "Motor Constants");
+	logger::log("MotorProcessor", motors.at(head_yaw)->toString(), " - head_yaw", "Motor Constants");
+	logger::log("MotorProcessor", motors.at(head_pitch)->toString(), " - head_pitch", "Motor Constants");
 	pthread = std::thread(&MotorProcessor::processWrapper, this);
 }
 
 void MotorProcessor::process() {
-	std::cout << motors.size() << std::endl;
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
-Position* MotorProcessor::getCurrentPosition() {
-	return new Position(0, 0, 0, 0);
+std::shared_ptr<Position> MotorProcessor::getCurrentPosition() {
+	return std::shared_ptr<Position>(new Position(0, 0, 0, 0));
 }
 
-Position* MotorProcessor::toPhysicalPosiiton(Position* pos) {
-	double ny = pos->neck_yaw * motors.at(neck_yaw)->ratio;
-	double np = pos->neck_pitch * motors.at(neck_pitch)->ratio;
-	double hy = pos->head_yaw * motors.at(head_yaw)->ratio;
-	double hp = pos->head_pitch * motors.at(head_pitch)->ratio;
-	return new Position(ny, np, hy, hp);
+std::shared_ptr<Position> MotorProcessor::toPhysicalPosiiton(std::shared_ptr<Position> pos) {
+	double ny = pos->getNeckYaw() * motors.at(neck_yaw)->getRatio();
+	double np = pos->getNeckPitch() * motors.at(neck_pitch)->getRatio();
+	double hy = pos->getHeadYaw() * motors.at(head_yaw)->getRatio();
+	double hp = pos->getHeadPitch() * motors.at(head_pitch)->getRatio();
+	return std::shared_ptr<Position>(new Position(ny, np, hy, hp));
 }
 
-Position* MotorProcessor::toMotorPosition(Position* pos) {
-	double ny = pos->neck_yaw / motors.at(neck_yaw)->ratio;
-	double np = pos->neck_pitch / motors.at(neck_pitch)->ratio;
-	double hy = pos->head_yaw / motors.at(head_yaw)->ratio;
-	double hp = pos->head_pitch / motors.at(head_pitch)->ratio;
-	return new Position(ny, np, hy, hp);
+std::shared_ptr<Position> MotorProcessor::toMotorPosition(std::shared_ptr<Position> pos) {
+	double ny = pos->getNeckYaw() / motors.at(neck_yaw)->getRatio();
+	double np = pos->getNeckPitch() / motors.at(neck_pitch)->getRatio();
+	double hy = pos->getHeadYaw() / motors.at(head_yaw)->getRatio();
+	double hp = pos->getHeadPitch() / motors.at(head_pitch)->getRatio();
+	return std::shared_ptr<Position>(new Position(ny, np, hy, hp));
 }
 
-Position* MotorProcessor::getMaximumMotorPosition() {
-	double ny_mid = motors.at(neck_yaw)->maximum;
-	double np_mid = motors.at(neck_pitch)->maximum;
-	double hy_mid = motors.at(head_yaw)->maximum;
-	double hp_mid = motors.at(head_pitch)->maximum;
-	return new Position(ny_mid, np_mid, hy_mid, hp_mid);
+std::shared_ptr<Position> MotorProcessor::getMinimumMotorPosition() {
+	double ny_min = motors.at(neck_yaw)->getMinimum();
+	double np_min = motors.at(neck_pitch)->getMinimum();
+	double hy_min = motors.at(head_yaw)->getMinimum();
+	double hp_min = motors.at(head_pitch)->getMinimum();
+	return std::shared_ptr<Position>(new Position(ny_min, np_min, hy_min, hp_min));
 }
 
-Position* MotorProcessor::getMaximumPhysicalPosition() {
-	double ny_mid = motors.at(neck_yaw)->maximum_physical;
-	double np_mid = motors.at(neck_pitch)->maximum_physical;
-	double hy_mid = motors.at(head_yaw)->maximum_physical;
-	double hp_mid = motors.at(head_pitch)->maximum_physical;
-	return new Position(ny_mid, np_mid, hy_mid, hp_mid);
+std::shared_ptr<Position> MotorProcessor::getNeutralMotorPosition() {
+	double ny_mid = motors.at(neck_yaw)->getNeutral();
+	double np_mid = motors.at(neck_pitch)->getNeutral();
+	double hy_mid = motors.at(head_yaw)->getNeutral();
+	double hp_mid = motors.at(head_pitch)->getNeutral();
+	return std::shared_ptr<Position>(new Position(ny_mid, np_mid, hy_mid, hp_mid));
 }
 
-Position* MotorProcessor::getNeutralMotorPosition() {
-	double ny_mid = motors.at(neck_yaw)->neutral;
-	double np_mid = motors.at(neck_pitch)->neutral;
-	double hy_mid = motors.at(head_yaw)->neutral;
-	double hp_mid = motors.at(head_pitch)->neutral;
-	return new Position(ny_mid, np_mid, hy_mid, hp_mid);
+std::shared_ptr<Position> MotorProcessor::getMaximumMotorPosition() {
+	double ny_max = motors.at(neck_yaw)->getMaximum();
+	double np_max = motors.at(neck_pitch)->getMaximum();
+	double hy_max = motors.at(head_yaw)->getMaximum();
+	double hp_max = motors.at(head_pitch)->getMaximum();
+	return std::shared_ptr<Position>(new Position(ny_max, np_max, hy_max, hp_max));
 }
 
-Position* MotorProcessor::getNeutralPhysicalPosition() {
-	std::cout << motors.size() << std::endl;
-	double ny_mid = motors.at(neck_yaw)->neutral_physical;
-	double np_mid = motors.at(neck_pitch)->neutral_physical;
-	double hy_mid = motors.at(head_yaw)->neutral_physical;
-	double hp_mid = motors.at(head_pitch)->neutral_physical;
-	return new Position(ny_mid, np_mid, hy_mid, hp_mid);
+std::shared_ptr<Position> MotorProcessor::getNeutralPhysicalPosition() {
+	double ny_mid = motors.at(neck_yaw)->getNeutralPhysical();
+	double np_mid = motors.at(neck_pitch)->getNeutralPhysical();
+	double hy_mid = motors.at(head_yaw)->getNeutralPhysical();
+	double hp_mid = motors.at(head_pitch)->getNeutralPhysical();
+	return std::shared_ptr<Position>(new Position(ny_mid, np_mid, hy_mid, hp_mid));
 }
 
-double MotorProcessor::getMotorRatio(motor_index index) {
-	return motors.at(index)->ratio;
+std::shared_ptr<Position> MotorProcessor::getMaximumPhysicalPosition() {
+	double ny_max = motors.at(neck_yaw)->getMaximumPhysical();
+	double np_max = motors.at(neck_pitch)->getMaximumPhysical();
+	double hy_max = motors.at(head_yaw)->getMaximumPhysical();
+	double hp_max = motors.at(head_pitch)->getMaximumPhysical();
+	return std::shared_ptr<Position>(new Position(ny_max, np_max, hy_max, hp_max));
+}
+
+std::shared_ptr<Position> MotorProcessor::getRatioPosition() {
+	double ny_rat = motors.at(neck_yaw)->getRatio();
+	double np_rat = motors.at(neck_pitch)->getRatio();
+	double hy_rat = motors.at(head_yaw)->getRatio();
+	double hp_rat = motors.at(head_pitch)->getRatio();
+	return std::shared_ptr<Position>(new Position(ny_rat, np_rat, hy_rat, hp_rat));
 }

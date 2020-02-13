@@ -138,7 +138,7 @@ SpiSlave.o: $(COMMUNICATION)SpiSlave.cpp $(COMMUNICATION)SpiSlave.h
 Controller.o: $(COMMUNICATION)Controller.cpp Movement.o Position.o SensorData.o $(COMMUNICATION)Controller.h
 	g++ $(CFLAGS) $(COMMUNICATION)Controller.cpp
 
-Calculator.o: $(KINEMATICS)Calculator.cpp Movement.o SensorData.o Action.o $(KINEMATICS)Calculator.h
+Calculator.o: $(KINEMATICS)Calculator.cpp MotorProcessor.o Movement.o SensorData.o Action.o $(KINEMATICS)Calculator.h
 	g++ $(CFLAGS) $(KINEMATICS)Calculator.cpp
 
 SensorData.o: SensorData.cpp AudioProcessor.o MotorProcessor.o VisualProcessor.o Position.o SensorData.h

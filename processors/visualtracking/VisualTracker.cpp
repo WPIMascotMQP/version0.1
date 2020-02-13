@@ -33,7 +33,7 @@ VisualTracker::~VisualTracker() {
  @param rect The new rect to compare
  @return Whether the rect is part of this tracker of not
  */
-bool VisualTracker::belongs(cv::Rect* rect, Position* position) {
+bool VisualTracker::belongs(cv::Rect* rect, std::shared_ptr<Position> position) {
 	cv::Rect* average = getAverage();
 	int average_x = getMidX(average);
 	int average_y = getMidY(average);
@@ -61,7 +61,7 @@ bool VisualTracker::belongs(cv::Rect* rect, Position* position) {
  Deletes old history
  @param rect The rect to add
  */
-void VisualTracker::add(cv::Rect rect, Position* position) {
+void VisualTracker::add(cv::Rect rect, std::shared_ptr<Position> position) {
 	cv::Rect_<int>* new_rect = new cv::Rect(rect.x, rect.y, rect.width, rect.height);
 	history.push_back(new_rect);
 	if(history.size() > trackers::history_length) {

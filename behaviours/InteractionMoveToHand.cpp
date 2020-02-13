@@ -24,7 +24,7 @@ Status* InteractionMoveToHand::executeC() {
 	status.setRunning();
 
 	logger::log("InteractionMoveToHand This Behaviour is Not Implemented");
-	coms::controller.addBehaviour(this);
+	coms::controller.addBehaviour(std::shared_ptr<Behaviour>(this));
 	return &status;
 }
 

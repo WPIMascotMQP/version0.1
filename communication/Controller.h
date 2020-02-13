@@ -29,13 +29,13 @@ public:
 	Controller() : Controller(0){};
 	~Controller();
 
-	void addPosition(Position* pos);
-	void addBehaviour(Behaviour* beh);
+	void addPosition(std::shared_ptr<Position> pos);
+	void addBehaviour(std::shared_ptr<Behaviour> beh);
 
 	Status* execute();
 protected:
-	std::vector<Position*> position_list;
-	std::vector<Behaviour*> behaviour_list;
+	std::vector<std::shared_ptr<Position>> position_list;
+	std::vector<std::shared_ptr<Behaviour>> behaviour_list;
 	Status status;
 
 };

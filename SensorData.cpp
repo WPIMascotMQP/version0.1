@@ -13,11 +13,11 @@ namespace data {
  @param hy The head yaw position
  @param hp The head pitch postiion
 */
-SensorData::SensorData(double by, double bp, double ny, double np) {
-	current_position.neck_yaw = by;
-	current_position.neck_pitch = bp;
-	current_position.head_yaw = ny;
-	current_position.head_pitch = np;
+SensorData::SensorData(double ny, double np, double hy, double hp) {
+	current_position.setNeckYaw(ny);
+	current_position.setNeckPitch(np);
+	current_position.setHeadYaw(hy);
+	current_position.setHeadPitch(hp);
 	touched = false;
 	input = "";
 }
@@ -45,9 +45,8 @@ double SensorData::getLastAudio() {
  Gets the current position
  @return The current position
 */
-Position* SensorData::getCurrentPosition() {
-	return &current_position;
-	//return processor::mp::getCurrentPosition();
+std::shared_ptr<Position> SensorData::getCurrentPosition() {
+	return processor::mp.getCurrentPosition();
 }
 
 bool SensorData::getTouched() {

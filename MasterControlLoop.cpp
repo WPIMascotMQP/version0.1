@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
 	coms::current_behaviours.push_back(&bt);
 
 	//ap.startThread();
-	//processor::mp.startThread();
+	processor::mp.startThread();
 	processor::vp.startThread();
 	logger::log("VisualProcessor Thread Started");
 
@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
 		data::sensor_data.setInput(input);
 	}
 	//ap.killThread();
-	//processor::mp.killThread();
+	processor::mp.killThread();
 	processor::vp.killThread();
 	logger::log("VisualProcessor Thread Killed");
 	logger::endLog();

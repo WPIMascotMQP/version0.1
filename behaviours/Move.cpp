@@ -26,10 +26,10 @@ Status* Move::executeC() {
 	logger::log("Move Called as Child");
 	status.setRunning();
 
-	Position* pos = cal::calculator.getDeltaPosition(
+	std::shared_ptr<Position> pos = cal::calculator.getDeltaPosition(
 		neck_yaw, neck_pitch, head_yaw, head_pitch);
 	coms::controller.addPosition(pos);
-	coms::controller.addBehaviour(this);
+	coms::controller.addBehaviour(std::shared_ptr<Behaviour>(this));
 
 	logger::log("Move", "Calculated Position", pos->toString(), "Position to Move To");
 	return &status;

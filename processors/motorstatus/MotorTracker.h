@@ -2,6 +2,10 @@
 #define MOTORSTATUS_H
 
 #include <cmath>
+#include <iostream>
+#include <sstream>
+#include <stdio.h>
+#include <string>
 #include <vector>
 
 class MotorTracker {
@@ -13,14 +17,36 @@ public:
 	void add(double current, double temperature, double position);
 	void addToHistory(std::vector<double> history, double info);
 
-	double minimum;
-	double maximum;
-	double maximum_physical;
-	double ratio; // Motor Rad to Physical Rad
-	double neutral;
-	double neutral_physical;
+	void setMinimum(double min);
+	void setNeutral(double neu);
+	void setMaximum(double max);
+	void setNeutralPhysical(double neu_phy);
+	void setMaximumPhysical(double max_phy);
+	void setRatio(double rat);
+
+	double getMinimum();
+	double getNeutral();
+	double getMaximum();
+	double getNeutralPhysical();
+	double getMaximumPhysical();
+	double getRatio();
+
+	std::string toString();
+
+	friend std::ostream& operator<< (std::ostream& out, MotorTracker& mt) {
+		std::string output = mt.toString();
+		out << output;
+		return out;
+	}
 
 protected:
+	double minimum;
+	double neutral;
+	double maximum;
+	double neutral_physical;
+	double maximum_physical;
+	double ratio; // Motor Rad to Physical Rad
+
 	std::vector<double> current_history;
 	std::vector<double> temperature_history;
 	std::vector<double> position_history;
