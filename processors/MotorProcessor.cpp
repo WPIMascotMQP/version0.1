@@ -39,11 +39,11 @@ MotorProcessor::MotorProcessor(int num_motors) {
 void MotorProcessor::setupMotor(MotorTracker* motor, double minimum, double ratio,
 	double maximum_physical, double neutral_physical) {
 	motor->setMinimum(minimum);
-	motor->setNeutralPhysical(neutral_physical);
-	motor->setMaximumPhysical(maximum_physical);
+	motor->setNeutralPhysical(neutral_physical / 180 * math::PI);
+	motor->setMaximumPhysical(maximum_physical / 180 * math::PI);
 	motor->setRatio(ratio);
-	motor->setNeutral(math::PI  * maximum_physical / 180 / motor->getRatio());
-	motor->setMaximum(math::PI  * neutral_physical / 180 / motor->getRatio());
+	motor->setNeutral(math::PI  * neutral_physical / 180 / motor->getRatio());
+	motor->setMaximum(math::PI  * maximum_physical / 180 / motor->getRatio());
 }
 
 MotorProcessor::~MotorProcessor() {
@@ -57,6 +57,13 @@ void MotorProcessor::startThread() {
 	logger::log("MotorProcessor", motors.at(head_yaw)->toString(), " - head_yaw", "Motor Constants");
 	logger::log("MotorProcessor", motors.at(head_pitch)->toString(), " - head_pitch", "Motor Constants");
 	pthread = std::thread(&MotorProcessor::processWrapper, this);
+
+	logger::log("MotorProcessor Thread Started");
+}
+
+void MotorProcessor::killThread() {
+	SensorProcessor::killThread();
+	logger::log("MotorProcessor Thread Killed");
 }
 
 void MotorProcessor::process() {
@@ -64,7 +71,7 @@ void MotorProcessor::process() {
 }
 
 std::shared_ptr<Position> MotorProcessor::getCurrentPosition() {
-	return std::shared_ptr<Position>(new Position(0, 0, 0, 0));
+	return toMotorPosition(getNeutralPhysicalPosition());
 }
 
 std::shared_ptr<Position> MotorProcessor::toPhysicalPosiiton(std::shared_ptr<Position> pos) {

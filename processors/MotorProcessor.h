@@ -17,6 +17,7 @@ public:
 		double maximum_physical, double neutral_physical);
 
 	void startThread();
+	void killThread();
 	void process();
 
 	std::shared_ptr<Position> getCurrentPosition();

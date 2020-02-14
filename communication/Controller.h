@@ -33,6 +33,8 @@ public:
 	void addBehaviour(std::shared_ptr<Behaviour> beh);
 
 	Status* execute();
+
+	void clear();
 protected:
 	std::vector<std::shared_ptr<Position>> position_list;
 	std::vector<std::shared_ptr<Behaviour>> behaviour_list;

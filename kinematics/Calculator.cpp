@@ -69,7 +69,7 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch)
 	std::shared_ptr<Position> new_physical(new Position(
 		neutral_pos->getNeckYaw() + (current_yaw - neutral_yaw + yaw) * (1 - yaw_ratio),
 		neutral_pos->getNeckPitch() + (current_pitch - neutral_pitch + pitch) * (1 - pitch_ratio),
-		neutral_pos->getHeadYaw() + (current_yaw -neutral_yaw + yaw) * yaw_ratio,
+		neutral_pos->getHeadYaw() + (current_yaw - neutral_yaw + yaw) * yaw_ratio,
 		neutral_pos->getHeadPitch() + (current_pitch -neutral_pitch + pitch) * pitch_ratio));
 	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 

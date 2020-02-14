@@ -3,7 +3,7 @@
 namespace logger {
 	std::ofstream* log_file;
 	unsigned int max_log_size = 5;
-	unsigned int print_width = 40;
+	unsigned int print_width = 30;
 
 	/**
 	 The verbose printout

@@ -89,7 +89,6 @@ int main(int argc, char* argv[]) {
 	//ap.startThread();
 	processor::mp.startThread();
 	processor::vp.startThread();
-	logger::log("VisualProcessor Thread Started");
 
 	std::string input;
 	std::getline(std::cin, input);
@@ -103,10 +102,13 @@ int main(int argc, char* argv[]) {
 		std::getline(std::cin, input);
 		data::sensor_data.setInput(input);
 	}
+	logger::log("Exiting");
 	//ap.killThread();
 	processor::mp.killThread();
 	processor::vp.killThread();
-	logger::log("VisualProcessor Thread Killed");
+
+	coms::controller.clear();
+	logger::log("Exited");
 	logger::endLog();
 }
 

@@ -4,7 +4,7 @@
  CONSTUCTOR
 */
 Behaviour::Behaviour() {
-	
+
 }
 
 /**
@@ -32,4 +32,8 @@ Status* Behaviour::executeC() {
 Status* Behaviour::executeP(Status* stat) {
 	status = *stat;
 	return parent->executeP(stat);
+}
+
+std::string Behaviour::toString() {
+	return "Behaviour";
 }

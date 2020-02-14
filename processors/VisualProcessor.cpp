@@ -74,13 +74,16 @@ void VisualProcessor::startThread() {
     std::ostringstream strs;
     strs << "VideoCapture Width: " << frame.cols << " Height: " << frame.rows;
     logger::log(strs.str());
+    logger::log("VisualProcessor Thread Started");
 }
 
 void VisualProcessor::killThread() {
     std::ostringstream strs;
     strs << "VisualProcessor Average Loop Time: " << (total_loop_time / num_loops);
     logger::log(strs.str());
+    
     SensorProcessor::killThread();
+    logger::log("VisualProcessor Thread Killed");
 }
 
 /**

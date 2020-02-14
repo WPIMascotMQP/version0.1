@@ -35,6 +35,8 @@ public:
 	Status* executeP(Status* stat);
 	void end();
 
+	std::string toString();
+
 protected:
 	std::vector<Action*> actions;
 
