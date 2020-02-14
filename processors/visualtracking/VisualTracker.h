@@ -33,12 +33,14 @@ public:
 	void add(cv::Rect rect, std::shared_ptr<Position> position);
 	int getMissedCount();
 
-	cv::Rect* getAverage();
+	std::shared_ptr<cv::Rect> getAverage();
 	int getMidX(cv::Rect* rect);
 	int getMidY(cv::Rect* rect);
+	int getMidX(std::shared_ptr<cv::Rect> rect);
+	int getMidY(std::shared_ptr<cv::Rect> rect);
 
 	unsigned int missedCount;
-	std::vector<cv::Rect*> history;
+	std::vector<std::shared_ptr<cv::Rect>> history;
 	std::vector<std::shared_ptr<Position>> positions;
 
 };

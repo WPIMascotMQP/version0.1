@@ -27,9 +27,9 @@ VisualTrackerManager::~VisualTrackerManager() {
  */
 void VisualTrackerManager::addRects(std::vector<cv::Rect> rects, std::shared_ptr<Position> position) {
 	// Add a missed count to all trackers
-	std::vector<VisualTracker*>::iterator itr_tracker = trackers.begin();
+	std::vector<std::shared_ptr<VisualTracker>>::iterator itr_tracker = trackers.begin();
 	while(itr_tracker < trackers.end()) {
-		VisualTracker* vt = *itr_tracker;
+		std::shared_ptr<VisualTracker> vt = *itr_tracker;
 		vt->missedCount++;
 		itr_tracker++;
 	}
@@ -43,7 +43,7 @@ void VisualTrackerManager::addRects(std::vector<cv::Rect> rects, std::shared_ptr
 		// Search trackers for a match
 		itr_tracker = trackers.begin();
 		while(itr_tracker < trackers.end()) {
-			VisualTracker* vt = *itr_tracker;
+			std::shared_ptr<VisualTracker> vt = *itr_tracker;
 			if(vt->belongs(&rec, position)) {
 				vt->add(rec, position);
 				vt->missedCount = 0;
@@ -55,7 +55,7 @@ void VisualTrackerManager::addRects(std::vector<cv::Rect> rects, std::shared_ptr
 
 		// If none found, create new tracker
 		if(!found) {
-			VisualTracker* tracker = new VisualTracker();
+			std::shared_ptr<VisualTracker> tracker(new VisualTracker());
 			trackers.push_back(tracker);
 			tracker->add(rec, position);
 		}
@@ -65,9 +65,8 @@ void VisualTrackerManager::addRects(std::vector<cv::Rect> rects, std::shared_ptr
 	// Remove Old Trackers
 	itr_tracker = trackers.begin();
 	while(itr_tracker < trackers.end()) {
-		VisualTracker* vt = *itr_tracker;
+		std::shared_ptr<VisualTracker> vt = *itr_tracker;
 		if(vt->missedCount >= trackerManager::error_frame) {
-			delete(vt);
 			itr_tracker = trackers.erase(itr_tracker);
 		} else {
 			itr_tracker++;
@@ -79,11 +78,11 @@ void VisualTrackerManager::addRects(std::vector<cv::Rect> rects, std::shared_ptr
  Returns a vector of the averages of all the VisualTrackers
  @return The list of Rects, one for each tracked object
  */
-std::vector<cv::Rect*>* VisualTrackerManager::getRects() {
-	std::vector<cv::Rect*>* rects = new std::vector<cv::Rect*>;
-	std::vector<VisualTracker*>::iterator itr_tracker = trackers.begin();
+std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> VisualTrackerManager::getRects() {
+	std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> rects(new std::vector<std::shared_ptr<cv::Rect>>);
+	std::vector<std::shared_ptr<VisualTracker>>::iterator itr_tracker = trackers.begin();
 	while(itr_tracker < trackers.end()) {
-		VisualTracker* vt = *itr_tracker;
+		std::shared_ptr<VisualTracker> vt = *itr_tracker;
 		if(vt->history.size() >= trackerManager::minimum_frame) {
 			rects->push_back(vt->getAverage());
 		}

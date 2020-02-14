@@ -27,13 +27,13 @@ Status* InteractionMoveToHead::executeC() {
 	int max_y = processor::vp.getVisualHeight();
 
 	// Get Closest Face to Center Bottom
-	std::vector<cv::Rect*>* faces = processor::vp.getFaceRects();
-	std::vector<cv::Rect*>::iterator itr_face = faces->begin();
-	cv::Rect_<int>* closest_face = *faces->begin();
+	std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> faces = processor::vp.getFaceRects();
+	std::vector<std::shared_ptr<cv::Rect>>::iterator itr_face = faces->begin();
+	std::shared_ptr<cv::Rect_<int>> closest_face = *faces->begin();
 	double closest_distance = processor::vp.distance(processor::vp.getMidX(closest_face),
 		processor::vp.getMidY(closest_face), mid_x, max_y);
 	while(itr_face < faces->end()) {
-		cv::Rect_<int>* face = *itr_face;
+		std::shared_ptr<cv::Rect_<int>> face = *itr_face;
 		double distance = processor::vp.distance(processor::vp.getMidX(face),
 			processor::vp.getMidY(face), mid_x, max_y);
 		if(distance < closest_distance) {
@@ -56,11 +56,9 @@ Status* InteractionMoveToHead::executeC() {
 
 	itr_face = faces->begin();
 	while(itr_face < faces->end()) {
-		cv::Rect_<int>* face = *itr_face;
-		delete(face);
+		std::shared_ptr<cv::Rect_<int>> face = *itr_face;
 		itr_face = faces->erase(itr_face);
 	}
-	delete(faces);
 
 	logger::log("InteractionMoveToHead", "Calculated Position", pos->toString(), "Position to Move To");
 	return &status;

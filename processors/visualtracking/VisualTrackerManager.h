@@ -31,9 +31,9 @@ public:
 	~VisualTrackerManager();
 
 	void addRects(std::vector<cv::Rect> rects, std::shared_ptr<Position> position);
-	std::vector<cv::Rect*>* getRects();
+	std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> getRects();
 
 private:
-	std::vector<VisualTracker*> trackers;
+	std::vector<std::shared_ptr<VisualTracker>> trackers;
 };
 #endif

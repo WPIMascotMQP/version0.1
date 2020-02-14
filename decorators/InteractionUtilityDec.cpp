@@ -18,19 +18,17 @@ double InteractionUtilityDec::getPriority() {
 
 	// Get max ratio of face size to visual size
 	double max_ratio = 0.0;
-	std::vector<cv::Rect*>* faces = processor::vp.getFaceRects();
-	std::vector<cv::Rect*>::iterator itr = faces->begin();
+	std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> faces = processor::vp.getFaceRects();
+	std::vector<std::shared_ptr<cv::Rect>>::iterator itr = faces->begin();
 	while(itr < faces->end()) {
-		cv::Rect_<int>* rect = *itr;
+		std::shared_ptr<cv::Rect_<int>> rect = *itr;
 		double ratio = (0.0 + std::max(rect->width, rect->height))
 			/ std::min(visual_width, visual_height);
 		if(ratio > max_ratio) {
 			max_ratio = ratio;
 		}
-		delete(rect);
 		itr = faces->erase(itr);
 	}
-	delete(faces);
 
 	// Limit to max priority
 	if(max_ratio > interactionUtilityDec::max_priority) {

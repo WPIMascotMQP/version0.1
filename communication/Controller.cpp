@@ -29,9 +29,7 @@ Controller::~Controller() {
 void Controller::addPosition(std::shared_ptr<Position> pos) {
 	position_list.push_back(pos);
 
-	std::ostringstream strs;
-	strs << "Controller Added Position: " << *pos;
-	logger::log(strs.str());
+	logger::log("Contoller", "Added Position", pos->toString(), "Position To Move To");
 }
 
 void Controller::addBehaviour(std::shared_ptr<Behaviour> beh) {

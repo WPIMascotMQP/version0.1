@@ -110,15 +110,13 @@ void VisualProcessor::process() {
 
     // Get rects from trackers
     visualData::visual_lock.lock();
-    std::vector<cv::Rect*>* faces = visualData::face_manager.getRects();
-    std::vector<cv::Rect*>* bodies = visualData::body_manager.getRects();
+    std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> faces = visualData::face_manager.getRects();
+    std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> bodies = visualData::body_manager.getRects();
     visualData::visual_lock.unlock();
 
     // Display Rects on frame
     display(faces, cv::Scalar(255, 0, 255), frame);
     display(bodies, cv::Scalar(0, 0, 255), frame);
-    deleteVector(faces);
-    deleteVector(bodies);
 
     //-- Show what you got
     cv::namedWindow("Capture - Face Detection", cv::WINDOW_AUTOSIZE);
@@ -139,10 +137,10 @@ void VisualProcessor::process() {
  @param color The cv color to show the ellipse as
  @param frame The frame to paint the ellipse on
  */
-void VisualProcessor::display(std::vector<cv::Rect*>* objects, cv::Scalar color, cv::Mat frame) {
-    std::vector<cv::Rect*>::iterator itr = objects->begin();
+void VisualProcessor::display(std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> objects, cv::Scalar color, cv::Mat frame) {
+    std::vector<std::shared_ptr<cv::Rect>>::iterator itr = objects->begin();
     while(itr < objects->end()) {
-        cv::Rect_<int>* rect = *itr;
+        std::shared_ptr<cv::Rect_<int>> rect = *itr;
         cv::Point center(rect->x + rect->width/2, rect->y + rect->height/2);
         cv::ellipse(frame, center, cv::Size(rect->width/2, rect->height/2),
             0, 0, 360, color, 4);
@@ -150,30 +148,16 @@ void VisualProcessor::display(std::vector<cv::Rect*>* objects, cv::Scalar color,
     }
 }
 
-/**
- Deletes the given vector of rects
- @param objects The vector of rects to delete
- */
-void VisualProcessor::deleteVector(std::vector<cv::Rect*>* objects) {
-    std::vector<cv::Rect*>::iterator itr = objects->begin();
-    while(itr < objects->end()) {
-        cv::Rect_<int>* rect = *itr;
-        delete(rect);
-        itr = objects->erase(itr);
-    }
-    delete(objects);
-}
-
-std::vector<cv::Rect*>* VisualProcessor::getFaceRects() {
+std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> VisualProcessor::getFaceRects() {
     visualData::visual_lock.lock();
-    std::vector<cv::Rect*>* faces = visualData::face_manager.getRects();
+    std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> faces = visualData::face_manager.getRects();
     visualData::visual_lock.unlock();
     return faces;
 }
 
-std::vector<cv::Rect*>* VisualProcessor::getBodyRects() {
+std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> VisualProcessor::getBodyRects() {
     visualData::visual_lock.lock();
-    std::vector<cv::Rect*>* bodies = visualData::body_manager.getRects();
+    std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> bodies = visualData::body_manager.getRects();
     visualData::visual_lock.unlock();
     return bodies;
 }
@@ -227,6 +211,24 @@ int VisualProcessor::getMidX(cv::Rect* rect) {
  */
 int VisualProcessor::getMidY(cv::Rect* rect) {
 	return (int) rect->y + rect->height/2 + 0.5;
+}
+
+/**
+ Returns the x midpoint of the given rect
+ @param The rect to get the x mdpoint
+ @return The x midpoint
+ */
+int VisualProcessor::getMidX(std::shared_ptr<cv::Rect> rect) {
+    return (int) rect->x + rect->width/2 + 0.5;
+}
+
+/**
+ Returns the y midpoint of the given rect
+ @param The rect to get the y mdpoint
+ @return The y midpoint
+ */
+int VisualProcessor::getMidY(std::shared_ptr<cv::Rect> rect) {
+    return (int) rect->y + rect->height/2 + 0.5;
 }
 
 /**

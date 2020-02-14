@@ -34,8 +34,8 @@ public:
 	void killThread();
 	void process();
 
-	std::vector<cv::Rect*>* getFaceRects();
-	std::vector<cv::Rect*>* getBodyRects();
+	std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> getFaceRects();
+	std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> getBodyRects();
 
 	void changePhase();
 	void setImageReduction(double reduction);
@@ -47,6 +47,8 @@ public:
 
 	int getMidX(cv::Rect* rect);
 	int getMidY(cv::Rect* rect);
+	int getMidX(std::shared_ptr<cv::Rect> rect);
+	int getMidY(std::shared_ptr<cv::Rect> rect);
 	double distance(int x1, int y1, int x2, int y2);
 protected:
 	cv::CascadeClassifier face_cascade;
@@ -60,8 +62,7 @@ protected:
 	double total_loop_time;
 
 private:
-	void display(std::vector<cv::Rect*>* objects, cv::Scalar color, cv::Mat frame);
-	void deleteVector(std::vector<cv::Rect*>* objects);
+	void display(std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> objects, cv::Scalar color, cv::Mat frame);
 
 	std::string getMatType(cv::Mat mat);
 	std::string getMatDepth(cv::Mat mat);

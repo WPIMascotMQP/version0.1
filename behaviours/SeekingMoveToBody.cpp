@@ -27,13 +27,13 @@ Status* SeekingMoveToBody::executeC() {
 	int max_y = processor::vp.getVisualHeight();
 
 	// Get Closest Body to Center Bottom
-	std::vector<cv::Rect*>* bodies = processor::vp.getBodyRects();
-	std::vector<cv::Rect*>::iterator itr_body = bodies->begin();
-	cv::Rect_<int>* closest_body = *bodies->begin();
+	std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> bodies = processor::vp.getBodyRects();
+	std::vector<std::shared_ptr<cv::Rect>>::iterator itr_body = bodies->begin();
+	std::shared_ptr<cv::Rect_<int>> closest_body = *bodies->begin();
 	double closest_distance = processor::vp.distance(processor::vp.getMidX(closest_body),
 		processor::vp.getMidY(closest_body), mid_x, max_y);
 	while(itr_body < bodies->end()) {
-		cv::Rect_<int>* body = *itr_body;
+		std::shared_ptr<cv::Rect_<int>> body = *itr_body;
 		double distance = processor::vp.distance(processor::vp.getMidX(body),
 			processor::vp.getMidY(body), mid_x, max_y);
 		if(distance < closest_distance) {
@@ -56,11 +56,9 @@ Status* SeekingMoveToBody::executeC() {
 
 	itr_body = bodies->begin();
 	while(itr_body < bodies->end()) {
-		cv::Rect_<int>* body = *itr_body;
-		delete(body);
+		std::shared_ptr<cv::Rect_<int>> body = *itr_body;
 		itr_body = bodies->erase(itr_body);
 	}
-	delete(bodies);
 
 	logger::log("SeekingMoveToBody", "Calculated Position", pos->toString(), "Position to Move To");
 	return &status;

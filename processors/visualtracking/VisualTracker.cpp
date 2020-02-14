@@ -19,12 +19,7 @@ VisualTracker::VisualTracker() {
  DECONSTRUCTOR
  */
 VisualTracker::~VisualTracker() {
-	std::vector<cv::Rect*>::iterator itr = history.begin();
-	if(itr < history.end()) {
-	    cv::Rect_<int>* rec = *itr;
-		delete(rec);
-		itr = history.erase(itr);
-	}
+
 }
 
 /**
@@ -34,7 +29,7 @@ VisualTracker::~VisualTracker() {
  @return Whether the rect is part of this tracker of not
  */
 bool VisualTracker::belongs(cv::Rect* rect, std::shared_ptr<Position> position) {
-	cv::Rect* average = getAverage();
+	std::shared_ptr<cv::Rect> average = getAverage();
 	int average_x = getMidX(average);
 	int average_y = getMidY(average);
 
@@ -62,12 +57,11 @@ bool VisualTracker::belongs(cv::Rect* rect, std::shared_ptr<Position> position) 
  @param rect The rect to add
  */
 void VisualTracker::add(cv::Rect rect, std::shared_ptr<Position> position) {
-	cv::Rect_<int>* new_rect = new cv::Rect(rect.x, rect.y, rect.width, rect.height);
+	std::shared_ptr<cv::Rect_<int>> new_rect(new cv::Rect(rect.x, rect.y, rect.width, rect.height));
 	history.push_back(new_rect);
 	if(history.size() > trackers::history_length) {
-		std::vector<cv::Rect*>::iterator itr = history.begin();
-        cv::Rect_<int>* rec = *itr;
-        delete(rec);
+		std::vector<std::shared_ptr<cv::Rect>>::iterator itr = history.begin();
+        std::shared_ptr<cv::Rect_<int>> rec = *itr;
         history.erase(itr);
 	}
 }
@@ -76,7 +70,7 @@ void VisualTracker::add(cv::Rect rect, std::shared_ptr<Position> position) {
  Creates a new rect which is the average position of the previous captured rects
  @return The average rect for this object
  */
-cv::Rect* VisualTracker::getAverage() {
+std::shared_ptr<cv::Rect> VisualTracker::getAverage() {
 	int sum_weight = 0;
 	int current_weight = 1;
 
@@ -86,9 +80,9 @@ cv::Rect* VisualTracker::getAverage() {
 	int sum_width = 0;
 	int sum_height = 0;
 
-	std::vector<cv::Rect*>::iterator itr = history.begin();
+	std::vector<std::shared_ptr<cv::Rect>>::iterator itr = history.begin();
 	while(itr < history.end()) {
-		cv::Rect_<int>* rec = *itr;
+		std::shared_ptr<cv::Rect_<int>> rec = *itr;
 		sum_x += rec->x * current_weight;
 		sum_y += rec->y * current_weight;
 		sum_width += rec->width * current_weight;
@@ -98,10 +92,10 @@ cv::Rect* VisualTracker::getAverage() {
 		itr++;
 	}
 
-	cv::Rect* rect = new cv::Rect((int) sum_x/sum_weight + 0.5,
+	std::shared_ptr<cv::Rect> rect(new cv::Rect((int) sum_x/sum_weight + 0.5,
 								(int) sum_y/sum_weight + 0.5,
 								(int) sum_width/sum_weight + 0.5,
-								(int) sum_height/sum_weight + 0.5);
+								(int) sum_height/sum_weight + 0.5));
 	return rect;
 }
 
@@ -120,5 +114,23 @@ int VisualTracker::getMidX(cv::Rect* rect) {
  @return The y midpoint
  */
 int VisualTracker::getMidY(cv::Rect* rect) {
+	return (int) rect->y + rect->height/2 + 0.5;
+}
+
+/**
+ Returns the x midpoint of the given rect
+ @param The rect to get the x mdpoint
+ @return The x midpoint
+ */
+int VisualTracker::getMidX(std::shared_ptr<cv::Rect> rect) {
+	return (int) rect->x + rect->width/2 + 0.5;
+}
+
+/**
+ Returns the y midpoint of the given rect
+ @param The rect to get the y mdpoint
+ @return The y midpoint
+ */
+int VisualTracker::getMidY(std::shared_ptr<cv::Rect> rect) {
 	return (int) rect->y + rect->height/2 + 0.5;
 }
