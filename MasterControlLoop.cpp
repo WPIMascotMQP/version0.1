@@ -1,34 +1,7 @@
-#include <iostream>
-
-#include "behaviourtree/BehaviourTree.h"
-#include "communication/Controller.h"
-#include "behaviourtree/composite/Sequence.h"
 #include "MasterControlLoop.h"
-#include "behaviourtree/composite/Parallel.h"
-#include "behaviourtree/composite/Utility.h"
-#include "processors/AudioProcessor.h"
-#include "processors/MotorProcessor.h"
-#include "processors/VisualProcessor.h"
-#include "SensorData.h"
-
-#include "behaviours/PhysicalMoveHead.h"
-#include "behaviours/InteractionMoveToHead.h"
-#include "behaviours/InteractionMoveToHand.h"
-#include "behaviours/SeekingMoveSearch.h"
-#include "behaviours/SeekingMoveToBody.h"
-#include "behaviours/Move.h"
-
-#include "decorators/PhysicalUtilityDec.h"
-#include "decorators/InteractionUtilityDec.h"
-#include "decorators/InteractionHandUtilityDec.h"
-#include "decorators/InteractionHeadUtilityDec.h"
-#include "decorators/InteractionMotionUtilityDec.h"
-#include "decorators/SeekingUtilityDec.h"
-#include "decorators/SeekingSearchUtilityDec.h"
-#include "decorators/SeekingBodyUtilityDec.h"
-#include "decorators/SeekingMotionUtilityDec.h"
 
 namespace nodes {
+	BehaviourTree bt;
 	Utility ut_t1;
 		PhysicalUtilityDec pud;
 			Sequence physical_sq;
@@ -62,7 +35,6 @@ int main(int argc, char* argv[]) {
 	logger::startLog();
 	// Create Behaviour Tree Objects
 	using namespace nodes;
-	BehaviourTree bt;
 
 	// Link Behaviour Tree
 	bt << ut_t1;
@@ -84,15 +56,17 @@ int main(int argc, char* argv[]) {
 	interaction_motion_sq.reset();
 	seeking_motion_sq.reset();
 
-	coms::current_behaviours.push_back(&bt);
+	coms::behaviour_list_execute.push_back(&bt);
 
 	//ap.startThread();
 	processor::mp.startThread();
 	processor::vp.startThread();
+	serial::serial.startThread();
 
 	std::string input;
 	std::getline(std::cin, input);
 	data::sensor_data.setInput(input);
+	serial::serial.finishBehaviours();
 	while (input != "x") {
 		executeBehaviours(input);
 		coms::controller.execute();
@@ -101,11 +75,14 @@ int main(int argc, char* argv[]) {
 
 		std::getline(std::cin, input);
 		data::sensor_data.setInput(input);
+		serial::serial.finishBehaviours();
 	}
 	logger::log("Exiting");
 	//ap.killThread();
 	processor::mp.killThread();
 	processor::vp.killThread();
+	serial::serial.killThread();
+
 
 	coms::controller.clear();
 	logger::log("Exited");
@@ -113,12 +90,12 @@ int main(int argc, char* argv[]) {
 }
 
 void executeBehaviours(std::string input) {
-	std::vector<Behaviour*>::iterator itr;
-	for (itr = coms::current_behaviours.begin(); itr < coms::current_behaviours.end(); itr++) {
+	std::vector<Behaviour*>::iterator itr = coms::behaviour_list_execute.begin();
+	while (itr < coms::behaviour_list_execute.end()) {
 		Behaviour* behaviour = *itr;
 		Status* result = input.find("f") == std::string::npos ?
 			behaviour->executeP(Status().setSuccess()) : behaviour->executeP(Status().setFailure());
-		coms::current_behaviours.erase(itr);
+		coms::behaviour_list_execute.erase(itr);
 	}
 }
 

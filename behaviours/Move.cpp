@@ -29,7 +29,7 @@ Status* Move::executeC() {
 	std::shared_ptr<Position> pos = cal::calculator.getDeltaPosition(
 		neck_yaw, neck_pitch, head_yaw, head_pitch);
 	coms::controller.addPosition(pos);
-	coms::controller.addBehaviour(std::shared_ptr<Behaviour>(this));
+	coms::controller.addBehaviour(this);
 
 	logger::log("Move", "Calculated Position", pos->toString(), "Position to Move To");
 	return &status;
@@ -43,4 +43,8 @@ Status* Move::executeC() {
 Status* Move::executeP(Status* stat) {
 	status = *stat;
 	return parent->executeP(stat);
+}
+
+std::string Move::toString() {
+	return "Move";
 }

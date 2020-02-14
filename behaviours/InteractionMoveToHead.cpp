@@ -50,7 +50,7 @@ Status* InteractionMoveToHead::executeC() {
 	double delta_y = ratio_y * processor::vp.getVisualHeightRads() / 2;
 	std::shared_ptr<Position> pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
 	coms::controller.addPosition(pos);
-	coms::controller.addBehaviour(std::shared_ptr<Behaviour>(this));
+	coms::controller.addBehaviour(this);
 
 	itr_face = faces->begin();
 	while(itr_face < faces->end()) {
@@ -70,4 +70,8 @@ Status* InteractionMoveToHead::executeC() {
 Status* InteractionMoveToHead::executeP(Status* stat) {
 	status = *stat;
 	return parent->executeP(stat);
+}
+
+std::string InteractionMoveToHead::toString() {
+	return "InteractionMoveToHead";
 }

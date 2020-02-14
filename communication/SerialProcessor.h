@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+#include "../behaviourtree/Behaviour.h"
 #include "../processors/SensorProcessor.h"
 #include "SpiSlave.h"
 
@@ -13,7 +14,10 @@ public:
 	~SerialProcessor();
 
 	void startThread();
+	void killThread();
 	void process();
+
+	void finishBehaviours();
 protected:
 private:
 };

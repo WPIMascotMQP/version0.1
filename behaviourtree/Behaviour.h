@@ -31,11 +31,11 @@ public:
 	Behaviour();
     ~Behaviour();
 
-	Status* executeC();
-	Status* executeP(Status* stat);
+	virtual Status* executeC();
+	virtual Status* executeP(Status* stat);
 	void end();
 
-	std::string toString();
+	virtual std::string toString();
 
 protected:
 	std::vector<Action*> actions;

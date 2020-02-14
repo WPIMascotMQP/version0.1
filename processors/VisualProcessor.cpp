@@ -71,9 +71,11 @@ void VisualProcessor::startThread() {
 	kill = false;
 	pthread = std::thread(&VisualProcessor::processWrapper, this);
 
-    std::ostringstream strs;
-    strs << "VideoCapture Width: " << frame.cols << " Height: " << frame.rows;
-    logger::log(strs.str());
+    std::ostringstream strWidth;
+    strWidth << "Wdith: " << frame.cols;
+    std::ostringstream strHeight;
+    strHeight << "Height: " << frame.rows;
+    logger::log("VisualProcessor", strWidth.str(), strHeight.str(), "Visual Dimensions");
     logger::log("VisualProcessor Thread Started");
 }
 

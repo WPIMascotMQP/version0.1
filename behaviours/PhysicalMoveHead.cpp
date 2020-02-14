@@ -33,3 +33,7 @@ Status* PhysicalMoveHead::executeP(Status* stat) {
 	status = *stat;
 	return parent->executeP(stat);
 }
+
+std::string PhysicalMoveHead::toString() {
+	return "PhysicalMoveHead";
+}

@@ -42,7 +42,7 @@ Status* SeekingMoveSearch::executeC() {
 
 	std::shared_ptr<Position> pos = cal::calculator.getPosition(random_yaw, random_pitch);
 	coms::controller.addPosition(pos);
-	coms::controller.addBehaviour(std::shared_ptr<Behaviour>(this));
+	coms::controller.addBehaviour(this);
 
 	logger::log("SeekingMoveSearch", "Calculated Position", pos->toString(), "Position to Move To");
 	return &status;
@@ -56,4 +56,8 @@ Status* SeekingMoveSearch::executeC() {
 Status* SeekingMoveSearch::executeP(Status* stat) {
 	status = *stat;
 	return parent->executeP(stat);
+}
+
+std::string SeekingMoveSearch::toString() {
+	return "SeekingMoveSearch";
 }

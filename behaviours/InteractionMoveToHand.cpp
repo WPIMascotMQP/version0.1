@@ -24,7 +24,7 @@ Status* InteractionMoveToHand::executeC() {
 	status.setRunning();
 
 	logger::log("InteractionMoveToHand This Behaviour is Not Implemented");
-	coms::controller.addBehaviour(std::shared_ptr<Behaviour>(this));
+	coms::controller.addBehaviour(this);
 	return &status;
 }
 
@@ -37,4 +37,8 @@ Status* InteractionMoveToHand::executeP(Status* stat) {
 	logger::log("InteractionMoveToHand Called as Parent");
 	status = *stat;
 	return parent->executeP(stat);
+}
+
+std::string InteractionMoveToHand::toString() {
+	return "InteractionMoveToHand";
 }

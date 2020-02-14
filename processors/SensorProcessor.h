@@ -17,7 +17,7 @@ public:
 	~SensorProcessor();
 
 	virtual void startThread();
-	void killThread();
+	virtual void killThread();
 
 	void processWrapper();
 	virtual void process();

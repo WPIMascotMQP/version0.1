@@ -12,6 +12,8 @@ public:
 	Status* executeC();
 	Status* executeP(Status* stat);
 
+	std::string toString();
+
 protected:
 	double neck_yaw;
 	double neck_pitch;

@@ -30,20 +30,20 @@ public:
 	~Controller();
 
 	void addPosition(std::shared_ptr<Position> pos);
-	void addBehaviour(std::shared_ptr<Behaviour> beh);
+	void addBehaviour(Behaviour* beh);
 
 	Status* execute();
 
 	void clear();
 protected:
 	std::vector<std::shared_ptr<Position>> position_list;
-	std::vector<std::shared_ptr<Behaviour>> behaviour_list;
 	Status status;
 
 };
 
 namespace coms {
 	extern Controller controller;
-	extern std::vector<Behaviour*> current_behaviours;
+	extern std::vector<Behaviour*> behaviour_list_current;
+	extern std::vector<Behaviour*> behaviour_list_execute;
 }
 #endif

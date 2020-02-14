@@ -11,6 +11,8 @@ public:
 	Status* executeC();
 	Status* executeP(Status* stat);
 
+	std::string toString();
+
 protected:
 
 

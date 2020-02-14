@@ -1,11 +1,13 @@
 #include "Controller.h"
 
+#include "../MasterControlLoop.h"
 #include "../behaviourtree/Behaviour.h"
 #include "../behaviourtree/Node.h"
 
 namespace coms {
 	Controller controller(0);
-	std::vector<Behaviour*> current_behaviours;
+	std::vector<Behaviour*> behaviour_list_current;
+	std::vector<Behaviour*> behaviour_list_execute;
 }
 
 /**
@@ -32,8 +34,8 @@ void Controller::addPosition(std::shared_ptr<Position> pos) {
 	logger::log("Contoller", "Added Position", pos->toString(), "Position To Move To");
 }
 
-void Controller::addBehaviour(std::shared_ptr<Behaviour> beh) {
-	behaviour_list.push_back(beh);
+void Controller::addBehaviour(Behaviour* beh) {
+	coms::behaviour_list_current.push_back(beh);
 
 	logger::log("Contoller", "Added Behaviour", beh->toString(), "Behaviour Execute Afterward");
 }
@@ -54,10 +56,18 @@ void Controller::clear() {
 		itr_pos = position_list.erase(itr_pos);
 	}
 
-	std::cout << "Cleared Positions" << std::endl;
-	std::vector<std::shared_ptr<Behaviour>>::iterator itr_beh = behaviour_list.begin();
-	while(itr_beh < behaviour_list.end()) {
-		itr_beh = behaviour_list.erase(itr_beh);
+	
+	std::vector<Behaviour*>::iterator itr_beh = coms::behaviour_list_current.begin();
+	while(itr_beh < coms::behaviour_list_current.end()) {
+		itr_beh = coms::behaviour_list_current.erase(itr_beh);
 	}
+
+	itr_beh = coms::behaviour_list_execute.begin();
+	while(itr_beh < coms::behaviour_list_execute.end()) {
+		itr_beh = coms::behaviour_list_execute.erase(itr_beh);
+	}
+
+	coms::behaviour_list_execute.push_back(&nodes::bt);
+
 	logger::log("Controller All Positions and Behaviours Cleared");
 }
