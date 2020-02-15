@@ -1,6 +1,8 @@
 CFLAGS = -c -g -Wall --std=c++11 -lstdc++fs
+CTEST = $(CFLAGS) -I /usr/local/include
 OPENCV = `pkg-config opencv --cflags --libs`
 LIBS = $(OPENCV) -pthread #-lwiringPi
+TLIBS = $(LIBS) -L /usr/local/lib -l gtest -l gtest_main
 
 BEHAVIOURS = behaviours/
 BEHAVIOURTREE = behaviourtree/
@@ -13,7 +15,9 @@ PROCESSORS = processors/
 MOTORSTATUS = processors/motorstatus/
 TRACKERS = processors/visualtracking/
 
-all: MasterControlLoop
+TEST = test/
+
+all: MasterControlLoop $(TEST)Test
 
 MasterControlLoop: BehaviourTree.o \
 	Controller.o \
@@ -156,11 +160,11 @@ VisualProcessor.o: $(PROCESSORS)VisualProcessor.cpp SensorProcessor.o VisualTrac
 SensorProcessor.o: $(PROCESSORS)SensorProcessor.cpp $(PROCESSORS)SensorProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)SensorProcessor.cpp $(LIBS)
 
-    # MOTOR STATUS CLASSES #
+##### MOTOR STATUS CLASSES #
 MotorTracker.o: $(MOTORSTATUS)MotorTracker.cpp $(MOTORSTATUS)MotorTracker.h
 	g++ $(CFLAGS) $(MOTORSTATUS)MotorTracker.cpp
 
-    # VISUAL TRACKER CLASSES #
+##### VISUAL TRACKER CLASSES #
 VisualTrackerManager.o: $(TRACKERS)VisualTrackerManager.cpp VisualTracker.o $(TRACKERS)VisualTrackerManager.h
 	g++ $(CFLAGS) $(TRACKERS)VisualTrackerManager.cpp $(LIBS)
 
@@ -183,6 +187,9 @@ Position.o: $(KINEMATICS)Position.cpp $(KINEMATICS)Position.h
 Logger.o: Logger.cpp Logger.h
 	g++ $(CFLAGS) Logger.cpp
 
+##### TEST #####
+$(TEST)Test: $(TEST)test.cpp
+	g++ -g -Wall --std=c++11 -o $(TEST)TEST -I /usr/local/include $(TEST)test.cpp -lm $(TLIBS)
 
 ##### CLEAN AND DOCS #####
 clean:

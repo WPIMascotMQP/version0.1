@@ -5,10 +5,10 @@ namespace processor {
 }
 
 namespace motorData {
-	double neck_yaw_ratio = 1;
-	double neck_pitch_ratio = 1;
-	double head_yaw_ratio = 1;
-	double head_pitch_ratio = 1;
+	double neck_yaw_ratio = 1.0 / 40;
+	double neck_pitch_ratio = 1.0 / 40;
+	double head_yaw_ratio = 1.0 / 40;
+	double head_pitch_ratio = 1.0 / 40;
 
 	double neck_yaw_maximum_physical = 120;
 	double neck_pitch_maximum_physical = 100;
