@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+#include <string.h>
+
 class MotorTracker {
 public:
 	MotorTracker();
@@ -23,6 +25,7 @@ public:
 	void setNeutralPhysical(double neu_phy);
 	void setMaximumPhysical(double max_phy);
 	void setRatio(double rat);
+	void setFlipped(bool flip);
 
 	double getMinimum();
 	double getNeutral();
@@ -30,6 +33,7 @@ public:
 	double getNeutralPhysical();
 	double getMaximumPhysical();
 	double getRatio();
+	bool getFlipped();
 
 	std::string toString();
 
@@ -46,6 +50,7 @@ protected:
 	double neutral_physical;
 	double maximum_physical;
 	double ratio; // Motor Rad to Physical Rad
+	bool flipped;
 
 	std::vector<double> current_history;
 	std::vector<double> temperature_history;

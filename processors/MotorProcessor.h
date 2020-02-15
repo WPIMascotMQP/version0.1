@@ -14,7 +14,7 @@ public:
 	~MotorProcessor();
 
 	void setupMotor(MotorTracker* motor, double minimum, double ratio,
-		double maximum_physical, double neutral_physical);
+		double maximum_physical, double neutral_physical, bool flipped);
 
 	void startThread();
 	void killThread();
@@ -30,6 +30,7 @@ public:
 	std::shared_ptr<Position> getNeutralPhysicalPosition();
 	std::shared_ptr<Position> getMaximumPhysicalPosition();
 	std::shared_ptr<Position> getRatioPosition();
+	std::shared_ptr<Position> getFlippedPosition();
 
 	std::mutex motor_lock;
 protected:
@@ -41,5 +42,9 @@ private:
 
 namespace processor {
 	extern MotorProcessor mp;
+}
+
+namespace motorData {
+	extern int num_motors;
 }
 #endif

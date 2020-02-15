@@ -45,6 +45,8 @@ public:
 	Status* removeAction(Action* act);
 	Status* clearActions();
 
+	std::string toString();
+	
 	void operator=(const Status& sta) {
 		state_i = sta.state_i;
 		errorCode = sta.errorCode;

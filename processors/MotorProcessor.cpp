@@ -1,4 +1,5 @@
 #include "MotorProcessor.h"
+#include "../kinematics/Calculator.h"
 
 namespace processor {
 	MotorProcessor mp(4);
@@ -19,29 +20,42 @@ namespace motorData {
 	double neck_pitch_neutral_physical = 35;
 	double head_yaw_neutral_physical = 50;
 	double head_pitch_neutral_physical = 50;
+
+	bool neck_yaw_flipped = false;
+	bool neck_pitch_flipped = false;
+	bool head_yaw_flipped = true;
+	bool head_pitch_flipped = false;
+
+	int num_motors = 4;
 }
 
 MotorProcessor::MotorProcessor(int num_motors) {
-	for(int i = 0; i < 4; i++) {
+	for(int i = 0; i < motorData::num_motors; i++) {
 		MotorTracker* mt = new MotorTracker();
 		motors.push_back(mt);
 	}
 	setupMotor(motors.at(neck_yaw), 0, motorData::neck_yaw_ratio,
-		motorData::neck_yaw_maximum_physical, motorData::neck_yaw_neutral_physical);
+		motorData::neck_yaw_maximum_physical, motorData::neck_yaw_neutral_physical,
+		motorData::neck_yaw_flipped);
 	setupMotor(motors.at(neck_pitch), 0, motorData::neck_pitch_ratio,
-		motorData::neck_pitch_maximum_physical, motorData::neck_pitch_neutral_physical);
+		motorData::neck_pitch_maximum_physical, motorData::neck_pitch_neutral_physical,
+		motorData::neck_pitch_flipped);
 	setupMotor(motors.at(head_yaw), 0, motorData::head_yaw_ratio,
-		motorData::head_yaw_maximum_physical, motorData::head_yaw_neutral_physical);
+		motorData::head_yaw_maximum_physical, motorData::head_yaw_neutral_physical,
+		motorData::head_yaw_flipped);
 	setupMotor(motors.at(head_pitch), 0, motorData::head_pitch_ratio,
-		motorData::head_pitch_maximum_physical, motorData::head_pitch_neutral_physical);
+		motorData::head_pitch_maximum_physical, motorData::head_pitch_neutral_physical,
+		motorData::head_pitch_flipped);
+	cal::calculator.setFlipped();
 }
 
 void MotorProcessor::setupMotor(MotorTracker* motor, double minimum, double ratio,
-	double maximum_physical, double neutral_physical) {
+	double maximum_physical, double neutral_physical, bool flipped) {
 	motor->setMinimum(minimum);
 	motor->setNeutralPhysical(neutral_physical / 180 * math::PI);
 	motor->setMaximumPhysical(maximum_physical / 180 * math::PI);
 	motor->setRatio(ratio);
+	motor->setFlipped(flipped);
 	motor->setNeutral(math::PI  * neutral_physical / 180 / motor->getRatio());
 	motor->setMaximum(math::PI  * maximum_physical / 180 / motor->getRatio());
 }
@@ -136,4 +150,12 @@ std::shared_ptr<Position> MotorProcessor::getRatioPosition() {
 	double hy_rat = motors.at(head_yaw)->getRatio();
 	double hp_rat = motors.at(head_pitch)->getRatio();
 	return std::shared_ptr<Position>(new Position(ny_rat, np_rat, hy_rat, hp_rat));
+}
+
+std::shared_ptr<Position> MotorProcessor::getFlippedPosition() {
+	double ny_flp = motors.at(neck_yaw)->getFlipped() ? 1.0 : 0.0;
+	double np_flp = motors.at(neck_pitch)->getFlipped() ? 1.0 : 0.0;
+	double hy_flp = motors.at(head_yaw)->getFlipped() ? 1.0 : 0.0;
+	double hp_flp = motors.at(head_pitch)->getFlipped() ? 1.0 : 0.0;
+	return std::shared_ptr<Position>(new Position(ny_flp, np_flp, hy_flp, hp_flp));
 }

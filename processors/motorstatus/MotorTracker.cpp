@@ -63,6 +63,10 @@ void MotorTracker::setRatio(double rat) {
 	ratio = rat;
 }
 
+void MotorTracker::setFlipped(bool flip) {
+	flipped = flip;
+}
+
 double MotorTracker::getMinimum() {
 	return minimum;
 }
@@ -87,10 +91,20 @@ double MotorTracker::getRatio() {
 	return ratio;
 }
 
+bool MotorTracker::getFlipped() {
+	return flipped;
+}
+
 std::string MotorTracker::toString() {
 	char output[100];
-	sprintf(output, "( %5.2f, %5.2f, %5.2f, %5.2f, %5.2f, %5.2f)",
-		minimum, neutral, maximum, neutral_physical, maximum_physical, ratio);
+	char flip[10];
+	if(flipped) {
+		strcpy(flip, "True");
+	} else {
+		strcpy(flip, "False");
+	}
+	sprintf(output, "( %5.2f, %5.2f, %5.2f, %5.2f, %5.2f, %5.2f, %s)",
+		minimum, neutral, maximum, neutral_physical, maximum_physical, ratio, flip);
 	std::string s(output);
 	return s;
 }

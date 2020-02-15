@@ -11,7 +11,7 @@ namespace cal {
  CONSTRUCTOR
 */
 Calculator::Calculator(int start_int) {
-
+	
 }
 
 /**
@@ -23,6 +23,7 @@ Calculator::~Calculator() {
 
 std::shared_ptr<Position> Calculator::getPosition(double yaw, double pitch) {
 	std::shared_ptr<Position> maximum_pos = processor::mp.getMaximumPhysicalPosition();
+	std::shared_ptr<Position> flipped_pos = processor::mp.getFlippedPosition();
 
 	// Get maximum positions
 	double maximum_yaw = maximum_pos->getNeckYaw() + maximum_pos->getHeadYaw();
@@ -35,10 +36,10 @@ std::shared_ptr<Position> Calculator::getPosition(double yaw, double pitch) {
 	// New Position based on
 	// neutral position + (final total polar change * ratio between head and neck)
 	std::shared_ptr<Position> new_physical(new Position(
-		(yaw) * (1 - yaw_ratio),
-		(pitch) * (1 - pitch_ratio),
-		(yaw) * yaw_ratio,
-		(pitch) * pitch_ratio));
+		(yaw) * (1 - yaw_ratio) * flips.at(neck_yaw),
+		(pitch) * (1 - pitch_ratio) * flips.at(neck_pitch),
+		(yaw) * yaw_ratio * flips.at(head_yaw),
+		(pitch) * pitch_ratio * flips.at(head_pitch)));
 	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 
 	return new_pos;
@@ -67,10 +68,10 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch)
 	// New Position based on
 	// neutral position + (final total polar change * ratio between head and neck)
 	std::shared_ptr<Position> new_physical(new Position(
-		neutral_pos->getNeckYaw() + (current_yaw - neutral_yaw + yaw) * (1 - yaw_ratio),
-		neutral_pos->getNeckPitch() + (current_pitch - neutral_pitch + pitch) * (1 - pitch_ratio),
-		neutral_pos->getHeadYaw() + (current_yaw - neutral_yaw + yaw) * yaw_ratio,
-		neutral_pos->getHeadPitch() + (current_pitch -neutral_pitch + pitch) * pitch_ratio));
+		neutral_pos->getNeckYaw() + (current_yaw - neutral_yaw + yaw) * (1 - yaw_ratio) * flips.at(neck_yaw),
+		neutral_pos->getNeckPitch() + (current_pitch - neutral_pitch + pitch) * (1 - pitch_ratio) * flips.at(neck_pitch),
+		neutral_pos->getHeadYaw() + (current_yaw - neutral_yaw + yaw) * yaw_ratio * flips.at(head_yaw),
+		neutral_pos->getHeadPitch() + (current_pitch -neutral_pitch + pitch) * pitch_ratio * flips.at(head_pitch)));
 	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 
 	return(new_pos);
@@ -79,10 +80,10 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch)
 std::shared_ptr<Position> Calculator::getDeltaPosition(double ny, double np, double hy, double hp) {
 	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentPosition();
 	std::shared_ptr<Position> physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
-	std::shared_ptr<Position> new_physical(new Position(physical_pos->getNeckYaw() + ny,
-									physical_pos->getNeckPitch() + np,
-									physical_pos->getHeadYaw() + hy,
-									physical_pos->getHeadPitch() + hp));
+	std::shared_ptr<Position> new_physical(new Position(physical_pos->getNeckYaw() + ny * flips.at(neck_yaw),
+									physical_pos->getNeckPitch() + np * flips.at(neck_pitch),
+									physical_pos->getHeadYaw() + hy * flips.at(head_yaw),
+									physical_pos->getHeadPitch() + hp * flips.at(head_pitch)));
 	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 	return(new_pos);
 }
@@ -92,6 +93,13 @@ double Calculator::getNeckHeadRatio(double percent) {
 	return std::pow(percent, 4) - 3.5 * std::pow(percent, 2) + 1;
 }
 
+void Calculator::setFlipped() {
+	std::shared_ptr<Position> flipped_pos = processor::mp.getFlippedPosition();
+	for(int i = 0; i < motorData::num_motors; i++) {
+		double flipped = flipped_pos->getAtIndex(i) == 1.0 ? -1.0 : 1.0;
+		flips.push_back(flipped);
+	}
+}
 /**
  Generates the movements given a set of actions
  @param actions The list of actions

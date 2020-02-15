@@ -37,6 +37,23 @@ void Position::setHeadPitch(double hp) {
 	head_pitch = hp;
 }
 
+void Position::setAtIndex(int index, double value) {
+	switch(index) {
+		case 0:
+			setHeadYaw(value);
+			break;
+		case 1:
+			setNeckPitch(value);
+			break;
+		case 2:
+			setHeadYaw(value);
+			break;
+		case 3:
+			setHeadPitch(value);
+			break;
+	}
+}
+
 double Position::getNeckYaw() {
 	return neck_yaw;
 }
@@ -51,6 +68,21 @@ double Position::getHeadYaw() {
 
 double Position::getHeadPitch() {
 	return head_pitch;
+}
+
+double Position::getAtIndex(int index) {
+	switch(index) {
+		case 0:
+			return getHeadYaw();
+		case 1:
+			return getNeckPitch();
+		case 2:
+			return getHeadYaw();
+		case 3:
+			return getHeadPitch();
+		default:
+			return 0.0;
+	}
 }
 
 std::string Position::toString() {

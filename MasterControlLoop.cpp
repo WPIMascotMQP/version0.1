@@ -95,6 +95,7 @@ void executeBehaviours(std::string input) {
 		Behaviour* behaviour = *itr;
 		Status* result = input.find("f") == std::string::npos ?
 			behaviour->executeP(Status().setSuccess()) : behaviour->executeP(Status().setFailure());
+		logger::log("Executed Behaviour", behaviour->toString(), "Status", result->toString());
 		coms::behaviour_list_execute.erase(itr);
 	}
 }

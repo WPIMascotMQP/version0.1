@@ -89,3 +89,9 @@ Status* Status::clearActions() {
 	actions.clear();
 	return this;
 }
+
+std::string Status::toString() {
+	std::ostringstream strs;
+	strs << "( " << state_i << ", " << errorCode << ", " << description << ")";
+	return strs.str();
+}

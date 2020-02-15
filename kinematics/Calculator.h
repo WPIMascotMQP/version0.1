@@ -34,8 +34,10 @@ public:
 	std::shared_ptr<Position> getDeltaPosition(double ny, double np, double hy, double hp);
 
 	double getNeckHeadRatio(double percent);
-protected:
+	void setFlipped();
 
+protected:
+	std::vector<double> flips;
 };
 
 namespace cal {
