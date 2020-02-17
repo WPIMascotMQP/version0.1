@@ -19,6 +19,10 @@ TEST = test/
 
 all: MasterControlLoop $(TEST)Test
 
+mcl: MasterControlLoop
+
+test: $(TEST)Test
+	
 MasterControlLoop: BehaviourTree.o \
 	Controller.o \
 	Logger.o \

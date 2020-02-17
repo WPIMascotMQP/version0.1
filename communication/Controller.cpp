@@ -45,8 +45,12 @@ void Controller::addBehaviour(Behaviour* beh) {
  @return The status
 */
 Status* Controller::execute() {
-	logger::log("Controller Sending Positions to SerialProcessor");
-	// Send to SerialProcessor
+	serial::position_lock.lock();
+	std::vector<std::shared_ptr<Position>>::iterator itr_pos = position_list.begin(); {
+		serial::positions_to_send.push_back(*itr_pos);
+	}
+	serial::position_lock.unlock();
+	logger::log("Controller Sent Positions to SerialProcessor");
 	return status.setSuccess();
 }
 

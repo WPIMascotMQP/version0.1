@@ -23,7 +23,7 @@ Calculator::~Calculator() {
 
 std::shared_ptr<Position> Calculator::getPosition(double yaw, double pitch) {
 	std::shared_ptr<Position> maximum_pos = processor::mp.getMaximumPhysicalPosition();
-	std::shared_ptr<Position> flipped_pos = processor::mp.getFlippedPosition();
+	setFlipped();
 
 	// Get maximum positions
 	double maximum_yaw = maximum_pos->getNeckYaw() + maximum_pos->getHeadYaw();
@@ -50,6 +50,7 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch)
 	std::shared_ptr<Position> physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
 	std::shared_ptr<Position> neutral_pos = processor::mp.getNeutralPhysicalPosition();
 	std::shared_ptr<Position> maximum_pos = processor::mp.getMaximumPhysicalPosition();
+	setFlipped();
 
 	// Get total yaw positions
 	double maximum_yaw = maximum_pos->getNeckYaw() + maximum_pos->getHeadYaw();
@@ -80,6 +81,7 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch)
 std::shared_ptr<Position> Calculator::getDeltaPosition(double ny, double np, double hy, double hp) {
 	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentPosition();
 	std::shared_ptr<Position> physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
+	setFlipped();
 	std::shared_ptr<Position> new_physical(new Position(physical_pos->getNeckYaw() + ny * flips.at(neck_yaw),
 									physical_pos->getNeckPitch() + np * flips.at(neck_pitch),
 									physical_pos->getHeadYaw() + hy * flips.at(head_yaw),
