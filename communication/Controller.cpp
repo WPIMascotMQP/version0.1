@@ -56,12 +56,14 @@ Status* Controller::execute() {
 	return status.setSuccess();
 }
 
+/**
+ Clears the controller of all positions and all behaviours
+*/
 void Controller::clear() {
 	std::vector<std::shared_ptr<Position>>::iterator itr_pos = position_list.begin();
 	while(itr_pos < position_list.end()) {
 		itr_pos = position_list.erase(itr_pos);
 	}
-
 	
 	std::vector<Behaviour*>::iterator itr_beh = coms::behaviour_list_current.begin();
 	while(itr_beh < coms::behaviour_list_current.end()) {

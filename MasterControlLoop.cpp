@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 					search_sud << move_search;
 					body_sud << move_to_body;
 					motion_sud << seeking_motion_sq;
-						seeking_ut << move_nk_up << move_hd_up << move_hd_cen << move_nk_dwn << move_nk_cen;
+						seeking_motion_sq << move_nk_up << move_hd_up << move_hd_cen << move_nk_dwn << move_nk_cen;
 	logger::log("Behaviour Tree Objects Linked");
 	interaction_motion_sq.reset();
 	seeking_motion_sq.reset();

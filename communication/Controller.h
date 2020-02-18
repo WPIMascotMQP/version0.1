@@ -7,8 +7,8 @@
  movements
 
  @author Jonathan Chang
- @version 0.0.1
- @date 16/11/2019
+ @version 0.0.2
+ @date 18/02/2020
 */
 
 #ifndef CONTROLLER_H
@@ -43,7 +43,7 @@ protected:
 
 namespace coms {
 	extern Controller controller;
-	extern std::vector<Behaviour*> behaviour_list_current;
-	extern std::vector<Behaviour*> behaviour_list_execute;
+	extern std::vector<Behaviour*> behaviour_list_current; // Behaviours that produced commands
+	extern std::vector<Behaviour*> behaviour_list_execute; // Behaviours to execute 
 }
 #endif

@@ -1,3 +1,16 @@
+/**
+ @file SerialProcessor.h
+ @class SerialProcessor
+ @brief The SerialProcessor class handles the overhead of the SPI communication
+ by encoding motor positions or other commands, sending those to the SPI Slaves, 
+ decoding commands recieved by from the SPI Slaves, and executing apporiate actions
+ based on those recieved commands.
+
+ @author Jonathan Chang
+ @version 0.0.1
+ @date 18/02/2020
+*/
+
 #ifndef SERIALPROCESSOR_H
 #define SERIALPROCESSOR_H
 
@@ -15,8 +28,10 @@
 #include "../processors/SensorProcessor.h"
 #include "SpiSlave.h"
 
+// Immediate variable type between float and long
 typedef long float_i;
 
+// Flags for the flag byte of each command
 enum flags {
 	FLAG1 = 0x80, // 10000000
 	FLAG2 = 0x40, // 01000000
@@ -28,17 +43,20 @@ enum flags {
 	FLAG8 = 0x01, // 00000001
 };
 
+// Holds the hex representation of each command
 enum cmds {
 	PATTERN = 0xFF,
 	MOTORPOSITION = 0x01,
 
 };
 
+// Holds the byte index for different parts of the commmand
 enum byte_index {
 	flag_byte = 0,
 	cmd_byte = 1,
 };
 
+// Holds the serial index of the motor and sensir SPI slaves
 enum serial_index {
 	motor_serial = 0,
 	sensor_serial = 1,
@@ -88,7 +106,7 @@ private:
 namespace serial {
 	extern SerialProcessor serial;
 
-	extern std::vector<std::shared_ptr<Position>> positions_to_send;
+	extern std::vector<std::shared_ptr<Position>> positions_to_send; // Positions to send out
 	extern std::mutex position_lock;
 
 	extern int num_serials;

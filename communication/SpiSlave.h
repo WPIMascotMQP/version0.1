@@ -1,3 +1,13 @@
+/**
+ @file SpiSlave.h
+ @class SpiSlave
+ @brief The SpiSlave class reading and writing of a buffer from the SPI communication
+
+ @author Jonathan Chang
+ @version 0.0.1
+ @date 18/02/2020
+*/
+
 #ifndef SPISLAVE_H
 #define SPISLAVE_H
 

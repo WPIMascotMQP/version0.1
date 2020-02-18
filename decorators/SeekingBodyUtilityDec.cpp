@@ -17,6 +17,7 @@ double SeekingBodyUtilityDec::getPriority() {
 	// Get bodies currently seen
 	std::shared_ptr<std::vector<std::shared_ptr<cv::Rect>>> bodies = processor::vp.getBodyRects();
 	if(bodies->size() == 0) {
+		logger::log("SeekingBodyUtilityDec", "Priority:", 0.0, "No Bodies Found");
 		return 0.0;
 	}
 
