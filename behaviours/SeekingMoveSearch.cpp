@@ -30,14 +30,14 @@ Status* SeekingMoveSearch::executeC() {
 	double maximum_yaw = maximum_pos->getNeckYaw() + maximum_pos->getHeadYaw();
 	double delta_yaw = std::min(neutral_yaw, maximum_yaw - neutral_yaw);
 
-	double random_yaw = neutral_yaw - (delta_yaw * 4.0 / 5) + std::rand() %
-		(int) (delta_yaw * (8.0 / 5) + 0.5);
+	double random_yaw = neutral_yaw - (delta_yaw * 4.0 / 5.0) + std::rand() %
+		(int) (delta_yaw * (8.0 / 5.0) + 0.5);
 
 	double neutral_pitch = neutral_pos->getNeckPitch() + neutral_pos->getHeadPitch();
 	double maximum_pitch = maximum_pos->getNeckPitch() + maximum_pos->getHeadPitch();
 	double delta_pitch = std::min(neutral_pitch, maximum_pitch - neutral_pitch);
 
-	double random_pitch = neutral_pitch - (delta_pitch / 2) + std::rand() %
+	double random_pitch = neutral_pitch - (delta_pitch / 2.0) + std::rand() %
 		(int) (delta_pitch + 0.5);
 
 	std::shared_ptr<Position> pos = cal::calculator.getPosition(random_yaw, random_pitch);

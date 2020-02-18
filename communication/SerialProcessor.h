@@ -2,6 +2,7 @@
 #define SERIALPROCESSOR_H
 
 #include <cstddef>
+#include <ctime>
 #include <math.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -10,6 +11,7 @@
 #include <time.h>
 
 #include "../behaviourtree/Behaviour.h"
+#include "../processors/MotorProcessor.h"
 #include "../processors/SensorProcessor.h"
 #include "SpiSlave.h"
 
@@ -32,6 +34,11 @@ enum cmds {
 
 };
 
+enum byte_index {
+	flag_byte = 0,
+	cmd_byte = 1,
+};
+
 enum serial_index {
 	motor_serial = 0,
 	sensor_serial = 1,
@@ -51,6 +58,7 @@ public:
 
 	std::string getStringHex(unsigned char* buffer, size_t length);
 	bool findCommand(unsigned char* buffer);
+	void handleCommand(unsigned char* buffer);
 
 	size_t overwriteBytes(unsigned char* buffer, size_t byte_start, unsigned char* buf, size_t inc_start, size_t byte_inc);
 	size_t encodePattern(unsigned char* buffer, size_t byte_start);

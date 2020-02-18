@@ -25,10 +25,14 @@ bool MotorTracker::EStop() {
 	return false;
 }
 
-void MotorTracker::add(double current, double temperature, double position) {
-	addToHistory(current_history, current);
+void MotorTracker::add(double radians, double current, double temperature, double position) {
+	addRadiansHistory(radians);
 	addToHistory(temperature_history, temperature);
 	addToHistory(position_history, position);
+}
+
+void MotorTracker::addRadiansHistory(double radians) {
+	addToHistory(radians_history, radians);
 }
 
 void MotorTracker::addToHistory(std::vector<double> history, double info) {

@@ -20,6 +20,8 @@ public:
 	void killThread();
 	void process();
 
+	void addRadiansHistory(int index, double radians);
+
 	std::shared_ptr<Position> getCurrentPosition();
 	std::shared_ptr<Position> toPhysicalPosiiton(std::shared_ptr<Position> pos);
 	std::shared_ptr<Position> toMotorPosition(std::shared_ptr<Position> pos);

@@ -84,6 +84,10 @@ void MotorProcessor::process() {
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
+void MotorProcessor::addRadiansHistory(int index, double radians) {
+	motors.at(index)->addRadiansHistory(radians);
+}
+
 std::shared_ptr<Position> MotorProcessor::getCurrentPosition() {
 	return toMotorPosition(getNeutralPhysicalPosition());
 }

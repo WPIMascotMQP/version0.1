@@ -12,6 +12,8 @@ namespace serial {
 
 	int num_serials = 2;
 	size_t pattern_len = 10;
+
+
 }
 
 SerialProcessor::SerialProcessor(int num_serials) {
@@ -24,6 +26,7 @@ SerialProcessor::SerialProcessor(int num_serials) {
 		recievings.push_back(false);
 		counters.push_back(0);
 	}
+	std::srand(std::time(0));
 }
 
 SerialProcessor::~SerialProcessor() {
@@ -57,8 +60,9 @@ void SerialProcessor::process() {
 			size_t current_byte = 0;
 
 			current_byte += encodePattern(buffer, current_byte);
+			buffer[current_byte++] = 0x00; // Flag Byte
 			buffer[current_byte++] = MOTORPOSITION;
-			current_byte += encodeInt16(buffer, current_byte, 1);
+			current_byte += encodeInt16(buffer, current_byte, i);
 			current_byte += encodeFloat(buffer, current_byte, pos->getAtIndex(i));
 			current_byte += encodePattern(buffer, current_byte);
 
@@ -66,6 +70,7 @@ void SerialProcessor::process() {
 			buffer_lengths.at(motor_serial)->push_back(current_byte);
 
 			strs << "|" << getStringHex(buffer, current_byte);
+			logger::log("SerialProcessor", "Encoded Command", getStringHex(buffer, current_byte), "");
 		}
 		logger::log("SerialProcessor", "Encoded Position", pos->toString(), strs.str());
 		serial::positions_to_send.erase(itr);
@@ -78,8 +83,10 @@ void SerialProcessor::process() {
 			unsigned char* buffer = new unsigned char[serial::buffer_size];
 			unsigned char* buf_rec = buffers_rec.at(i);
 			size_t rec_byte = rec_bytes.at(i);
-			size_t inc_byte = serials.at(i)->readWrite(buffer, serial::buffer_size);
+			size_t inc_byte = buffer_lengths.at(i)->at(0);//serials.at(i)->readWrite(buffer, serial::buffer_size);
+			overwriteBytes(buffer, 7, buffers.at(i)->at(0), 0, buffer_lengths.at(i)->at(0));
 
+			logger::log("SerialProcessor", "Recieved Hex", getStringHex(buffer, serial::buffer_size), "");
 			// If recieved too much, start at 0
 			if(rec_byte + inc_byte >= serial::buffer_size) {
 				rec_byte = 0;
@@ -89,9 +96,18 @@ void SerialProcessor::process() {
 			// TEST IF COMPLETE
 			if(findCommand(buffer)) {
 				recievings.at(i) = false;
-				// Process command
+				handleCommand(buffer);
 				delete(buffer);
+
+				std::vector<unsigned char*>::iterator itr_buf = buffers.at(i)->begin();
+				unsigned char* buf_temp = *itr_buf;
+				delete(buf_temp);
+				buffers.at(i)->erase(itr_buf);
+
+				std::vector<size_t>::iterator itr_len = buffer_lengths.at(i)->begin();
+				buffer_lengths.at(i)->erase(itr_len);
 			}
+			recievings.at(i) = false;
 
 			rec_bytes.at(i) = rec_byte;
 		} else {
@@ -105,8 +121,8 @@ void SerialProcessor::process() {
 				logger::log("SerialProcessor", "Sending Buffer", getStringHex(buffer, length), "");
 				serials.at(i)->readWrite(buffer, length);
 
-				buffers.at(i)->erase(itr_buf);
-				buffer_lengths.at(i)->erase(itr_len);
+				//buffers.at(i)->erase(itr_buf);
+				//buffer_lengths.at(i)->erase(itr_len);
 
 				rec_bytes.at(i) = 0;
 				recievings.at(i) = true;
@@ -125,6 +141,23 @@ void SerialProcessor::finishBehaviours() {
 	}
 }
 
+void SerialProcessor::handleCommand(unsigned char* buffer) {
+	logger::log("SerialProcessor", "Recieved Command", getStringHex(buffer, serial::buffer_size), "");
+	if(buffer[cmd_byte] == MOTORPOSITION) {
+		size_t current_byte = 2;
+		int index = (int) decodeInt16(buffer, current_byte);
+		current_byte += 2;
+		double radians = (double) decodeFloat(buffer, current_byte);
+		processor::mp.addRadiansHistory(index, radians);
+		
+		std::ostringstream strs;
+		strs << radians;
+		std::ostringstream strsIndex;
+		strsIndex << index;
+		logger::log("SerialProcessor", "Recieved Motor Radians", strsIndex.str(), strs.str());
+	}
+}
+
 std::string SerialProcessor::getStringHex(unsigned char* buffer, size_t length) {
 	char hex[length * 2 + 1];
 	for(size_t i = 0; i < length; i++) {
@@ -132,7 +165,7 @@ std::string SerialProcessor::getStringHex(unsigned char* buffer, size_t length) 
 	}
 	hex[length * 2 + 1] = '\0';
 
-	char output[100];
+	char output[length * 2 + 1];
 	sprintf(output, "0x%s", hex);
 	std::string s(output);
 	return s;
@@ -144,7 +177,7 @@ bool SerialProcessor::findCommand(unsigned char* buffer) {
 
 	std::vector<size_t> patterns;
 	std::vector<size_t> lengths;
-	bool start_bypte = 0;
+	size_t start_bypte = 0;
 	size_t counter = 0;
 	bool on_one = false;
 
@@ -155,26 +188,31 @@ bool SerialProcessor::findCommand(unsigned char* buffer) {
 			if(!on_one) {
 				on_one = true;
 				start_bypte = i;
+				counter++;
 			// If on pattern add to counter
 			} else if(on_one) {
 				counter++;
 			}
+		} else {
+			// If on one but less length or loonger than pattern length
+			if(on_one && (counter < serial::pattern_len || counter > serial::pattern_len)) {
+				start_bypte = 0;
+				counter = 0;
+				on_one = false;
+			}
+			// If on one which is exactly  pattern length
+			if(on_one && counter == serial::pattern_len) {
+				patterns.push_back(start_bypte);
+				lengths.push_back(counter);
+				start_bypte = 0;
+				counter = 0;
+				on_one = false;
+			}
 		}
-		// If on one but less length than pattern
-		if(on_one && (counter < serial::pattern_len || counter > serial::pattern_len)) {
-			start_bypte = 0;
-			on_one = false;
-		}
-		// If on one which is longer than pattern length
-		if(on_one && counter == serial::pattern_len) {
-			patterns.push_back(start_bypte);
-			lengths.push_back(counter);
-			start_bypte = 0;
-			on_one = false;
-		}	
 	}
 	if(patterns.size() == 2) {
-		overwriteBytes(buffer, 0, buf, patterns.at(0) + lengths.at(0), patterns.at(1) - patterns.at(0) - lengths.at(0));
+		overwriteBytes(buffer, 0, buf, patterns.at(0) + lengths.at(0), 
+			patterns.at(1) - patterns.at(0) - lengths.at(0));
 		delete(buf);
 		return true;
 	}

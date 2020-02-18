@@ -40,7 +40,7 @@ void Position::setHeadPitch(double hp) {
 void Position::setAtIndex(int index, double value) {
 	switch(index) {
 		case 0:
-			setHeadYaw(value);
+			setNeckYaw(value);
 			break;
 		case 1:
 			setNeckPitch(value);
@@ -73,7 +73,7 @@ double Position::getHeadPitch() {
 double Position::getAtIndex(int index) {
 	switch(index) {
 		case 0:
-			return getHeadYaw();
+			return getNeckYaw();
 		case 1:
 			return getNeckPitch();
 		case 2:

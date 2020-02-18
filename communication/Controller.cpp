@@ -46,8 +46,10 @@ void Controller::addBehaviour(Behaviour* beh) {
 */
 Status* Controller::execute() {
 	serial::position_lock.lock();
-	std::vector<std::shared_ptr<Position>>::iterator itr_pos = position_list.begin(); {
+	std::vector<std::shared_ptr<Position>>::iterator itr_pos = position_list.begin(); 
+	while(itr_pos < position_list.end()){
 		serial::positions_to_send.push_back(*itr_pos);
+		itr_pos = position_list.erase(itr_pos);
 	}
 	serial::position_lock.unlock();
 	logger::log("Controller Sent Positions to SerialProcessor");

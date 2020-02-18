@@ -16,7 +16,8 @@ public:
 	~MotorTracker();
 
 	bool EStop();
-	void add(double current, double temperature, double position);
+	void add(double radians, double current, double temperature, double position);
+	void addRadiansHistory(double radians);
 	void addToHistory(std::vector<double> history, double info);
 
 	void setMinimum(double min);
@@ -52,6 +53,7 @@ protected:
 	double ratio; // Motor Rad to Physical Rad
 	bool flipped;
 
+	std::vector<double> radians_history;
 	std::vector<double> current_history;
 	std::vector<double> temperature_history;
 	std::vector<double> position_history;

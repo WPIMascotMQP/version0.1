@@ -36,10 +36,10 @@ std::shared_ptr<Position> Calculator::getPosition(double yaw, double pitch) {
 	// New Position based on
 	// neutral position + (final total polar change * ratio between head and neck)
 	std::shared_ptr<Position> new_physical(new Position(
-		(yaw) 	* 	(1 - yaw_ratio) 	* 	flips.at(neck_yaw),
-		(pitch) * 	(1 - pitch_ratio) 	* flips.at(neck_pitch),
-		(yaw) 	* 	yaw_ratio 			* 		flips.at(head_yaw),
-		(pitch) * 	pitch_ratio 		* 		flips.at(head_pitch)));
+		(yaw) 	* 	(1 - yaw_ratio),
+		(pitch) * 	(1 - pitch_ratio),
+		(yaw) 	* 	yaw_ratio,
+		(pitch) * 	pitch_ratio));
 	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 
 	return new_pos;
