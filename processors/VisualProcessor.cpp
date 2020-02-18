@@ -80,9 +80,7 @@ void VisualProcessor::startThread() {
 }
 
 void VisualProcessor::killThread() {
-    std::ostringstream strs;
-    strs << "VisualProcessor Average Loop Time: " << (total_loop_time / num_loops);
-    logger::log(strs.str());
+    logger::log("VisualProcessor", "Average Loop Time", (total_loop_time / num_loops), "");
     
     SensorProcessor::killThread();
     logger::log("VisualProcessor Thread Killed");

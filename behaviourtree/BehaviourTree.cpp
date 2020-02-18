@@ -48,3 +48,7 @@ void BehaviourTree::setRoot(Node *nod) {
 	root = nod;
 	root->setParent(this);
 }
+
+std::string BehaviourTree::toString() {
+	return "BehaviourTree";
+}

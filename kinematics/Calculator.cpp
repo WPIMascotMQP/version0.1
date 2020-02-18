@@ -36,10 +36,10 @@ std::shared_ptr<Position> Calculator::getPosition(double yaw, double pitch) {
 	// New Position based on
 	// neutral position + (final total polar change * ratio between head and neck)
 	std::shared_ptr<Position> new_physical(new Position(
-		(yaw) * (1 - yaw_ratio) * flips.at(neck_yaw),
-		(pitch) * (1 - pitch_ratio) * flips.at(neck_pitch),
-		(yaw) * yaw_ratio * flips.at(head_yaw),
-		(pitch) * pitch_ratio * flips.at(head_pitch)));
+		(yaw) 	* 	(1 - yaw_ratio) 	* 	flips.at(neck_yaw),
+		(pitch) * 	(1 - pitch_ratio) 	* flips.at(neck_pitch),
+		(yaw) 	* 	yaw_ratio 			* 		flips.at(head_yaw),
+		(pitch) * 	pitch_ratio 		* 		flips.at(head_pitch)));
 	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 
 	return new_pos;
@@ -69,10 +69,10 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch)
 	// New Position based on
 	// neutral position + (final total polar change * ratio between head and neck)
 	std::shared_ptr<Position> new_physical(new Position(
-		neutral_pos->getNeckYaw() + (current_yaw - neutral_yaw + yaw) * (1 - yaw_ratio) * flips.at(neck_yaw),
-		neutral_pos->getNeckPitch() + (current_pitch - neutral_pitch + pitch) * (1 - pitch_ratio) * flips.at(neck_pitch),
-		neutral_pos->getHeadYaw() + (current_yaw - neutral_yaw + yaw) * yaw_ratio * flips.at(head_yaw),
-		neutral_pos->getHeadPitch() + (current_pitch -neutral_pitch + pitch) * pitch_ratio * flips.at(head_pitch)));
+		neutral_pos->getNeckYaw() 	+ 	(current_yaw - neutral_yaw + yaw) 		* 	(1 - yaw_ratio) 	* flips.at(neck_yaw),
+		neutral_pos->getNeckPitch() + 	(current_pitch - neutral_pitch + pitch) * 	(1 - pitch_ratio) 	* flips.at(neck_pitch),
+		neutral_pos->getHeadYaw() 	+ 	(current_yaw - neutral_yaw + yaw) 		*	yaw_ratio 			* flips.at(head_yaw),
+		neutral_pos->getHeadPitch() + 	(current_pitch - neutral_pitch + pitch) *	pitch_ratio 		* flips.at(head_pitch)));
 	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 
 	return(new_pos);
@@ -82,10 +82,12 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double ny, double np, dou
 	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentPosition();
 	std::shared_ptr<Position> physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
 	setFlipped();
-	std::shared_ptr<Position> new_physical(new Position(physical_pos->getNeckYaw() + ny * flips.at(neck_yaw),
-									physical_pos->getNeckPitch() + np * flips.at(neck_pitch),
-									physical_pos->getHeadYaw() + hy * flips.at(head_yaw),
-									physical_pos->getHeadPitch() + hp * flips.at(head_pitch)));
+
+	std::shared_ptr<Position> new_physical(new Position(
+		physical_pos->getNeckYaw() 		+ ny * flips.at(neck_yaw),
+		physical_pos->getNeckPitch() 	+ np * flips.at(neck_pitch),
+		physical_pos->getHeadYaw() 		+ hy * flips.at(head_yaw),
+		physical_pos->getHeadPitch() 	+ hp * flips.at(head_pitch)));
 	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
 	return(new_pos);
 }

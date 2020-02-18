@@ -13,6 +13,8 @@
 #include "../processors/SensorProcessor.h"
 #include "SpiSlave.h"
 
+typedef long float_i;
+
 enum flags {
 	FLAG1 = 0x80, // 10000000
 	FLAG2 = 0x40, // 01000000
@@ -25,7 +27,8 @@ enum flags {
 };
 
 enum cmds {
-	MOTORPOSITION = 1,
+	PATTERN = 0xFF,
+	MOTORPOSITION = 0x01,
 
 };
 
@@ -47,7 +50,10 @@ public:
 	void finishBehaviours();
 
 	std::string getStringHex(unsigned char* buffer, size_t length);
+	bool findCommand(unsigned char* buffer);
 
+	size_t overwriteBytes(unsigned char* buffer, size_t byte_start, unsigned char* buf, size_t inc_start, size_t byte_inc);
+	size_t encodePattern(unsigned char* buffer, size_t byte_start);
 	size_t encodeInt16(unsigned char* buffer, size_t byte_start, int16_t num);
 	size_t encodeInt32(unsigned char* buffer, size_t byte_start, int32_t num);
 	size_t encodeFloat(unsigned char* buffer, size_t byte_start, float num);
@@ -58,6 +64,12 @@ public:
 
 protected:
 	std::vector<SpiSlave*> serials;
+
+	std::vector<unsigned char*> buffers_rec;
+	std::vector<size_t> rec_bytes;
+	std::vector<int> counters;
+	std::vector<bool> recievings;
+
 
 	std::vector<std::vector<unsigned char*>*> buffers;
 	std::vector<std::vector<size_t>*> buffer_lengths;

@@ -63,21 +63,22 @@ int main(int argc, char* argv[]) {
 	processor::vp.startThread();
 	serial::serial.startThread();
 
-	std::string input;
-	std::getline(std::cin, input);
-	data::sensor_data.setInput(input);
-	serial::serial.finishBehaviours();
-	while (input != "x") {
-		executeBehaviours(input);
-		coms::controller.execute();
-
-		//printDecoratorPriorities();
-
+	std::string input = "";
+	while(1) {
 		std::getline(std::cin, input);
+		if(input == "x") {
+			break;
+		}
+
 		data::sensor_data.setInput(input);
 		serial::serial.finishBehaviours();
+
+		executeBehaviours(input);
+		coms::controller.execute();
 	}
+	logger::log("-----");
 	logger::log("Exiting");
+	logger::log("-----");
 	//ap.killThread();
 	processor::mp.killThread();
 	processor::vp.killThread();

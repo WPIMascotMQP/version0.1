@@ -28,6 +28,8 @@ public:
 
 	void setRoot(Node *nod);
 
+	std::string toString();
+
 	friend BehaviourTree& operator<< (BehaviourTree& bt, Node& node) {
 		bt.setRoot(&node);
 		return bt;
