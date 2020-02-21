@@ -24,10 +24,6 @@ SerialProcessor::SerialProcessor(int num_serials) {
 		serials.push_back(new SpiSlave(i));
 		buffers.push_back(new std::vector<unsigned char*>());
 		buffer_lengths.push_back(new std::vector<size_t>());
-		buffers_rec.push_back(new unsigned char);
-		rec_bytes.push_back(0);
-		recievings.push_back(false);
-		counters.push_back(0);
 	}
 	std::srand(std::time(0));
 }
@@ -64,7 +60,7 @@ void SerialProcessor::killThread() {
 */
 void SerialProcessor::process() {
 	serial::position_lock.lock();
-	
+
 	std::vector<std::shared_ptr<Position>>::iterator itr = serial::positions_to_send.begin();
 
 	// If have posiitons send, encode them
@@ -96,58 +92,40 @@ void SerialProcessor::process() {
 
 	// For each SPI serial
 	for(int i = 0; i < serial::num_serials; i++) {
-		if(recievings.at(i)) {
-			// If Listening for a response
-			unsigned char* buffer = new unsigned char[serial::buffer_size];
-			unsigned char* buf_rec = buffers_rec.at(i);
-			size_t rec_byte = rec_bytes.at(i);
-			size_t inc_byte = buffer_lengths.at(i)->at(0);//serials.at(i)->readWrite(buffer, serial::buffer_size);
-			overwriteBytes(buffer, 7, buffers.at(i)->at(0), 0, buffer_lengths.at(i)->at(0));
+		unsigned char* buffer;
+		unsigned char* buffer_copy = new unsigned char[serial::buffer_size];
+		bool buffer_set = false;
+		// If have buffers to send, send them
+		std::vector<unsigned char*>::iterator itr_buf = buffers.at(i)->begin();
+		std::vector<unsigned int>::iterator itr_len = buffer_lengths.at(i)->begin();
+		if(itr_buf < buffers.at(i)->end()) {
+			buffer = *itr_buf;
+			buffer_set = true;
+			unsigned int length = *itr_len;
+			overwriteBytes(buffer_copy, 0, buffer, 0, serial::buffer_size);
 
-			logger::log("SerialProcessor", "Recieved Hex", getStringHex(buffer, serial::buffer_size), "");
-			// If recieved too much, start at 0
-			if(rec_byte + inc_byte >= serial::buffer_size) {
-				rec_byte = 0;
-			}
-			rec_byte += overwriteBytes(buf_rec, rec_byte, buffer, 0,  inc_byte);
+			logger::log("SerialProcessor", "Sending Buffer", getStringHex(buffer, length), "");
+			serials.at(i)->readWrite(buffer, length);
 
-			// TEST IF COMPLETE
-			if(findCommand(buffer)) {
-				recievings.at(i) = false;
-				handleCommand(buffer);
-				delete(buffer);
-
-				std::vector<unsigned char*>::iterator itr_buf = buffers.at(i)->begin();
-				unsigned char* buf_temp = *itr_buf;
-				delete(buf_temp);
-				buffers.at(i)->erase(itr_buf);
-
-				std::vector<size_t>::iterator itr_len = buffer_lengths.at(i)->begin();
-				buffer_lengths.at(i)->erase(itr_len);
-			}
-			recievings.at(i) = false;
-
-			rec_bytes.at(i) = rec_byte;
-		} else {
-			// If have buffers to send, send them
-			std::vector<unsigned char*>::iterator itr_buf = buffers.at(i)->begin();
-			std::vector<unsigned int>::iterator itr_len = buffer_lengths.at(i)->begin();
-			if(itr_buf < buffers.at(i)->end()) {
-				unsigned char* buffer = *itr_buf;
-				unsigned int length = *itr_len;
-
-				logger::log("SerialProcessor", "Sending Buffer", getStringHex(buffer, length), "");
-				serials.at(i)->readWrite(buffer, length);
-
-				//buffers.at(i)->erase(itr_buf);
-				//buffer_lengths.at(i)->erase(itr_len);
-
-				rec_bytes.at(i) = 0;
-				recievings.at(i) = true;
-			}
+			buffers.at(i)->erase(itr_buf);
+			buffer_lengths.at(i)->erase(itr_len);
 		}
-	}
+		// If did not send out a cmd
+		if(!buffer_set) {
+			buffer = new unsigned char[serial::buffer_size];
+			//serials.at(i)->readWrite(buffer, serial::buffer_size);
+		}
 
+		// Testing code
+		overwriteBytes(buffer, 7, buffers.at(i)->at(0), 0, buffer_lengths.at(i)->at(0));
+
+		// TEST IF COMPLETE
+		if(findCommand(buffer) && (!buffer_set || !memcmp(buffer, buffer_copy, serial::buffer_size))) {
+			handleCommand(buffer);
+		}
+		delete(buffer);
+		delete(buffer_copy);
+	}
 	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
@@ -175,7 +153,7 @@ void SerialProcessor::handleCommand(unsigned char* buffer) {
 		current_byte += 2;
 		double radians = (double) decodeFloat(buffer, current_byte);
 		processor::mp.addRadiansHistory(index, radians);
-		
+
 		std::ostringstream strs;
 		strs << radians;
 		std::ostringstream strsIndex;
@@ -250,7 +228,7 @@ bool SerialProcessor::findCommand(unsigned char* buffer) {
 		}
 	}
 	if(patterns.size() == 2) {
-		overwriteBytes(buffer, 0, buf, patterns.at(0) + lengths.at(0), 
+		overwriteBytes(buffer, 0, buf, patterns.at(0) + lengths.at(0),
 			patterns.at(1) - patterns.at(0) - lengths.at(0));
 		delete(buf);
 		return true;
@@ -350,7 +328,7 @@ int16_t SerialProcessor::decodeInt16(unsigned char* buffer, size_t byte_start) {
 	buf[0] = buffer[byte_start + 1];
 	buf[1] = buffer[byte_start + 0];
 	int16_t number = *(int16_t*) &buf;
-	
+
 	return number;
 }
 
@@ -367,7 +345,7 @@ int32_t SerialProcessor::decodeInt32(unsigned char* buffer, size_t byte_start) {
 	buf[2] = buffer[byte_start + 1];
 	buf[3] = buffer[byte_start + 0];
 	int32_t number = *(int32_t*) &buf;
-	
+
 	return number;
 }
 
@@ -384,6 +362,6 @@ float SerialProcessor::decodeFloat(unsigned char* buffer, size_t byte_start) {
 	buf[2] = buffer[byte_start + 1];
 	buf[3] = buffer[byte_start + 0];
 	float number = *(float*) &buf;
-	
+
 	return number;
 }

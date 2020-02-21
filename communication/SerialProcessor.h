@@ -2,9 +2,13 @@
  @file SerialProcessor.h
  @class SerialProcessor
  @brief The SerialProcessor class handles the overhead of the SPI communication
- by encoding motor positions or other commands, sending those to the SPI Slaves, 
+ by encoding motor positions or other commands, sending those to the SPI Slaves,
  decoding commands recieved by from the SPI Slaves, and executing apporiate actions
  based on those recieved commands.
+
+ This SerialProcessor assumes that all buffers are sucessfully written to the ESP32
+ and that all recieved buffers will be complete when checking. If packets are lost,
+ the robot will self correct since it uses absolute positions.
 
  @author Jonathan Chang
  @version 0.0.1
@@ -90,12 +94,6 @@ public:
 
 protected:
 	std::vector<SpiSlave*> serials;
-
-	std::vector<unsigned char*> buffers_rec;
-	std::vector<size_t> rec_bytes;
-	std::vector<int> counters;
-	std::vector<bool> recievings;
-
 
 	std::vector<std::vector<unsigned char*>*> buffers;
 	std::vector<std::vector<size_t>*> buffer_lengths;

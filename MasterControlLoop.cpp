@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 		if(input == "x") {
 			break;
 		}
-
+		
 		data::sensor_data.setInput(input);
 		serial::serial.finishBehaviours();
 
