@@ -16,21 +16,22 @@ public:
 	~MotorTracker();
 
 	bool EStop();
-	void add(double radians, double current, double temperature, double position);
-	void addRadiansHistory(double radians);
+	void add(int steps, double current, double temperature, double position);
+	void addStepsHistory(int steps);
 	void addToHistory(std::vector<double> history, double info);
+	int getCurrentSteps();
 
-	void setMinimum(double min);
-	void setNeutral(double neu);
-	void setMaximum(double max);
+	void setMinimum(int min);
+	void setNeutral(int neu);
+	void setMaximum(int max);
 	void setNeutralPhysical(double neu_phy);
 	void setMaximumPhysical(double max_phy);
 	void setRatio(double rat);
 	void setFlipped(bool flip);
 
-	double getMinimum();
-	double getNeutral();
-	double getMaximum();
+	int getMinimum();
+	int getNeutral();
+	int getMaximum();
 	double getNeutralPhysical();
 	double getMaximumPhysical();
 	double getRatio();
@@ -45,15 +46,15 @@ public:
 	}
 
 protected:
-	double minimum;
-	double neutral;
-	double maximum;
+	int minimum;
+	int neutral;
+	int maximum;
 	double neutral_physical;
 	double maximum_physical;
 	double ratio; // Motor Rad to Physical Rad
 	bool flipped;
 
-	std::vector<double> radians_history;
+	std::vector<int> steps_history;
 	std::vector<double> current_history;
 	std::vector<double> temperature_history;
 	std::vector<double> position_history;

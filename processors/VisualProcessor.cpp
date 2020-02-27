@@ -54,6 +54,7 @@ VisualProcessor::VisualProcessor(int camera_device) {
 
     phases[0] = std::make_tuple(&face_cascade, &visualData::face_manager);
     phases[1] = std::make_tuple(&body_cascade, &visualData::body_manager);
+
     currentPhase = -1;
 }
 
@@ -81,7 +82,7 @@ void VisualProcessor::startThread() {
 
 void VisualProcessor::killThread() {
     logger::log("VisualProcessor", "Average Loop Time", (total_loop_time / num_loops), "");
-    
+
     SensorProcessor::killThread();
     logger::log("VisualProcessor Thread Killed");
 }

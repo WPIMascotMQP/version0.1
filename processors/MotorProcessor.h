@@ -13,7 +13,7 @@ public:
 	MotorProcessor() : MotorProcessor(0){};
 	~MotorProcessor();
 
-	void setupMotor(MotorTracker* motor, double minimum, double ratio,
+	void setupMotor(MotorTracker* motor, int minimum, double ratio,
 		double maximum_physical, double neutral_physical, bool flipped);
 
 	void startThread();

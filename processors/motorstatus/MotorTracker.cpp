@@ -15,6 +15,7 @@ MotorTracker::MotorTracker() {
 	neutral_physical = 0.0;
 	maximum_physical = 0.0;
 	ratio = 0.0; // Motor Rad to Physical Rad
+	addStepsHistory(0);
 }
 
 MotorTracker::~MotorTracker() {
@@ -25,14 +26,18 @@ bool MotorTracker::EStop() {
 	return false;
 }
 
-void MotorTracker::add(double radians, double current, double temperature, double position) {
-	addRadiansHistory(radians);
+void MotorTracker::add(int steps, double current, double temperature, double position) {
+	addStepsHistory(steps);
 	addToHistory(temperature_history, temperature);
 	addToHistory(position_history, position);
 }
 
-void MotorTracker::addRadiansHistory(double radians) {
-	addToHistory(radians_history, radians);
+void MotorTracker::addStepsHistory(int steps) {
+	steps_history.push_back(steps);
+	std::vector<int>::iterator itr = steps_history.begin();
+	while(steps_history.size() > motortracker::max_history) {
+		itr = steps_history.erase(itr);
+	}
 }
 
 void MotorTracker::addToHistory(std::vector<double> history, double info) {
@@ -43,15 +48,19 @@ void MotorTracker::addToHistory(std::vector<double> history, double info) {
 	}
 }
 
-void MotorTracker::setMinimum(double min) {
+int MotorTracker::getCurrentSteps() {
+	return steps_history.back();
+}
+
+void MotorTracker::setMinimum(int min) {
 	minimum = min;
 }
 
-void MotorTracker::setNeutral(double neu) {
+void MotorTracker::setNeutral(int neu) {
 	neutral = neu;
 }
 
-void MotorTracker::setMaximum(double max) {
+void MotorTracker::setMaximum(int max) {
 	maximum = max;
 }
 
@@ -71,15 +80,15 @@ void MotorTracker::setFlipped(bool flip) {
 	flipped = flip;
 }
 
-double MotorTracker::getMinimum() {
+int MotorTracker::getMinimum() {
 	return minimum;
 }
 
-double MotorTracker::getNeutral() {
+int MotorTracker::getNeutral() {
 	return neutral;
 }
 
-double MotorTracker::getMaximum() {
+int MotorTracker::getMaximum() {
 	return maximum;
 }
 
@@ -107,7 +116,7 @@ std::string MotorTracker::toString() {
 	} else {
 		strcpy(flip, "False");
 	}
-	sprintf(output, "( %5.2f, %5.2f, %5.2f, %5.2f, %5.2f, %5.2f, %s)",
+	sprintf(output, "( %5.2d, %5.2d, %5.2d, %5.2f, %5.2f, %5.2f, %s)",
 		minimum, neutral, maximum, neutral_physical, maximum_physical, ratio, flip);
 	std::string s(output);
 	return s;

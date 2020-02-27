@@ -22,6 +22,7 @@
 #include <iostream>
 #include <vector>
 
+#include "../../Logger.h"
 #include "../../kinematics/Position.h"
 #include "VisualTracker.h"
 

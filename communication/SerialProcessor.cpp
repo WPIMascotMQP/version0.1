@@ -113,20 +113,21 @@ void SerialProcessor::process() {
 		// If did not send out a cmd
 		if(!buffer_set) {
 			buffer = new unsigned char[serial::buffer_size];
-			//serials.at(i)->readWrite(buffer, serial::buffer_size);
+			overwriteBytes(buffer_copy, 0, buffer, 0, serial::buffer_size);
+			serials.at(i)->readWrite(buffer, serial::buffer_size);
 		}
 
 		// Testing code
-		overwriteBytes(buffer, 7, buffers.at(i)->at(0), 0, buffer_lengths.at(i)->at(0));
+		//overwriteBytes(buffer, 7, buffers.at(i)->at(0), 0, buffer_lengths.at(i)->at(0));
 
 		// TEST IF COMPLETE
-		if(findCommand(buffer) && (!buffer_set || !memcmp(buffer, buffer_copy, serial::buffer_size))) {
+		if(findCommand(buffer) && (!memcmp(buffer, buffer_copy, serial::buffer_size))) {
 			handleCommand(buffer);
 		}
 		delete(buffer);
 		delete(buffer_copy);
 	}
-	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 /**
