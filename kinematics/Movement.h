@@ -26,18 +26,16 @@ public:
 	Movement();
 	~Movement();
 
-	void setSetPoint(Position *pos);
-	Position *getSetPoint();
+	void setSetPosition(std::shared_ptr<Position> pos);
+	std::shared_ptr<Position> getSetPosition();
 
-	void setCurrentPoint(Position *pos);
-	Position *getCurrentPoint();
+	void setDelay(std::shared_ptr<Position> pos);
+	std::shared_ptr<Position> getDelay();
 
-	void setBehaviour(Behaviour *beh);
-	Behaviour* getBehaviour();
-
+	std::string toString();
 protected:
-	Position *setPoint;
-	Position *currentPoint;
-	Behaviour *behaviour;
+	std::shared_ptr<Position> setPosition;
+	std::shared_ptr<Position> delay;
+
 };
 #endif

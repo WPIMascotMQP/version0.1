@@ -30,6 +30,7 @@
 #include "../behaviourtree/Behaviour.h"
 #include "../processors/MotorProcessor.h"
 #include "../processors/SensorProcessor.h"
+#include "../kinematics/Movement.h"
 #include "SpiSlave.h"
 
 // Immediate variable type between float and long
@@ -82,6 +83,7 @@ public:
 	bool findCommand(unsigned char* buffer);
 	void handleCommand(unsigned char* buffer);
 
+	void encodePosition(std::shared_ptr<Position> pos, std::shared_ptr<Position> delay);
 	size_t overwriteBytes(unsigned char* buffer, size_t byte_start, unsigned char* buf, size_t inc_start, size_t byte_inc);
 	size_t encodePattern(unsigned char* buffer, size_t byte_start);
 	size_t encodeInt16(unsigned char* buffer, size_t byte_start, int16_t num);
@@ -103,6 +105,9 @@ private:
 
 namespace serial {
 	extern SerialProcessor serial;
+
+	extern std::vector<std::shared_ptr<Movement>> movements_to_send; // Movements to send out
+	extern std::mutex movement_lock;
 
 	extern std::vector<std::shared_ptr<Position>> positions_to_send; // Positions to send out
 	extern std::mutex position_lock;

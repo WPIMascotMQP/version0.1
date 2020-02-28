@@ -22,7 +22,7 @@ all: MasterControlLoop $(TEST)Test
 mcl: MasterControlLoop
 
 test: $(TEST)Test
-	
+
 MasterControlLoop: BehaviourTree.o \
 	Controller.o \
 	Logger.o \
@@ -136,7 +136,7 @@ Node.o: $(BEHAVIOURTREE)Node.cpp Calculator.o Controller.o SensorData.o Status.o
 	g++ $(CFLAGS) $(BEHAVIOURTREE)Node.cpp
 
 ##### COMMUNICATION CLASSES #####
-SerialProcessor.o: $(COMMUNICATION)SerialProcessor.cpp SensorProcessor.o SpiSlave.o $(COMMUNICATION)SerialProcessor.h
+SerialProcessor.o: $(COMMUNICATION)SerialProcessor.cpp SensorProcessor.o Movement.o Position.o SpiSlave.o $(COMMUNICATION)SerialProcessor.h
 	g++ $(CFLAGS) $(COMMUNICATION)SerialProcessor.cpp
 
 SpiSlave.o: $(COMMUNICATION)SpiSlave.cpp $(COMMUNICATION)SpiSlave.h

@@ -3,15 +3,19 @@
 #include "../processors/MotorProcessor.h"
 
 namespace serial {
-	SerialProcessor serial(2);
+	int num_serials = 2;
+	SerialProcessor serial(num_serials);
+
+	std::vector<std::shared_ptr<Movement>> movements_to_send;
+	std::mutex movement_lock;
 
 	std::vector<std::shared_ptr<Position>> positions_to_send;
 	std::mutex position_lock;
 
 	size_t buffer_size = 64;
-
-	int num_serials = 2;
 	size_t pattern_len = 10;
+
+	std::shared_ptr<Position> standard_delay(new Position(400, 400, 400, 400));
 }
 
 /**
@@ -61,34 +65,30 @@ void SerialProcessor::killThread() {
 void SerialProcessor::process() {
 	serial::position_lock.lock();
 
-	std::vector<std::shared_ptr<Position>>::iterator itr = serial::positions_to_send.begin();
-
 	// If have posiitons send, encode them
-	if(itr < serial::positions_to_send.end()) {
-		std::shared_ptr<Position> pos = *itr;
-
-		std::ostringstream strs;
-		for(int i = 0; i < motorData::num_motors; i++) {
-			unsigned char* buffer = new unsigned char[serial::buffer_size];
-			size_t current_byte = 0;
-
-			current_byte += encodePattern(buffer, current_byte);
-			buffer[current_byte++] = 0x00; // Flag Byte
-			buffer[current_byte++] = MOTORPOSITION;
-			current_byte += encodeInt16(buffer, current_byte, i);
-			current_byte += encodeFloat(buffer, current_byte, pos->getAtIndex(i));
-			current_byte += encodePattern(buffer, current_byte);
-
-			buffers.at(motor_serial)->push_back(buffer);
-			buffer_lengths.at(motor_serial)->push_back(current_byte);
-
-			strs << "|" << getStringHex(buffer, current_byte);
-			logger::log("SerialProcessor", "Encoded Command", getStringHex(buffer, current_byte), "");
-		}
-		logger::log("SerialProcessor", "Encoded Position", pos->toString(), strs.str());
-		serial::positions_to_send.erase(itr);
+	std::vector<std::shared_ptr<Position>>::iterator itr_pos = serial::positions_to_send.begin();
+	if(itr_pos < serial::positions_to_send.end()) {
+		std::shared_ptr<Position> pos = *itr_pos;
+		logger::log("SerialProcessor", "Encoding Position", pos->toString(), "");
+		encodePosition(pos, serial::standard_delay);
+		logger::log("SerialProcessor", "Encoded Position", pos->toString(), "");
+		serial::positions_to_send.erase(itr_pos);
 	}
 	serial::position_lock.unlock();
+
+	serial::movement_lock.lock();
+
+	// If have movements to send, encode them
+	std::vector<std::shared_ptr<Movement>>::iterator itr_mov = serial::movements_to_send.begin();
+	if(itr_mov < serial::movements_to_send.end()) {
+		std::shared_ptr<Movement> mov = *itr_mov;
+		logger::log("SerialProcessor", "Encoding Movement", mov->getSetPosition()->toString(), mov->getDelay()->toString());
+		encodePosition(mov->getSetPosition(), mov->getDelay());
+		logger::log("SerialProcessor", "Encoded Movement", mov->getSetPosition()->toString(), mov->getDelay()->toString());
+		serial::movements_to_send.erase(itr_mov);
+	}
+
+	serial::movement_lock.unlock();
 
 	// For each SPI serial
 	for(int i = 0; i < serial::num_serials; i++) {
@@ -236,6 +236,32 @@ bool SerialProcessor::findCommand(unsigned char* buffer) {
 	}
 	delete(buf);
 	return false;
+}
+
+/**
+ Encodes a posiiton command with the given delay
+ and pushes it onto the buffers_to_send
+ @param pos The position to encode
+ @param delay The delay for each of the axises
+ */
+void SerialProcessor::encodePosition(std::shared_ptr<Position> pos, std::shared_ptr<Position> delay) {
+	for(int i = 0; i < motorData::num_motors; i++) {
+		unsigned char* buffer = new unsigned char[serial::buffer_size];
+		size_t current_byte = 0;
+
+		current_byte += encodePattern(buffer, current_byte);
+		buffer[current_byte++] = 0x00; // Flag Byte
+		buffer[current_byte++] = MOTORPOSITION;
+		current_byte += encodeInt16(buffer, current_byte, i);
+		current_byte += encodeFloat(buffer, current_byte, pos->getAtIndex(i));
+		current_byte += encodeInt16(buffer, current_byte, delay->getAtIndex(i));
+		current_byte += encodePattern(buffer, current_byte);
+
+		buffers.at(motor_serial)->push_back(buffer);
+		buffer_lengths.at(motor_serial)->push_back(current_byte);
+
+		logger::log("SerialProcessor", "Encoded Command", getStringHex(buffer, current_byte), "");
+	}
 }
 
 /**
