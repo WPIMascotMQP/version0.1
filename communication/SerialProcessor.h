@@ -113,6 +113,7 @@ namespace serial {
 	extern std::mutex position_lock;
 
 	extern int num_serials;
+	extern std::shared_ptr<Position> standard_delay;
 }
 
 #endif

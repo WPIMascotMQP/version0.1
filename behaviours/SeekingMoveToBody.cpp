@@ -4,14 +4,15 @@
  CONSTUCTOR
 */
 SeekingMoveToBody::SeekingMoveToBody() {
-
+	neck_v = math::PI;
+	head_v = math::PI;
 }
 
 /**
  DECONSTRUCTOR
 */
 SeekingMoveToBody::~SeekingMoveToBody() {
-	actions.clear();
+
 }
 
 /**
@@ -48,8 +49,8 @@ Status* SeekingMoveToBody::executeC() {
 	double ratio_y = (0.0 + processor::vp.getMidY(closest_body) - max_y) / max_y;
 	double delta_x = ratio_x * processor::vp.getVisualWidthRads() / 2;
 	double delta_y = ratio_y * processor::vp.getVisualHeightRads() / 2;
-	std::shared_ptr<Position> pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
-	coms::controller.addPosition(pos);
+	std::shared_ptr<Movement> mov = cal::calculator.getDeltaMovement(delta_x, delta_y, neck_v, head_v);
+	coms::controller.addMovement(mov);
 	coms::controller.addBehaviour(this);
 
 	itr_body = bodies->begin();
@@ -58,7 +59,7 @@ Status* SeekingMoveToBody::executeC() {
 		itr_body = bodies->erase(itr_body);
 	}
 
-	logger::log("SeekingMoveToBody", "Calculated Position", pos->toString(), "Position to Move To");
+	logger::log("SeekingMoveToBody", "Calculated Movement", mov->toString(), "Movement to do");
 	return &status;
 }
 

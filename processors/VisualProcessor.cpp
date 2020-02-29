@@ -110,7 +110,7 @@ void VisualProcessor::process() {
     // Detect obejcts
     std::vector<cv::Rect> objects;
     currentClassifier->detectMultiScale(frame_gray, objects);
-    currentManager->addRects(objects, processor::mp.getCurrentPosition());
+    currentManager->addRects(objects, processor::mp.getCurrentStepPosition());
 
     // Get rects from trackers
     visualData::visual_lock.lock();

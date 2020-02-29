@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "../behaviourtree/Node.h"
+#include "../kinematics/Movement.h"
 #include "../kinematics/Position.h"
 #include "../SensorData.h"
 #include "../Status.h"
@@ -30,6 +31,7 @@ public:
 	~Controller();
 
 	void addPosition(std::shared_ptr<Position> pos);
+	void addMovement(std::shared_ptr<Movement> mov);
 	void addBehaviour(Behaviour* beh);
 
 	Status* execute();
@@ -37,6 +39,7 @@ public:
 	void clear();
 protected:
 	std::vector<std::shared_ptr<Position>> position_list;
+	std::vector<std::shared_ptr<Movement>> movement_list;
 	Status status;
 
 };
@@ -44,6 +47,6 @@ protected:
 namespace coms {
 	extern Controller controller;
 	extern std::vector<Behaviour*> behaviour_list_current; // Behaviours that produced commands
-	extern std::vector<Behaviour*> behaviour_list_execute; // Behaviours to execute 
+	extern std::vector<Behaviour*> behaviour_list_execute; // Behaviours to execute
 }
 #endif

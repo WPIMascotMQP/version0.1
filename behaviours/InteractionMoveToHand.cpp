@@ -4,14 +4,15 @@
  CONSTUCTOR
 */
 InteractionMoveToHand::InteractionMoveToHand() {
-
+	neck_v = math::PI;
+	head_v = math::PI;
 }
 
 /**
  DECONSTRUCTOR
 */
 InteractionMoveToHand::~InteractionMoveToHand() {
-	actions.clear();
+
 }
 
 /**

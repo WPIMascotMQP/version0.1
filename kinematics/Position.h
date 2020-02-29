@@ -32,12 +32,16 @@ public:
 	void setNeckPitch(double np);
 	void setHeadYaw(double hy);
 	void setHeadPitch(double hp);
+	void setHead0(double hy);
+	void setHead1(double hp);
 	void setAtIndex(int index, double value);
 
 	double getNeckYaw();
 	double getNeckPitch();
 	double getHeadYaw();
 	double getHeadPitch();
+	double getHead0();
+	double getHead1();
 	double getAtIndex(int index);
 
 	std::string toString();

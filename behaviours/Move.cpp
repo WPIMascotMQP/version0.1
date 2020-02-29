@@ -8,13 +8,15 @@ Move::Move(double ny, double np, double hy, double hp) {
 	neck_pitch = np;
 	head_yaw = hy;
 	head_pitch = hp;
+	neck_v = math::PI;
+	head_v = math::PI;
 }
 
 /**
  DECONSTRUCTOR
 */
 Move::~Move() {
-	actions.clear();
+
 }
 
 /**
@@ -26,12 +28,12 @@ Status* Move::executeC() {
 	logger::log("Move Called as Child");
 	status.setRunning();
 
-	std::shared_ptr<Position> pos = cal::calculator.getDeltaPosition(
-		neck_yaw, neck_pitch, head_yaw, head_pitch);
-	coms::controller.addPosition(pos);
+	std::shared_ptr<Movement> mov = cal::calculator.getDeltaMovement(
+		neck_yaw, neck_pitch, head_yaw, head_pitch, neck_v, head_v);
+	coms::controller.addMovement(mov);
 	coms::controller.addBehaviour(this);
 
-	logger::log("Move", "Calculated Position", pos->toString(), "Position to Move To");
+	logger::log("Move", "Calculated Movement", mov->toString(), "Movement to do");
 	return &status;
 }
 

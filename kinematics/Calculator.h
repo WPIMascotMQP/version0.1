@@ -33,6 +33,12 @@ public:
 	std::shared_ptr<Position> getDeltaPosition(double yaw, double pitch);
 	std::shared_ptr<Position> getDeltaPosition(double ny, double np, double hy, double hp);
 
+	std::shared_ptr<Movement> getMovement(double yaw, double pitch, double neck_v, double head_v);
+
+	std::shared_ptr<Movement> getDeltaMovement(double yaw, double pitch, double neck_v, double head_v);
+	std::shared_ptr<Movement> getDeltaMovement(double ny, double np, double hy, double hp, double neck_v, double head_v);
+
+	void limit(std::shared_ptr<Position> pos);
 	double getNeckHeadRatio(double percent);
 	void setFlipped();
 

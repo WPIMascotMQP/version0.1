@@ -4,6 +4,8 @@
  CONSTUCTOR
 */
 SeekingMoveSearch::SeekingMoveSearch() {
+	neck_v = math::PI;
+	head_v = math::PI;
 	std::srand(time(0));
 }
 
@@ -11,7 +13,7 @@ SeekingMoveSearch::SeekingMoveSearch() {
  DECONSTRUCTOR
 */
 SeekingMoveSearch::~SeekingMoveSearch() {
-	actions.clear();
+
 }
 
 /**
@@ -40,11 +42,11 @@ Status* SeekingMoveSearch::executeC() {
 	double random_pitch = neutral_pitch - (delta_pitch / 2.0) + std::rand() %
 		(int) (delta_pitch + 0.5);
 
-	std::shared_ptr<Position> pos = cal::calculator.getPosition(random_yaw, random_pitch);
-	coms::controller.addPosition(pos);
+	std::shared_ptr<Movement> mov = cal::calculator.getMovement(random_yaw, random_pitch, neck_v, head_v);
+	coms::controller.addMovement(mov);
 	coms::controller.addBehaviour(this);
 
-	logger::log("SeekingMoveSearch", "Calculated Position", pos->toString(), "Position to Move To");
+	logger::log("SeekingMoveSearch", "Calculated Movement", mov->toString(), "Movement to do");
 	return &status;
 }
 

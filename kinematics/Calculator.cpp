@@ -11,7 +11,7 @@ namespace cal {
  CONSTRUCTOR
 */
 Calculator::Calculator(int start_int) {
-	
+
 }
 
 /**
@@ -40,14 +40,15 @@ std::shared_ptr<Position> Calculator::getPosition(double yaw, double pitch) {
 		(pitch) * 	(1 - pitch_ratio),
 		(yaw) 	* 	yaw_ratio,
 		(pitch) * 	pitch_ratio));
-	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
+	std::shared_ptr<Position> new_pos = processor::mp.physicalToStepPosition(new_physical);
+	limit(new_pos);
 
 	return new_pos;
 }
 
 std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch) {
-	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentPosition();
-	std::shared_ptr<Position> physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
+	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentStepPosition();
+	std::shared_ptr<Position> physical_pos = processor::mp.stepToPhysicalPosition(current_pos);
 	std::shared_ptr<Position> neutral_pos = processor::mp.getNeutralPhysicalPosition();
 	std::shared_ptr<Position> maximum_pos = processor::mp.getMaximumPhysicalPosition();
 	setFlipped();
@@ -73,23 +74,51 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch)
 		neutral_pos->getNeckPitch() + 	(current_pitch - neutral_pitch + pitch) * 	(1 - pitch_ratio) 	* flips.at(neck_pitch),
 		neutral_pos->getHeadYaw() 	+ 	(current_yaw - neutral_yaw + yaw) 		*	yaw_ratio 			* flips.at(head_yaw),
 		neutral_pos->getHeadPitch() + 	(current_pitch - neutral_pitch + pitch) *	pitch_ratio 		* flips.at(head_pitch)));
-	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
+	std::shared_ptr<Position> new_pos = processor::mp.physicalToStepPosition(new_physical);
+	limit(new_pos);
 
 	return(new_pos);
 }
 
 std::shared_ptr<Position> Calculator::getDeltaPosition(double ny, double np, double hy, double hp) {
-	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentPosition();
-	std::shared_ptr<Position> physical_pos = processor::mp.toPhysicalPosiiton(current_pos);
-	setFlipped();
+	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentStepPosition();
+	std::shared_ptr<Position> physical_pos = processor::mp.stepToPhysicalPosition(current_pos);
 
 	std::shared_ptr<Position> new_physical(new Position(
 		physical_pos->getNeckYaw() 		+ ny * flips.at(neck_yaw),
 		physical_pos->getNeckPitch() 	+ np * flips.at(neck_pitch),
 		physical_pos->getHeadYaw() 		+ hy * flips.at(head_yaw),
 		physical_pos->getHeadPitch() 	+ hp * flips.at(head_pitch)));
-	std::shared_ptr<Position> new_pos = processor::mp.toMotorPosition(new_physical);
+	std::shared_ptr<Position> new_pos = processor::mp.physicalToStepPosition(new_physical);
+	limit(new_pos);
+
 	return(new_pos);
+}
+
+std::shared_ptr<Movement> Calculator::getMovement(double yaw, double pitch, double neck_v, double head_v) {
+	std::shared_ptr<Position> pos_s = getPosition(yaw, pitch);
+	return processor::mp.calculateMovement(processor::mp.stepToPhysicalPosition(pos_s), neck_v, head_v);
+}
+
+std::shared_ptr<Movement> Calculator::getDeltaMovement(double yaw, double pitch, double neck_v, double head_v) {
+	std::shared_ptr<Position> pos_s = getDeltaPosition(yaw, pitch);
+	return processor::mp.calculateMovement(processor::mp.stepToPhysicalPosition(pos_s), neck_v, head_v);
+}
+
+std::shared_ptr<Movement> Calculator::getDeltaMovement(double ny, double np, double hy, double hp, double neck_v, double head_v) {
+	std::shared_ptr<Position> pos_s = getDeltaPosition(ny, np, hy, hp);
+	return processor::mp.calculateMovement(processor::mp.stepToPhysicalPosition(pos_s), neck_v, head_v);
+}
+
+void Calculator::limit(std::shared_ptr<Position> pos) {
+	std::shared_ptr<Position> pos_min = processor::mp.getMinimumStepPosition();
+	std::shared_ptr<Position> pos_max = processor::mp.getMaximumStepPosition();
+
+	for(int i = 0; i < 4; i++) {
+		double value = pos->getAtIndex(i) < pos_min->getAtIndex(i) ? pos_min->getAtIndex(i) : pos->getAtIndex(i);
+		value = pos->getAtIndex(i) > pos_max->getAtIndex(i) ? pos_max->getAtIndex(i) : value;
+		pos->setAtIndex(i, value);
+	}
 }
 
 double Calculator::getNeckHeadRatio(double percent) {

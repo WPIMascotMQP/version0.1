@@ -4,14 +4,15 @@
  CONSTUCTOR
 */
 PhysicalMoveHead::PhysicalMoveHead() {
-	
+	neck_v = math::PI;
+	head_v = math::PI;
 }
 
 /**
  DECONSTRUCTOR
 */
 PhysicalMoveHead::~PhysicalMoveHead() {
-	actions.clear();
+
 }
 
 /**

@@ -33,7 +33,7 @@ public:
 
 	std::string getInput();
 	double getLastAudio();
-	std::shared_ptr<Position> getCurrentPosition();
+	std::shared_ptr<Position> getCurrentStepPosition();
 	bool getTouched();
 
 	void setInput(std::string inp);

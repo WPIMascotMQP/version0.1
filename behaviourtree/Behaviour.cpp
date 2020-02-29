@@ -1,5 +1,7 @@
 #include "Behaviour.h"
 
+#include "../processors/motorstatus/MotorTracker.h"
+
 /**
  CONSTUCTOR
 */
@@ -11,7 +13,7 @@ Behaviour::Behaviour() {
  DECONSTRUCTOR
 */
 Behaviour::~Behaviour() {
-	actions.clear();
+
 }
 
 /**

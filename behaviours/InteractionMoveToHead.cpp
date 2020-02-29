@@ -4,14 +4,15 @@
  CONSTUCTOR
 */
 InteractionMoveToHead::InteractionMoveToHead() {
-
+	neck_v = math::PI;
+	head_v = math::PI;
 }
 
 /**
  DECONSTRUCTOR
 */
 InteractionMoveToHead::~InteractionMoveToHead() {
-	actions.clear();
+
 }
 
 /**
@@ -48,8 +49,8 @@ Status* InteractionMoveToHead::executeC() {
 	double ratio_y = (0.0 + processor::vp.getMidY(closest_face) - max_y) / max_y;
 	double delta_x = ratio_x * processor::vp.getVisualWidthRads() / 2;
 	double delta_y = ratio_y * processor::vp.getVisualHeightRads() / 2;
-	std::shared_ptr<Position> pos = cal::calculator.getDeltaPosition(delta_x, delta_y);
-	coms::controller.addPosition(pos);
+	std::shared_ptr<Movement> mov = cal::calculator.getDeltaMovement(delta_x, delta_y, neck_v, head_v);
+	coms::controller.addMovement(mov);
 	coms::controller.addBehaviour(this);
 
 	itr_face = faces->begin();
@@ -58,7 +59,7 @@ Status* InteractionMoveToHead::executeC() {
 		itr_face = faces->erase(itr_face);
 	}
 
-	logger::log("InteractionMoveToHead", "Calculated Position", pos->toString(), "Position to Move To");
+	logger::log("InteractionMoveToHead", "Calculated Movement", mov->toString(), "Movement to do");
 	return &status;
 }
 

@@ -14,9 +14,10 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 
+#include <memory>
 #include <stdlib.h>
+#include <string>
 
-#include "../behaviourtree/Behaviour.h"
 #include "Position.h"
 
 class Behaviour;

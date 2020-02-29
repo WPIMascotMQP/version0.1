@@ -37,6 +37,14 @@ void Position::setHeadPitch(double hp) {
 	head_pitch = hp;
 }
 
+void Position::setHead0(double h0) {
+	setHeadYaw(h0);
+}
+
+void Position::setHead1(double h1) {
+	setHeadPitch(h1);
+}
+
 void Position::setAtIndex(int index, double value) {
 	switch(index) {
 		case 0:
@@ -70,6 +78,14 @@ double Position::getHeadPitch() {
 	return head_pitch;
 }
 
+double Position::getHead0() {
+	return head_yaw;
+}
+
+double Position::getHead1() {
+	return head_pitch;
+}
+
 double Position::getAtIndex(int index) {
 	switch(index) {
 		case 0:
@@ -86,7 +102,7 @@ double Position::getAtIndex(int index) {
 }
 
 std::string Position::toString() {
-	char output[50];
+	char output[100];
 	sprintf(output, "( %5.2f, %5.2f, %5.2f, %5.2f)",
 		neck_yaw, neck_pitch, head_yaw, head_pitch);
 	std::string s(output);

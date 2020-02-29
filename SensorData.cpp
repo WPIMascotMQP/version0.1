@@ -45,8 +45,8 @@ double SensorData::getLastAudio() {
  Gets the current position
  @return The current position
 */
-std::shared_ptr<Position> SensorData::getCurrentPosition() {
-	return processor::mp.getCurrentPosition();
+std::shared_ptr<Position> SensorData::getCurrentStepPosition() {
+	return processor::mp.getCurrentStepPosition();
 }
 
 bool SensorData::getTouched() {

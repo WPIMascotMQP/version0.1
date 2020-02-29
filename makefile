@@ -155,7 +155,7 @@ SensorData.o: SensorData.cpp AudioProcessor.o MotorProcessor.o VisualProcessor.o
 AudioProcessor.o: $(PROCESSORS)AudioProcessor.cpp SensorProcessor.o $(PROCESSORS)AudioProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)AudioProcessor.cpp
 
-MotorProcessor.o: $(PROCESSORS)MotorProcessor.cpp SensorProcessor.o MotorTracker.o $(PROCESSORS)MotorProcessor.h
+MotorProcessor.o: $(PROCESSORS)MotorProcessor.cpp SensorProcessor.o MotorTracker.o Movement.o Position.o $(PROCESSORS)MotorProcessor.h
 	g++ $(CFLAGS) $(PROCESSORS)MotorProcessor.cpp
 
 VisualProcessor.o: $(PROCESSORS)VisualProcessor.cpp SensorProcessor.o VisualTrackerManager.o $(PROCESSORS)VisualProcessor.h

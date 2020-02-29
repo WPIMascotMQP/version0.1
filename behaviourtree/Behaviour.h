@@ -38,7 +38,7 @@ public:
 	virtual std::string toString() = 0;
 
 protected:
-	std::vector<Action*> actions;
-
+	double neck_v;
+	double head_v;
 };
 #endif
