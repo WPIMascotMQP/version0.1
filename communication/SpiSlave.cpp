@@ -12,11 +12,11 @@ namespace spi {
  */
 SpiSlave::SpiSlave(int dev) {
     device = dev;
-    /*if(wiringPiSPISetup(device, spi::bus_speed) < 0) {
+    if(wiringPiSPISetup(device, spi::bus_speed) < 0) {
         std::ostringstream strs;
         strs << "Unable to Start SPI on Device: " << device;
         logger::log(strs.str());
-    }*/
+    }
 }
 
 /**
@@ -33,5 +33,5 @@ SpiSlave::~SpiSlave() {
  @return int Unknown but could be number of bytes written into the buffer
  */
 int SpiSlave::readWrite(unsigned char* buf, unsigned int length) {
-    return 0; //wiringPiSPIDataRW(device, buf, length);
+    return wiringPiSPIDataRW(device, buf, length);
 }

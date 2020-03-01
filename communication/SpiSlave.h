@@ -15,7 +15,7 @@
 #include <errno.h>
 #include <sstream>
 #include <string>
-//#include <wiringPiSPI.h>
+#include <wiringPiSPI.h>
 #include <unistd.h>
 
 #include "../Logger.h"

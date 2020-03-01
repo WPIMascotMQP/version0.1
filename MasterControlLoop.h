@@ -67,6 +67,8 @@ namespace nodes {
 namespace mcl {
 	extern bool estop;
 	extern std::mutex estop_lock;
+
+	extern std::mutex bt_lock;
 }
 
 void executeBehaviours(std::string input);

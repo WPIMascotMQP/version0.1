@@ -31,11 +31,6 @@ namespace motorData {
 	int steps_per_rev = 6400;
 }
 
-namespace mcl {
-	bool estop;
-	std::mutex estop_lock;
-}
-
 /**
  CONSTRUCTOR
  @param num_motors The number of motors

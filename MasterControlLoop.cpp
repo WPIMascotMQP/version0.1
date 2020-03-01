@@ -31,6 +31,13 @@ namespace nodes {
 						Move move_nk_cen;
 }
 
+namespace mcl {
+	bool estop;
+	std::mutex estop_lock;
+
+	std::mutex bt_lock;
+}
+
 int main(int argc, char* argv[]) {
 	logger::startLog();
 	// Create Behaviour Tree Objects
