@@ -6,10 +6,10 @@ namespace processor {
 }
 
 namespace motorData {
-	double neck_yaw_ratio = 1.0;
-	double neck_pitch_ratio = 1.0;
-	double head_yaw_ratio = 1.0;
-	double head_pitch_ratio = 1.0;
+	double neck_yaw_ratio = 1.0 / 40.0;
+	double neck_pitch_ratio = 1.0 / 40.0;
+	double head_yaw_ratio = 1.0 / 40.0;
+	double head_pitch_ratio = 1.0 / 40.0;
 
 	double neck_yaw_maximum_physical = 120;
 	double neck_pitch_maximum_physical = 100;
@@ -29,6 +29,11 @@ namespace motorData {
 	int num_motors = 4;
 
 	int steps_per_rev = 6400;
+}
+
+namespace mcl {
+	bool estop;
+	std::mutex estop_lock;
 }
 
 /**
@@ -112,7 +117,7 @@ void MotorProcessor::process() {
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
-void MotorProcessor::addRadiansHistory(int index, double radians) {
+void MotorProcessor::addStepsHistory(int index, double radians) {
 	motors.at(index)->addStepsHistory(radians);
 }
 

@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+//#include <wiringPiSPI.h>
 
 #include "../behaviourtree/Behaviour.h"
 #include "../processors/MotorProcessor.h"
@@ -51,7 +52,13 @@ enum flags {
 // Holds the hex representation of each command
 enum cmds {
 	PATTERN = 0xFF,
+	ESTOP = 0x00,
 	MOTORPOSITION = 0x01,
+	REQUESTCMD = 0x02,
+	HANDSHAKE = 0x03,
+
+	TOUCHINFO = 0x10,
+	AUDIOINFO = 0x20,
 
 };
 
@@ -86,10 +93,12 @@ public:
 	void encodePosition(std::shared_ptr<Position> pos, std::shared_ptr<Position> delay);
 	size_t overwriteBytes(unsigned char* buffer, size_t byte_start, unsigned char* buf, size_t inc_start, size_t byte_inc);
 	size_t encodePattern(unsigned char* buffer, size_t byte_start);
+	size_t encodeInt8(unsigned char* buffer, size_t byte_start, int8_t num);
 	size_t encodeInt16(unsigned char* buffer, size_t byte_start, int16_t num);
 	size_t encodeInt32(unsigned char* buffer, size_t byte_start, int32_t num);
 	size_t encodeFloat(unsigned char* buffer, size_t byte_start, float num);
 
+	int8_t decodeInt8(unsigned char* buffer, size_t byte_start);
 	int16_t decodeInt16(unsigned char* buffer, size_t byte_start);
 	int32_t decodeInt32(unsigned char* buffer, size_t byte_start);
 	float decodeFloat(unsigned char* buffer, size_t byte_start);

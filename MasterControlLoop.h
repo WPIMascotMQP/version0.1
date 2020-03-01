@@ -64,6 +64,11 @@ namespace nodes {
 						extern Move move_nk_cen;
 }
 
+namespace mcl {
+	extern bool estop;
+	extern std::mutex estop_lock;
+}
+
 void executeBehaviours(std::string input);
 void printDecoratorPriorities();
 

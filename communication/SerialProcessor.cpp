@@ -1,5 +1,7 @@
 #include "SerialProcessor.h"
 
+#include "../MasterControlLoop.h"
+#include "../SensorData.h"
 #include "../processors/MotorProcessor.h"
 
 namespace serial {
@@ -127,6 +129,7 @@ void SerialProcessor::process() {
 		delete(buffer);
 		delete(buffer_copy);
 	}
+
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
@@ -147,19 +150,46 @@ void SerialProcessor::finishBehaviours() {
  */
 void SerialProcessor::handleCommand(unsigned char* buffer) {
 	logger::log("SerialProcessor", "Recieved Command", getStringHex(buffer, serial::buffer_size), "");
-	if(buffer[cmd_byte] == MOTORPOSITION) {
-		// If command is the current motor position
-		size_t current_byte = 2;
-		int index = (int) decodeInt16(buffer, current_byte);
+	size_t current_byte = 2;
+	if(buffer[cmd_byte] == ESTOP) {
+		mcl::estop_lock.lock();
+		mcl::estop = true;
+		mcl::estop_lock.unlock();
+
+	// If command is the current motor position
+	} else if(buffer[cmd_byte] == MOTORPOSITION) {
+		int index = (int) decodeInt8(buffer, current_byte);
 		current_byte += 2;
-		double radians = (double) decodeFloat(buffer, current_byte);
-		processor::mp.addRadiansHistory(index, radians);
+		int steps = (int) decodeInt32(buffer, current_byte);
+		processor::mp.addStepsHistory(index, steps);
 
 		std::ostringstream strs;
-		strs << radians;
+		strs << steps;
 		std::ostringstream strsIndex;
 		strsIndex << index;
-		logger::log("SerialProcessor", "Recieved Motor Radians", strsIndex.str(), strs.str());
+		logger::log("SerialProcessor", "Recieved Motor Steps", strsIndex.str(), strs.str());
+	// If the command is requesting a new position
+	} else if(buffer[cmd_byte] == REQUESTCMD) {
+		logger::log("SerialProcessor", "Recieved Request For Additional Command", "", "");
+	// If the command contained touch information
+	} else if(buffer[cmd_byte] == TOUCHINFO) {
+		int index = (int) decodeInt8(buffer, current_byte);
+		current_byte += 2;
+		bool touched = (int) decodeInt8(buffer, current_byte) != 0 ? true : false;
+		data::sensor_data.setTouched(touched);
+
+		std::ostringstream strs;
+		strs << touched;
+		std::ostringstream strsIndex;
+		strsIndex << index;
+		logger::log("SerialProcessor", "Recieved Touch Information", strsIndex.str(), strs.str());
+		if(touched) {
+			coms::controller.clear();
+			coms::behaviour_list_execute.push_back(&nodes::bt);
+			data::sensor_data.setInput("");
+			executeBehaviours(data::sensor_data.getInput());
+			coms::controller.execute();
+		}
 	}
 }
 
@@ -252,9 +282,9 @@ void SerialProcessor::encodePosition(std::shared_ptr<Position> pos, std::shared_
 		current_byte += encodePattern(buffer, current_byte);
 		buffer[current_byte++] = 0x00; // Flag Byte
 		buffer[current_byte++] = MOTORPOSITION;
-		current_byte += encodeInt16(buffer, current_byte, i);
-		current_byte += encodeFloat(buffer, current_byte, pos->getAtIndex(i));
-		current_byte += encodeInt16(buffer, current_byte, delay->getAtIndex(i));
+		current_byte += encodeInt8(buffer, current_byte, i);
+		current_byte += encodeInt32(buffer, current_byte, (int) pos->getAtIndex(i));
+		current_byte += encodeInt8(buffer, current_byte, delay->getAtIndex(i));
 		current_byte += encodePattern(buffer, current_byte);
 
 		buffers.at(motor_serial)->push_back(buffer);
@@ -301,6 +331,18 @@ size_t SerialProcessor::encodePattern(unsigned char* buffer, size_t byte_start) 
 }
 
 /**
+ Encodes a 8 bit int into the given buffer
+ @param buffer The buffer to write into
+ @param byte_start The starting byte to write into
+ @param num The 8 bit int to encode
+ @return The number of bytes encoded
+ */
+size_t SerialProcessor::encodeInt8(unsigned char* buffer, size_t byte_start, int8_t num) {
+	buffer[byte_start + 0] = num & 0xFF;
+	return sizeof(int8_t);
+}
+
+/**
  Encodes a 16 bit int into the given buffer
  @param buffer The buffer to write into
  @param byte_start The starting byte to write into
@@ -342,6 +384,20 @@ size_t SerialProcessor::encodeFloat(unsigned char* buffer, size_t byte_start, fl
 	buffer[byte_start + 2] = (number >> 8) & 0xFF;
 	buffer[byte_start + 3] = number & 0xFF;
 	return sizeof(float);
+}
+
+/**
+ Decodes a 8 bit int from given buffer
+ @param buffer The buffer to read from
+ @param byte_start The starting byte to read from
+ @return The 8 bit int decoded
+ */
+int8_t SerialProcessor::decodeInt8(unsigned char* buffer, size_t byte_start) {
+	unsigned char buf[1];
+	buf[0] = buffer[byte_start + 0];
+	int8_t number = *(int8_t*) &buf;
+
+	return number;
 }
 
 /**

@@ -40,6 +40,7 @@ int main(int argc, char* argv[]) {
 	bt << ut_t1;
 		ut_t1 << pud << iud << sud;
 			pud << physical_sq;
+				physical_sq << move_hd_up << move_hd_dwn;
 			iud << interaction_ut;
 				interaction_ut << head_iud << hand_iud << motion_iud;
 					head_iud << move_to_head;
@@ -69,6 +70,12 @@ int main(int argc, char* argv[]) {
 		if(input == "x") {
 			break;
 		}
+		if(mcl::estop && input != "s") {
+			continue;
+		}
+		mcl::estop_lock.lock();
+		mcl::estop = false;
+		mcl::estop_lock.unlock();
 
 		data::sensor_data.setInput(input);
 		serial::serial.finishBehaviours();

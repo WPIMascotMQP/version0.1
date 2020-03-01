@@ -21,7 +21,7 @@ public:
 	void killThread();
 	void process();
 
-	void addRadiansHistory(int index, double radians);
+	void addStepsHistory(int index, double radians);
 
 	std::shared_ptr<Position> getCurrentStepPosition();
 	std::shared_ptr<Position> physicalToMotorPosition(std::shared_ptr<Position> pos);
