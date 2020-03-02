@@ -82,14 +82,18 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch)
 
 std::shared_ptr<Position> Calculator::getDeltaPosition(double ny, double np, double hy, double hp) {
 	std::shared_ptr<Position> current_pos = data::sensor_data.getCurrentStepPosition();
+	logger::verbose("GPP-CP" + current_pos.toString());
 	std::shared_ptr<Position> physical_pos = processor::mp.stepToPhysicalPosition(current_pos);
+	logger::verbose("GPP-CPP" + physical_pos.toString());
 
 	std::shared_ptr<Position> new_physical(new Position(
 		physical_pos->getNeckYaw() 		+ ny * flips.at(neck_yaw),
 		physical_pos->getNeckPitch() 	+ np * flips.at(neck_pitch),
 		physical_pos->getHeadYaw() 		+ hy * flips.at(head_yaw),
 		physical_pos->getHeadPitch() 	+ hp * flips.at(head_pitch)));
+	logger::verbose("GDP-NPP" + new_physical.toString());
 	std::shared_ptr<Position> new_pos = processor::mp.physicalToStepPosition(new_physical);
+	logger::verbose("GDP-NP" + new_pos.toString());
 	limit(new_pos);
 
 	return(new_pos);
