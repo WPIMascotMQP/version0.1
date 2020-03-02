@@ -41,7 +41,7 @@ std::shared_ptr<Position> Calculator::getPosition(double yaw, double pitch) {
 		(yaw) 	* 	yaw_ratio,
 		(pitch) * 	pitch_ratio));
 	std::shared_ptr<Position> new_pos = processor::mp.physicalToStepPosition(new_physical);
-	limit(new_pos);
+	//limit(new_pos);
 
 	return new_pos;
 }
@@ -75,7 +75,7 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double yaw, double pitch)
 		neutral_pos->getHeadYaw() 	+ 	(current_yaw - neutral_yaw + yaw) 		*	yaw_ratio 			* flips.at(head_yaw),
 		neutral_pos->getHeadPitch() + 	(current_pitch - neutral_pitch + pitch) *	pitch_ratio 		* flips.at(head_pitch)));
 	std::shared_ptr<Position> new_pos = processor::mp.physicalToStepPosition(new_physical);
-	limit(new_pos);
+	//limit(new_pos);
 
 	return(new_pos);
 }
@@ -90,7 +90,7 @@ std::shared_ptr<Position> Calculator::getDeltaPosition(double ny, double np, dou
 		physical_pos->getHeadYaw() 		+ hy * flips.at(head_yaw),
 		physical_pos->getHeadPitch() 	+ hp * flips.at(head_pitch)));
 	std::shared_ptr<Position> new_pos = processor::mp.physicalToStepPosition(new_physical);
-	limit(new_pos);
+	//limit(new_pos);
 
 	return(new_pos);
 }

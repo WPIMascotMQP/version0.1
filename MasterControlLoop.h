@@ -2,6 +2,7 @@
 #define MASTERCONTROLLOOP_H
 
 #include <vector>
+#include <string>
 #include <iostream>
 
 #include "behaviourtree/Behaviour.h"

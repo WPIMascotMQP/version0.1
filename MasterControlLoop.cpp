@@ -116,13 +116,13 @@ void executeBehaviours(std::string input) {
 
 	size_t ind = 0;
 	std::vector<std::string> tokens;
-	while((ind = s.find(" ")) != std::string::npos) {
+	while((ind = input.find(" ")) != std::string::npos) {
 		tokens.push_back(input.substr(0, ind));
 		input.erase(0, ind + 1);
 	}
 	if(tokens.at(0) == "d" && tokens.size() == 3) {
-		double dy = std::atod(tokens.at(1));
-		double dp = std::atod(tokens.at(2));
+		double dy = std::atof(tokens.at(1).c_str());
+		double dp = std::atof(tokens.at(2).c_str());
 		std::shared_ptr<Position> pos = cal::calculator.getDeltaPosition(0, 0, dy, dp);
 		coms::controller.addPosition(pos);
 	}
