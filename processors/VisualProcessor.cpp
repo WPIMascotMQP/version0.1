@@ -123,8 +123,8 @@ void VisualProcessor::process() {
     display(bodies, cv::Scalar(0, 0, 255), frame);
 
     //-- Show what you got
-    cv::namedWindow("Capture - Face Detection", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Capture - Face Detection", frame);
+    //cv::namedWindow("Capture - Face Detection", cv::WINDOW_AUTOSIZE);
+    //cv::imshow("Capture - Face Detection", frame);
 
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;

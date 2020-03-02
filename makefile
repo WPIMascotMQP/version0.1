@@ -1,7 +1,7 @@
 CFLAGS = -c -g -Wall --std=c++11 -lstdc++fs
 CTEST = $(CFLAGS) -I /usr/local/include
 OPENCV = `pkg-config opencv --cflags --libs`
-LIBS = $(OPENCV) -pthread #-lwiringPi
+LIBS = $(OPENCV) -pthread -lwiringPi
 TLIBS = $(LIBS) -L /usr/local/lib -l gtest -l gtest_main
 
 BEHAVIOURS = behaviours/
