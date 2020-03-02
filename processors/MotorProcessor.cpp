@@ -186,8 +186,8 @@ std::shared_ptr<Position> MotorProcessor::motorToPhysicalPosition(std::shared_pt
 	double ny = pos->getNeckYaw() 	* motors.at(neck_yaw)->getRatio();
 	double np = pos->getNeckPitch() * motors.at(neck_pitch)->getRatio();
 
-	double hy = (pos->getHead0() + pos->getHead1()) / 2;
-	double hp = (pos->getHead0() - pos->getHead1()) / 2;
+	double hy = (pos->getHead0() + pos->getHead1()) / 2 * motors.at(neck_yaw)->getRatio();
+	double hp = (pos->getHead0() - pos->getHead1()) / 2 * motors.at(neck_pitch)->getRatio();
 	return std::shared_ptr<Position>(new Position(ny, np, hy, hp));
 }
 
