@@ -113,6 +113,19 @@ void executeBehaviours(std::string input) {
 		logger::log("Executed Behaviour", behaviour->toString(), "Status", result->toString());
 		coms::behaviour_list_execute.erase(itr);
 	}
+
+	size_t ind = 0;
+	std::vector<std::string> tokens;
+	while((ind = s.find(" ")) != std::string::npos) {
+		tokens.push_back(input.substr(0, ind));
+		input.erase(0, ind + 1);
+	}
+	if(tokens.at(0) == "d" && tokens.size() == 3) {
+		double dy = std::atod(tokens.at(1));
+		double dp = std::atod(tokens.at(2));
+		std::shared_ptr<Position> pos = cal::calculator.getDeltaPosition(0, 0, dy, dp);
+		coms::controller.addPosition(pos);
+	}
 }
 
 void printDecoratorPriorities() {

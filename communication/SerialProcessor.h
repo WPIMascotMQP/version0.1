@@ -58,7 +58,10 @@ enum cmds {
 	HANDSHAKE = 0x03,
 
 	TOUCHINFO = 0x10,
-	AUDIOINFO = 0x20,
+	AUDIOINFO = 0x11,
+
+	MOTORDISABLE = 0x20,
+	MOTORENABLE = 0x21,
 
 };
 
