@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
 	interaction_motion_sq.reset();
 	seeking_motion_sq.reset();
 
-	coms::behaviour_list_execute.push_back(&bt);
+	//coms::behaviour_list_execute.push_back(&bt);
 
 	//ap.startThread();
 	processor::mp.startThread();
