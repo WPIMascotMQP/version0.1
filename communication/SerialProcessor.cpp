@@ -123,7 +123,7 @@ void SerialProcessor::process() {
 		//overwriteBytes(buffer, 7, buffers.at(i)->at(0), 0, buffer_lengths.at(i)->at(0));
 
 		// TEST IF COMPLETE
-		if(findCommand(buffer) && (!memcmp(buffer, buffer_copy, serial::buffer_size))) {
+		if(findCommand(buffer) && (memcmp(buffer, buffer_copy, serial::buffer_size))) {
 			handleCommand(buffer);
 		}
 		delete(buffer);
@@ -159,7 +159,7 @@ void SerialProcessor::handleCommand(unsigned char* buffer) {
 	// If command is the current motor position
 	} else if(buffer[cmd_byte] == MOTORPOSITION) {
 		int index = (int) decodeInt8(buffer, current_byte);
-		current_byte += 2;
+		current_byte += 1;
 		int steps = (int) decodeInt32(buffer, current_byte);
 		processor::mp.addStepsHistory(index, steps);
 
@@ -258,6 +258,7 @@ bool SerialProcessor::findCommand(unsigned char* buffer) {
 			}
 		}
 	}
+
 	if(patterns.size() == 2) {
 		overwriteBytes(buffer, 0, buf, patterns.at(0) + lengths.at(0),
 			patterns.at(1) - patterns.at(0) - lengths.at(0));

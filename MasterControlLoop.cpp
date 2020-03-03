@@ -120,6 +120,8 @@ void executeBehaviours(std::string input) {
 		tokens.push_back(input.substr(0, ind));
 		input.erase(0, ind + 1);
 	}
+	logger::verbose(tokens.at(0));
+	std::cout << tokens.size() << std::endl;
 	if(tokens.at(0) == "d" && tokens.size() == 3) {
 		double dy = std::atof(tokens.at(1).c_str());
 		double dp = std::atof(tokens.at(2).c_str());
